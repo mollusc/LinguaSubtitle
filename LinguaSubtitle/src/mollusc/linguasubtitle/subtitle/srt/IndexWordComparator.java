@@ -2,6 +2,11 @@ package mollusc.linguasubtitle.subtitle.srt;
 
 import java.util.Comparator;
 
+/**
+ * Sort IndexWord
+ * @author mollusc
+ *
+ */
 public class IndexWordComparator implements Comparator<IndexWord> {
 	@Override
 	public int compare(IndexWord arg0, IndexWord arg1) {
