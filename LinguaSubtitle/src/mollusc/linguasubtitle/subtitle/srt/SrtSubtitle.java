@@ -1,8 +1,5 @@
 package mollusc.linguasubtitle.subtitle.srt;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.*;
 
 import mollusc.linguasubtitle.subtitle.Subtitle;
@@ -129,18 +126,7 @@ public class SrtSubtitle extends Subtitle {
 
 	@Override
 	public String hideHeader() {
-		String result = new String();
-		for (Integer indexSpeech : speeches.keySet()) {
-			Speech speech = speeches.get(indexSpeech);
-			result += "<font color=\"#cccccc\">" + speech.sequenceNumber
-					+ "</font><br>";
-			result += "<font color=\"#cccccc\">" + speech.timing
-					+ "</font><br>";
-			String text = speech.content + "<br><br>";
-			text = text.replace("\n", "<br>");
-			result += text;
-		}
-		return result;
+		return hideHeader(speeches);
 	}
 
 	private static String hideHeader(Map<Integer, Speech> speeches) {
@@ -173,12 +159,34 @@ public class SrtSubtitle extends Subtitle {
 
 				if (indexSpeech == idSpeech)
 					return lengthToWord;
+				
 				lengthToWord += html2text(speech.content).length() + 2;
 			}
 		}
 		return 0;
 	}
 
+	@Override
+	public int numberDialogWithStems(List<String> stems, int maxNumber) {
+		int result = 0;
+		Map<Integer, Integer> ListSequenceNumber = new HashMap<Integer, Integer>();
+
+		for (String string : stems) {
+			ArrayList<IndexWord> list = index.get(string);
+			for (IndexWord indexWord : list) {
+				if (!ListSequenceNumber.containsKey(indexWord.numberSpeech))
+					ListSequenceNumber.put(indexWord.numberSpeech, 0);
+				Integer count = ListSequenceNumber.get(indexWord.numberSpeech);
+				count++;
+				ListSequenceNumber.put(indexWord.numberSpeech, count);
+			}
+		}
+		for (Integer i : ListSequenceNumber.keySet())
+			if (ListSequenceNumber.get(i) >= maxNumber)
+				result++;
+		return result;
+	}
+	
 	@Override
 	public String markWord(String stemString) {
 		Cloner cloner = new Cloner();
@@ -200,7 +208,8 @@ public class SrtSubtitle extends Subtitle {
 	public void generateSubtitle(String pathToSave,
 			Map<String, String> stemsTranslate,
 			Map<String, String> stemsColors,
-			Map<String, String> translateColors, String knownColor,
+			Map<String, String> translateColors,
+			String knownColor,
 			boolean hideKnownDialog) {
 		String result = new String();
 		Cloner cloner = new Cloner();
@@ -239,51 +248,15 @@ public class SrtSubtitle extends Subtitle {
 			Speech speech = cloneSpeeches.get(i);
 			result += indexSpeech + "\n";
 			result += speech.timing + "\n";
+			
 			// Hack for vlc
 			String content = speech.content.replace("> <", ">&#160;<");
+			
 			result += "<font color=\"" + knownColor + "\">" + content
 					+ "</font>\n\n";
 			indexSpeech++;
 		}
 		result += "\n";
 		saveSubtitle(pathToSave, result);
-	}
-
-	/**
-	 * Save content
-	 * 
-	 * @param path
-	 *            - path to save
-	 * @param content
-	 */
-	private void saveSubtitle(String path, String content) {
-		try {
-			BufferedWriter out = new BufferedWriter(new FileWriter(path));
-			out.write(content);
-			out.close();
-		} catch (IOException e) {
-			System.out.println("Exception ");
-		}
-	}
-
-	@Override
-	public int numberDialogWithStems(List<String> stems, int maxNumber) {
-		int result = 0;
-		Map<Integer, Integer> ListSequenceNumber = new HashMap<Integer, Integer>();
-
-		for (String string : stems) {
-			ArrayList<IndexWord> list = index.get(string);
-			for (IndexWord indexWord : list) {
-				if (!ListSequenceNumber.containsKey(indexWord.numberSpeech))
-					ListSequenceNumber.put(indexWord.numberSpeech, 0);
-				Integer count = ListSequenceNumber.get(indexWord.numberSpeech);
-				count++;
-				ListSequenceNumber.put(indexWord.numberSpeech, count);
-			}
-		}
-		for (Integer i : ListSequenceNumber.keySet())
-			if (ListSequenceNumber.get(i) >= maxNumber)
-				result++;
-		return result;
 	}
 }

@@ -100,7 +100,8 @@ public abstract class Subtitle {
 	public abstract void generateSubtitle(String pathToSave,
 			Map<String, String> stemsTranslate,
 			Map<String, String> stemsColors,
-			Map<String, String> translateColors, String knownColor,
+			Map<String, String> translateColors,
+			String knownColor,
 			boolean hideKnownSpeech);
 
 	/**
@@ -118,7 +119,7 @@ public abstract class Subtitle {
 	 * Check, the text is a word?
 	 * 
 	 * @param text
-	 *            - the text for check
+	 *            the text for check
 	 * @return true, if the text is a word, otherwise - false
 	 */
 	public static boolean isWord(String text) {
@@ -151,5 +152,22 @@ public abstract class Subtitle {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Save content
+	 * 
+	 * @param path
+	 *            - path to save
+	 * @param content
+	 */
+	protected static void saveSubtitle(String path, String content) {
+		try {
+			BufferedWriter out = new BufferedWriter(new FileWriter(path));
+			out.write(content);
+			out.close();
+		} catch (IOException e) {
+			System.err.println("Error: " + e.getMessage());
+		}
 	}
 }
