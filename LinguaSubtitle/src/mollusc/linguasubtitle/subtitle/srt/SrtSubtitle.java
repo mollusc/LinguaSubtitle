@@ -95,7 +95,7 @@ public class SrtSubtitle extends Subtitle {
 			ArrayList<IndexWord> indexWords = index.get(stemString);
 			String currentWord = new String();
 			for (IndexWord indexWord : indexWords) {
-				Speech speech = speeches.get(indexWord.numberSpeech);
+				Speech speech = speeches.get(indexWord.indexSpeech);
 				String word = speech.content.substring(indexWord.start,
 						indexWord.end);
 
@@ -148,7 +148,7 @@ public class SrtSubtitle extends Subtitle {
 	public int getPositionStem(String stem) {
 		ArrayList<IndexWord> indexWords = index.get(stem);
 		if (indexWords != null && indexWords.size() > 0) {
-			int indexSpeech = indexWords.get(0).numberSpeech;
+			int indexSpeech = indexWords.get(0).indexSpeech;
 			int lengthToWord = indexWords.get(0).end;
 
 			for (Integer idSpeech : speeches.keySet()) {
@@ -174,11 +174,11 @@ public class SrtSubtitle extends Subtitle {
 		for (String string : stems) {
 			ArrayList<IndexWord> list = index.get(string);
 			for (IndexWord indexWord : list) {
-				if (!ListSequenceNumber.containsKey(indexWord.numberSpeech))
-					ListSequenceNumber.put(indexWord.numberSpeech, 0);
-				Integer count = ListSequenceNumber.get(indexWord.numberSpeech);
+				if (!ListSequenceNumber.containsKey(indexWord.indexSpeech))
+					ListSequenceNumber.put(indexWord.indexSpeech, 0);
+				Integer count = ListSequenceNumber.get(indexWord.indexSpeech);
 				count++;
-				ListSequenceNumber.put(indexWord.numberSpeech, count);
+				ListSequenceNumber.put(indexWord.indexSpeech, count);
 			}
 		}
 		for (Integer i : ListSequenceNumber.keySet())
@@ -193,7 +193,7 @@ public class SrtSubtitle extends Subtitle {
 		Map<Integer, Speech> cloneSpeeches = cloner.deepClone(speeches);
 		ArrayList<IndexWord> indexWords = index.get(stemString);
 		for (IndexWord indexWord : indexWords) {
-			Speech speech = cloneSpeeches.get(indexWord.numberSpeech);
+			Speech speech = cloneSpeeches.get(indexWord.indexSpeech);
 			String left = speech.content.substring(0, indexWord.start);
 			String middle = "<b><font color=\"#ff0000\">"
 					+ speech.content.substring(indexWord.start, indexWord.end)
@@ -222,8 +222,8 @@ public class SrtSubtitle extends Subtitle {
 		Collections.sort(indices, new IndexWordComparator());
 		HashSet<Integer> modifiedSpeech = new HashSet<Integer>();
 		for (IndexWord indexWord : indices) {
-			modifiedSpeech.add(indexWord.numberSpeech);
-			Speech speech = cloneSpeeches.get(indexWord.numberSpeech);
+			modifiedSpeech.add(indexWord.indexSpeech);
+			Speech speech = cloneSpeeches.get(indexWord.indexSpeech);
 			String word = speech.content.substring(indexWord.start,
 					indexWord.end);
 			String stemString = Stem.stemmingWord(word.toLowerCase());
