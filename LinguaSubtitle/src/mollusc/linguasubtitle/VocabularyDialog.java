@@ -519,7 +519,7 @@ public class VocabularyDialog implements PropertyChangeListener {
 			if (!((Boolean) table.getValueAt(i, 0))) {
 				Stem stem = (Stem) table.getValueAt(i, 1);
 				String translate = (String) table.getValueAt(i, 2);
-				stems.put(stem.getContent(), translate);
+				stems.put(stem.getStem(), translate);
 			}
 		}
 		db.closeConnection();
@@ -540,11 +540,11 @@ public class VocabularyDialog implements PropertyChangeListener {
 				Stem stem = (Stem) table.getValueAt(i, 1);
 				String translate = (String) table.getValueAt(i, 2);
 				if (translate.isEmpty()) {
-					stems.put(stem.getContent(),
+					stems.put(stem.getStem(),
 							toHexString(colorFamiliarWords));
 					continue;
 				}
-				stems.put(stem.getContent(), toHexString(colorStudiedWords));
+				stems.put(stem.getStem(), toHexString(colorStudiedWords));
 			}
 		}
 		db.closeConnection();
@@ -565,7 +565,7 @@ public class VocabularyDialog implements PropertyChangeListener {
 				Stem stem = (Stem) table.getValueAt(i, 1);
 				String translate = (String) table.getValueAt(i, 2);
 				if (!translate.isEmpty())
-					stems.put(stem.getContent(),
+					stems.put(stem.getStem(),
 							toHexString(colorTranslateWords));
 			}
 		}
@@ -585,7 +585,7 @@ public class VocabularyDialog implements PropertyChangeListener {
 				Stem stem = (Stem) table.getValueAt(i, 1);
 				String translate = (String) table.getValueAt(i, 2);
 				if (!translate.isEmpty())
-					stems.add(stem.getContent());
+					stems.add(stem.getStem());
 			}
 		}
 		return stems;
@@ -694,10 +694,10 @@ public class VocabularyDialog implements PropertyChangeListener {
 			int row = table.convertRowIndexToModel(table.getSelectedRow());
 			if (row != -1 && subtitle != null) {
 				Stem stem = (Stem) table.getModel().getValueAt(row, 1);
-				String formatedText = subtitle.markWord(stem.getContent());
+				String formatedText = subtitle.markWord(stem.getStem());
 				textSubtitle.setText(formatedText);
 				textSubtitle.setCaretPosition(subtitle.getPositionStem(stem
-						.getContent()));
+						.getStem()));
 			}
 		}
 	}
@@ -730,12 +730,12 @@ public class VocabularyDialog implements PropertyChangeListener {
 			Vocabulary db = new Vocabulary("Vocabulary");
 			db.createConnection();
 			for (Stem key : stems.keySet()) {
-				String translate = db.getTranslate(key.getContent());
+				String translate = db.getTranslate(key.getStem());
 				if (translate == null)
 					translate = "";
-				boolean remember = db.getRemember(key.getContent());
-				int meeting = db.getMeeting(key.getContent());
-				String word = db.getWord(key.getContent());
+				boolean remember = db.getRemember(key.getStem());
+				int meeting = db.getMeeting(key.getStem());
+				String word = db.getWord(key.getStem());
 
 				if (word != null && word.length() < key.getWord().length()) {
 					if (Character.isUpperCase(word.charAt(0))
@@ -791,7 +791,7 @@ public class VocabularyDialog implements PropertyChangeListener {
 				String translation = (String) table.getModel().getValueAt(i, 2);
 				boolean isKnown = (Boolean) table.getModel().getValueAt(i, 0);
 				String word = stem.getWord();
-				db.updateValues(stem.getContent(), word, translation, isKnown,
+				db.updateValues(stem.getStem(), word, translation, isKnown,
 						updateMeeting);
 
 				progress += 100f / table.getRowCount();

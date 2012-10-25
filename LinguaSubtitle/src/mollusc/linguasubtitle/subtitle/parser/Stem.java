@@ -2,9 +2,14 @@ package mollusc.linguasubtitle.subtitle.parser;
 
 import org.tartarus.snowball.ext.englishStemmer;
 
+/**
+ * Class for getting stem from a word
+ * @author mollusc
+ *
+ */
 public class Stem implements Comparable<Stem> {
 
-	private String content;
+	private String stem;
 	private String word;
 
 	/**
@@ -12,8 +17,8 @@ public class Stem implements Comparable<Stem> {
 	 * 
 	 * @return
 	 */
-	public String getContent() {
-		return content;
+	public String getStem() {
+		return stem;
 	}
 
 	/**
@@ -41,7 +46,7 @@ public class Stem implements Comparable<Stem> {
 	 */
 	public Stem(String word) {
 		this.setWord(word);
-		content = stemmingWord(this.getWord().toLowerCase());
+		stem = stemmingWord(this.getWord().toLowerCase());
 	}
 
 	/**
@@ -62,9 +67,9 @@ public class Stem implements Comparable<Stem> {
 		if (this == obj)
 			return true;
 		if (obj instanceof Stem)
-			return this.getContent().equals(((Stem) obj).getContent());
+			return this.getStem().equals(((Stem) obj).getStem());
 		if (obj instanceof String)
-			return this.getContent().equals((String) obj);
+			return this.getStem().equals((String) obj);
 		return false;
 	}
 
@@ -75,6 +80,6 @@ public class Stem implements Comparable<Stem> {
 
 	@Override
 	public int compareTo(Stem stem) {
-		return stem.getContent().compareTo(this.getContent());
+		return stem.getStem().compareTo(this.getStem());
 	}
 }
