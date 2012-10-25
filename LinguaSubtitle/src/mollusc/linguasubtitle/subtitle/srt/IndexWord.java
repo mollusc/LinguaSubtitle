@@ -1,9 +1,7 @@
 package mollusc.linguasubtitle.subtitle.srt;
 
-import java.util.Comparator;
-
-public class IndexWord{
-	public int numberSpeech;	
+public class IndexWord {
+	public int numberSpeech;
 	public int start;
 	public int end;
 

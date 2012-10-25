@@ -1,28 +1,20 @@
 package mollusc.linguasubtitle;
 
-
 import java.awt.*;
-import java.awt.List;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.*;
-import java.sql.SQLException;
 import java.util.*;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.plaf.ColorUIResource;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
-
 import mollusc.linguasubtitle.db.Vocabulary;
 import mollusc.linguasubtitle.subtitle.Subtitle;
 import mollusc.linguasubtitle.subtitle.parser.Stem;
 import mollusc.linguasubtitle.subtitle.srt.SrtSubtitle;
-
 
 public class VocabularyDialog implements PropertyChangeListener {
 
@@ -145,7 +137,7 @@ public class VocabularyDialog implements PropertyChangeListener {
 		statisticPanel.setLayout(null);
 		Insets insets = statisticPanel.getInsets();
 
-		JLabel label = new JLabel("<html><b>Statistic</b></html>");
+		JLabel label = new JLabel("<html><b>Статистика</b></html>");
 		statisticPanel.add(label);
 		Dimension size = label.getPreferredSize();
 
@@ -153,7 +145,7 @@ public class VocabularyDialog implements PropertyChangeListener {
 				size.height);
 
 		JLabel label1 = new JLabel(
-				"<html>Quantity of dialogs<br>with two and more<br>unknown words</html>");
+				"<html>Количество<br>диалгов с двумя и более<br>неизвестными словами</html>");
 		statisticPanel.add(label1);
 
 		size = label1.getPreferredSize();
@@ -166,7 +158,7 @@ public class VocabularyDialog implements PropertyChangeListener {
 		numberOfRepeat.setBounds(120 + insets.right, 25 + insets.bottom, 30,
 				size.height);
 
-		JLabel label2 = new JLabel("<html>Total quantity<br>of words</html>");
+		JLabel label2 = new JLabel("<html>Общее<br>количество слов</html>");
 		statisticPanel.add(label2);
 		size = label2.getPreferredSize();
 		label2.setBounds(5 + insets.right, 80 + insets.bottom, size.width,
@@ -178,7 +170,8 @@ public class VocabularyDialog implements PropertyChangeListener {
 		totalWords.setBounds(100 + insets.right, 80 + insets.bottom, 50,
 				size.height);
 
-		JLabel label3 = new JLabel("<html>Quantity of<br>unknown words</html>");
+		JLabel label3 = new JLabel(
+				"<html>Количесво<br>неизвестных<br>слов</html>");
 		statisticPanel.add(label3);
 		size = label3.getPreferredSize();
 		label3.setBounds(5 + insets.right, 120 + insets.bottom, size.width,
@@ -214,25 +207,22 @@ public class VocabularyDialog implements PropertyChangeListener {
 		sittingsPanel.setLayout(null);
 
 		Map<String, String> sittings = getSittings();
-		
-		JLabel label = new JLabel("<html><b>Statistic</b></html>");
+
+		JLabel label = new JLabel("<html><b>Сохранение</b></html>");
 		sittingsPanel.add(label);
 		Dimension size = label.getPreferredSize();
 		Insets insets = sittingsPanel.getInsets();
-		
+
 		label.setBounds(50 + insets.right, 5 + insets.bottom, size.width,
 				size.height);
-		
 
-		hideDialog = new JCheckBox("Hide known dialog.");
+		hideDialog = new JCheckBox("Скрывать известные диалоги");
 		hideDialog.setBackground(Color.lightGray);
 		sittingsPanel.add(hideDialog);
-		
+
 		size = hideDialog.getPreferredSize();
 		hideDialog.setBounds(5 + insets.right, 20 + insets.bottom, size.width,
 				size.height);
-		
-		
 
 		if (sittings != null && sittings.containsKey("hideKnownDialog")
 				&& sittings.get("hideKnownDialog").equals("true"))
@@ -270,7 +260,7 @@ public class VocabularyDialog implements PropertyChangeListener {
 		knownButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				Color c = JColorChooser.showDialog(rightPanel,
-						"Choose a color...", colorKnownWords);
+						"Выберите цвет...", colorKnownWords);
 				if (c != null) {
 					colorKnownWords = c;
 					knownButton.setBackground(colorKnownWords);
@@ -279,7 +269,7 @@ public class VocabularyDialog implements PropertyChangeListener {
 		});
 		sittingsPanel.add(knownButton);
 
-		JLabel knownLabel = new JLabel("Known words");
+		JLabel knownLabel = new JLabel("Известные слова...");
 		sittingsPanel.add(knownLabel);
 
 		size = knownButton.getPreferredSize();
@@ -296,7 +286,7 @@ public class VocabularyDialog implements PropertyChangeListener {
 		translatButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				Color c = JColorChooser.showDialog(rightPanel,
-						"Choose a color...", colorTranslateWords);
+						"Выберите цвет...", colorTranslateWords);
 				if (c != null) {
 					colorTranslateWords = c;
 					translatButton.setBackground(colorTranslateWords);
@@ -305,7 +295,7 @@ public class VocabularyDialog implements PropertyChangeListener {
 		});
 		sittingsPanel.add(translatButton);
 
-		JLabel translateLabel = new JLabel("Translate words");
+		JLabel translateLabel = new JLabel("Перевод");
 		sittingsPanel.add(translateLabel);
 
 		size = translatButton.getPreferredSize();
@@ -322,7 +312,7 @@ public class VocabularyDialog implements PropertyChangeListener {
 		studiedButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				Color c = JColorChooser.showDialog(rightPanel,
-						"Choose a color...", colorStudiedWords);
+						"Выберите цвет...", colorStudiedWords);
 				if (c != null) {
 					colorStudiedWords = c;
 					studiedButton.setBackground(colorStudiedWords);
@@ -331,7 +321,7 @@ public class VocabularyDialog implements PropertyChangeListener {
 		});
 		sittingsPanel.add(studiedButton);
 
-		JLabel targetLabel = new JLabel("Studied words");
+		JLabel targetLabel = new JLabel("Изучаемые слова");
 		sittingsPanel.add(targetLabel);
 
 		size = studiedButton.getPreferredSize();
@@ -348,7 +338,7 @@ public class VocabularyDialog implements PropertyChangeListener {
 		familiarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				Color c = JColorChooser.showDialog(rightPanel,
-						"Choose a color...", colorFamiliarWords);
+						"Выберите цвет...", colorFamiliarWords);
 				if (c != null) {
 					colorFamiliarWords = c;
 					familiarButton.setBackground(colorFamiliarWords);
@@ -357,7 +347,7 @@ public class VocabularyDialog implements PropertyChangeListener {
 		});
 		sittingsPanel.add(familiarButton);
 
-		JLabel familiarLabel = new JLabel("Familiar words");
+		JLabel familiarLabel = new JLabel("Знакомые слова");
 		sittingsPanel.add(familiarLabel);
 
 		size = familiarButton.getPreferredSize();
@@ -368,7 +358,7 @@ public class VocabularyDialog implements PropertyChangeListener {
 		familiarLabel.setBounds(25 + insets.right, 106 + insets.bottom,
 				size.width, size.height);
 
-		generateSubtitle = new JButton("Generate subtitle...");
+		generateSubtitle = new JButton("Генерация субтитров...");
 		generateSubtitle.addActionListener(new SaveFileListener());
 		sittingsPanel.add(generateSubtitle);
 
@@ -376,7 +366,7 @@ public class VocabularyDialog implements PropertyChangeListener {
 		generateSubtitle.setBounds(5 + insets.right, 130 + insets.bottom,
 				size.width, size.height);
 
-		saveTable = new JButton("Save table");
+		saveTable = new JButton("Сохранить данные");
 		saveTable.addActionListener(new UpdateTableListener());
 		sittingsPanel.add(saveTable);
 
@@ -403,7 +393,7 @@ public class VocabularyDialog implements PropertyChangeListener {
 
 	private static void createAndShowGUI() {
 		UIManager.put("swing.boldMetal", Boolean.FALSE);
-		JFrame frame = new JFrame("Subtitle generator");
+		JFrame frame = new JFrame("LinguaSubtitle");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		VocabularyDialog newContentPane = new VocabularyDialog();
@@ -430,7 +420,7 @@ public class VocabularyDialog implements PropertyChangeListener {
 		public void actionPerformed(ActionEvent e) {
 			JFileChooser fileopen = new JFileChooser();
 			fileopen.setFileFilter(new SubtitleFilter());
-			int ret = fileopen.showDialog(null, "Open");
+			int ret = fileopen.showDialog(null, "Открыть");
 			if (ret == JFileChooser.APPROVE_OPTION) {
 				progressBar.setVisible(true);
 				File file = fileopen.getSelectedFile();
@@ -477,7 +467,7 @@ public class VocabularyDialog implements PropertyChangeListener {
 					File f = getSelectedFile();
 					if (f.exists() && getDialogType() == SAVE_DIALOG) {
 						int result = JOptionPane.showConfirmDialog(this,
-								"The file exists, overwrite?", "Existing file",
+								"Такой файл уже существует. Заменить?", "Уведомление",
 								JOptionPane.YES_NO_CANCEL_OPTION);
 						switch (result) {
 						case JOptionPane.YES_OPTION:
@@ -518,9 +508,10 @@ public class VocabularyDialog implements PropertyChangeListener {
 
 	/**
 	 * Get list of unknown stems and translations
+	 * 
 	 * @return
 	 */
-	private Map<String, String> getTranslate(){
+	private Map<String, String> getTranslate() {
 		Map<String, String> stems = new HashMap<String, String>();
 		Vocabulary db = new Vocabulary("Vocabulary");
 		db.createConnection();
@@ -537,6 +528,7 @@ public class VocabularyDialog implements PropertyChangeListener {
 
 	/**
 	 * Get list of unknown stems and colors
+	 * 
 	 * @return
 	 */
 	private Map<String, String> getColorsStems() {
@@ -561,9 +553,10 @@ public class VocabularyDialog implements PropertyChangeListener {
 
 	/**
 	 * Get list of unknown stems and translate colors
+	 * 
 	 * @return
 	 */
-	private Map<String, String> getColorsTranslate(){
+	private Map<String, String> getColorsTranslate() {
 		Map<String, String> stems = new HashMap<String, String>();
 		Vocabulary db = new Vocabulary("Vocabulary");
 		db.createConnection();
@@ -582,6 +575,7 @@ public class VocabularyDialog implements PropertyChangeListener {
 
 	/**
 	 * Get list of unknown stems
+	 * 
 	 * @return
 	 */
 	private ArrayList<String> getUnknownStems() {
@@ -629,21 +623,20 @@ public class VocabularyDialog implements PropertyChangeListener {
 
 	private void UpdateSittings() {
 		Vocabulary db = new Vocabulary("Vocabulary");
-			db.createConnection();
-			db.updateSittings(hideDialog.isSelected(),
-					toHexString(colorTranslateWords),
-					toHexString(colorStudiedWords),
-					toHexString(colorFamiliarWords),
-					toHexString(colorKnownWords));
-			db.closeConnection();
+		db.createConnection();
+		db.updateSittings(hideDialog.isSelected(),
+				toHexString(colorTranslateWords),
+				toHexString(colorStudiedWords),
+				toHexString(colorFamiliarWords), toHexString(colorKnownWords));
+		db.closeConnection();
 	}
 
 	private Map<String, String> getSittings() {
 		Vocabulary db = new Vocabulary("Vocabulary");
-			db.createConnection();
-			Map<String, String> result = db.getSittings();
-			db.closeConnection();
-			return result;
+		db.createConnection();
+		Map<String, String> result = db.getSittings();
+		db.closeConnection();
+		return result;
 	}
 
 	public static String toHexString(Color c) {

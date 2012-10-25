@@ -20,6 +20,7 @@ public abstract class Subtitle {
 
 	/**
 	 * Get content of the subtitle file
+	 * 
 	 * @return
 	 */
 	public String getContent() {
@@ -28,6 +29,7 @@ public abstract class Subtitle {
 
 	/**
 	 * Get path to the subtitle file
+	 * 
 	 * @return
 	 */
 	public String getPathToSubtitle() {
@@ -51,13 +53,16 @@ public abstract class Subtitle {
 	}
 
 	/**
-	 * Get the list of stems 
-	 * @return Keys is a stem object, Value is quantity of the stem in the subtitle
+	 * Get the list of stems
+	 * 
+	 * @return Keys is a stem object, Value is quantity of the stem in the
+	 *         subtitle
 	 */
 	public abstract Map<Stem, Integer> getListStems();
 
 	/**
 	 * Mark the stem in the subtitle
+	 * 
 	 * @param stem
 	 * @return text with selected stem
 	 */

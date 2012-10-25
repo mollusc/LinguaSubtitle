@@ -10,23 +10,22 @@ import javax.swing.table.TableCellRenderer;
 
 public class CheckBoxRenderer extends JCheckBox implements TableCellRenderer {
 
-    CheckBoxRenderer() {
-      setHorizontalAlignment(JLabel.CENTER);
-    }
+	CheckBoxRenderer() {
+		setHorizontalAlignment(JLabel.CENTER);
+	}
 
-    public Component getTableCellRendererComponent(JTable table, Object value,
-        boolean isSelected, boolean hasFocus, int row, int column) {
-    	int indexRow = table.convertRowIndexToModel(row);
-    	boolean isKnown = (Boolean)table.getModel().getValueAt(indexRow, 0);
-    	if (isKnown) {
-    		setBackground(Color.LIGHT_GRAY);
-    		setForeground(Color.BLACK);
+	public Component getTableCellRendererComponent(JTable table, Object value,
+			boolean isSelected, boolean hasFocus, int row, int column) {
+		int indexRow = table.convertRowIndexToModel(row);
+		boolean isKnown = (Boolean) table.getModel().getValueAt(indexRow, 0);
+		if (isKnown) {
+			setBackground(Color.LIGHT_GRAY);
+			setForeground(Color.BLACK);
+		} else {
+			setBackground(Color.white);
+			setForeground(Color.BLACK);
 		}
-    	else {
-    		setBackground(Color.white);
-    		setForeground(Color.BLACK);
-		}
-    	setSelected((value != null && ((Boolean) value).booleanValue()));
-      return this;
-    }
+		setSelected((value != null && ((Boolean) value).booleanValue()));
+		return this;
+	}
 }
