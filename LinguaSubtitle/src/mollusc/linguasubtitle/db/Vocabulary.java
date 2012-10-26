@@ -25,11 +25,14 @@ public class Vocabulary {
 	 */
 	private Statement statement;
 
+	public Vocabulary(String name) {
+		nameDB = name;
+	}
+
 	/**
 	 * Create a database connection
 	 */
 	public boolean createConnection() {
-		// Load the sqlite-JDBC driver using the current class loader
 		try {
 			Class.forName("org.sqlite.JDBC");
 		} catch (ClassNotFoundException e1) {
@@ -45,9 +48,7 @@ public class Vocabulary {
 			statement
 					.executeUpdate("CREATE TABLE IF NOT EXISTS Stems(Stem VARCHAR PRIMARY KEY ASC, Word VARCHAR, Remember INTEGER, Meeting INTEGER, Translate VARCHAR)");
 		} catch (SQLException e) {
-			// If the error message is "out of memory",
-			// it probably means no database file is found
-			System.err.println(e.getMessage());
+			System.err.println("Error: " + e.getMessage());
 			return false;
 		}
 		return true;
@@ -62,12 +63,8 @@ public class Vocabulary {
 				connection.close();
 		} catch (SQLException e) {
 			// connection close failed.
-			System.err.println(e);
+			System.err.println("Error: " + e.getMessage());
 		}
-	}
-
-	public Vocabulary(String name) {
-		nameDB = name;
 	}
 
 	/**
@@ -83,10 +80,8 @@ public class Vocabulary {
 							+ escapeCharacter(stem) + "'");
 			if (rs.next())
 				return true;
-			else
-				return false;
 		} catch (SQLException e) {
-			System.err.println(e.getMessage());
+			System.err.println("Error: " + e.getMessage());
 		}
 		return false;
 	}
@@ -114,14 +109,22 @@ public class Vocabulary {
 						+ "'," + val + ",0, '" + escapeCharacter(translate)
 						+ "')");
 		} catch (SQLException e) {
-			// if the error message is "out of memory",
-			// it probably means no database file is found
-			System.err.println(e.getMessage());
+			System.err.println("Error: " + e.getMessage());
 			return false;
 		}
 		return true;
 	}
 
+	/**
+	 * Update values of word, translate, remember, updateMeeting
+	 * 
+	 * @param stem
+	 * @param word
+	 * @param translate
+	 * @param remember
+	 * @param updateMeeting
+	 * @return
+	 */
 	private boolean updateStem(String stem, String word, String translate,
 			boolean remember, Boolean updateMeeting) {
 		try {
@@ -138,9 +141,7 @@ public class Vocabulary {
 						+ escapeCharacter(translate) + "', Remember=" + val
 						+ " WHERE Stem='" + escapeCharacter(stem) + "'");
 		} catch (SQLException e) {
-			// if the error message is "out of memory",
-			// it probably means no database file is found
-			System.err.println(e.getMessage());
+			System.err.println("Error: " + e.getMessage());
 			return false;
 		}
 		return true;
@@ -154,6 +155,12 @@ public class Vocabulary {
 			addStem(stem, word, translate, remember, updateMeeting);
 	}
 
+	/**
+	 * Get translation of the stem
+	 * 
+	 * @param stem
+	 * @return
+	 */
 	public String getTranslate(String stem) {
 		try {
 			ResultSet rs = statement
@@ -163,14 +170,16 @@ public class Vocabulary {
 				return rs.getString("Translate");
 			}
 		} catch (SQLException e) {
-			// if the error message is "out of memory",
-			// it probably means no database file is found
-			System.err.println(e.getMessage());
-			return null;
+			System.err.println("Error: " + e.getMessage());
 		}
 		return null;
 	}
 
+	/**
+	 * Is stem known?
+	 * @param stem
+	 * @return true if stem is known, otherwise false
+	 */
 	public boolean getRemember(String stem) {
 		try {
 			ResultSet rs = statement
@@ -181,14 +190,16 @@ public class Vocabulary {
 				return str.equals("1");
 			}
 		} catch (SQLException e) {
-			// if the error message is "out of memory",
-			// it probably means no database file is found
-			System.err.println(e.getMessage());
-			return false;
+			System.err.println("Error: " + e.getMessage());
 		}
 		return false;
 	}
 
+	/**
+	 * Had stem met?
+	 * @param stem
+	 * @return
+	 */
 	public int getMeeting(String stem) {
 		try {
 			ResultSet rs = statement
@@ -199,10 +210,7 @@ public class Vocabulary {
 				return Integer.parseInt(str);
 			}
 		} catch (SQLException e) {
-			// if the error message is "out of memory",
-			// it probably means no database file is found
-			System.err.println(e.getMessage());
-			return 0;
+			System.err.println("Error: " + e.getMessage());
 		}
 		return 0;
 	}
