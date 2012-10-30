@@ -3,21 +3,26 @@ package mollusc.linguasubtitle;
 import javax.swing.JProgressBar;
 import javax.swing.SwingWorker;
 
+/**
+ * Class change progress bar in real-time
+ * @author mollusc
+ */
 class Worker extends SwingWorker<Object, Object> {
-	JProgressBar pBar;
 
-	public Worker(JProgressBar pb) {
-		pBar = pb;
-	}
+    JProgressBar pBar;
 
-	@Override
-	protected Object doInBackground() throws Exception {
-		pBar.setVisible(true);
-		return null;
-	}
+    public Worker(JProgressBar pb) {
+        pBar = pb;
+    }
 
-	@Override
-	protected void done() {
-		pBar.setVisible(false);
-	}
+    @Override
+    protected Object doInBackground() throws Exception {
+        pBar.setVisible(true);
+        return null;
+    }
+
+    @Override
+    protected void done() {
+        pBar.setVisible(false);
+    }
 }

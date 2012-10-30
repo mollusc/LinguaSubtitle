@@ -1,12 +1,14 @@
 package mollusc.linguasubtitle.subtitle.srt;
 
+import com.rits.cloning.Cloner;
 import java.util.*;
-
 import mollusc.linguasubtitle.subtitle.Subtitle;
 import mollusc.linguasubtitle.subtitle.parser.Stem;
 
-import com.rits.cloning.Cloner;
-
+/**
+ * Class for srt subtitles
+ * @author mollusc
+ */
 public class SrtSubtitle extends Subtitle {
 
 	private Map<Integer, Speech> speeches;

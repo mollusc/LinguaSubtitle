@@ -3,9 +3,12 @@ package mollusc.linguasubtitle.subtitle;
 import java.io.*;
 import java.util.List;
 import java.util.Map;
-
 import mollusc.linguasubtitle.subtitle.parser.Stem;
 
+/**
+ * 
+ * @author mollusc
+ */
 public abstract class Subtitle {
 
 	/**
