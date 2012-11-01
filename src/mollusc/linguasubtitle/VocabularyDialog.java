@@ -134,20 +134,22 @@ public class VocabularyDialog implements PropertyChangeListener {
     private void createStatistic() {
         JPanel statisticPanel = new JPanel();
         statisticPanel.setBackground(Color.lightGray);
-        statisticPanel.setPreferredSize(new Dimension(150, 200));
+        statisticPanel.setPreferredSize(new Dimension(190, 220));
         statisticPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         statisticPanel.setLayout(null);
         Insets insets = statisticPanel.getInsets();
+        Graphics graphics = statisticPanel.getGraphics();
 
+        // Header
         JLabel label = new JLabel("<html><b>Статистика</b></html>");
         statisticPanel.add(label);
         Dimension size = label.getPreferredSize();
-
-        label.setBounds(50 + insets.right, 5 + insets.bottom, size.width,
-                size.height);
-
+        label.setBounds(50 + insets.right, 5 + insets.bottom, size.width, size.height);
+        
+        
+        
         JLabel label1 = new JLabel(
-                "<html>Количество<br>диалгов с двумя и более<br>неизвестными словами</html>");
+                "<html>Количество диалгов<br/>с двумя и более<br>неизвестными словами</html>");
         statisticPanel.add(label1);
 
         size = label1.getPreferredSize();
@@ -157,7 +159,7 @@ public class VocabularyDialog implements PropertyChangeListener {
         numberOfRepeat = new JLabel(" ");
         statisticPanel.add(numberOfRepeat);
         size = numberOfRepeat.getPreferredSize();
-        numberOfRepeat.setBounds(120 + insets.right, 25 + insets.bottom, 30,
+        numberOfRepeat.setBounds(145 + insets.right, 30 + insets.bottom, 30,
                 size.height);
 
         JLabel label2 = new JLabel("<html>Общее<br>количество слов</html>");
@@ -169,7 +171,7 @@ public class VocabularyDialog implements PropertyChangeListener {
         totalWords = new JLabel(" ");
         statisticPanel.add(totalWords);
         size = totalWords.getPreferredSize();
-        totalWords.setBounds(100 + insets.right, 80 + insets.bottom, 50,
+        totalWords.setBounds(145 + insets.right, 85 + insets.bottom, 50,
                 size.height);
 
         JLabel label3 = new JLabel(
@@ -182,7 +184,7 @@ public class VocabularyDialog implements PropertyChangeListener {
         numberUnknownWords = new JLabel(" ");
         statisticPanel.add(numberUnknownWords);
         size = numberUnknownWords.getPreferredSize();
-        numberUnknownWords.setBounds(100 + insets.right, 120 + insets.bottom,
+        numberUnknownWords.setBounds(145 + insets.right, 125 + insets.bottom,
                 50, 30);
 
         rightPanel.add(statisticPanel);
@@ -204,21 +206,21 @@ public class VocabularyDialog implements PropertyChangeListener {
     private void createSittings() {
         sittingsPanel = new JPanel();
         sittingsPanel.setBackground(Color.lightGray);
-        sittingsPanel.setPreferredSize(new Dimension(150, 200));
+        sittingsPanel.setPreferredSize(new Dimension(190, 220));
         sittingsPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         sittingsPanel.setLayout(null);
 
         Map<String, String> sittings = getSittings();
 
-        JLabel label = new JLabel("<html><b>Сохранение</b></html>");
+        JLabel label = new JLabel("<html><b>Экспорт</b></html>");
         sittingsPanel.add(label);
         Dimension size = label.getPreferredSize();
         Insets insets = sittingsPanel.getInsets();
 
-        label.setBounds(50 + insets.right, 5 + insets.bottom, size.width,
+        label.setBounds(60 + insets.right, 5 + insets.bottom, size.width,
                 size.height);
 
-        hideDialog = new JCheckBox("Скрывать известные диалоги");
+        hideDialog = new JCheckBox("<html>Скрывать известные<br/>диалоги</html>");
         hideDialog.setBackground(Color.lightGray);
         sittingsPanel.add(hideDialog);
 
@@ -277,15 +279,15 @@ public class VocabularyDialog implements PropertyChangeListener {
         });
         sittingsPanel.add(knownButton);
 
-        JLabel knownLabel = new JLabel("Известные слова...");
+        JLabel knownLabel = new JLabel("Известные слова");
         sittingsPanel.add(knownLabel);
 
         size = knownButton.getPreferredSize();
-        knownButton.setBounds(10 + insets.right, 50 + insets.bottom,
+        knownButton.setBounds(10 + insets.right, 65 + insets.bottom,
                 size.width, size.height);
 
         size = knownLabel.getPreferredSize();
-        knownLabel.setBounds(25 + insets.right, 46 + insets.bottom, size.width,
+        knownLabel.setBounds(25 + insets.right, 61 + insets.bottom, size.width,
                 size.height);
 
         translatButton = new JButton();
@@ -308,11 +310,11 @@ public class VocabularyDialog implements PropertyChangeListener {
         sittingsPanel.add(translateLabel);
 
         size = translatButton.getPreferredSize();
-        translatButton.setBounds(10 + insets.right, 70 + insets.bottom,
+        translatButton.setBounds(10 + insets.right, 85 + insets.bottom,
                 size.width, size.height);
 
         size = translateLabel.getPreferredSize();
-        translateLabel.setBounds(25 + insets.right, 66 + insets.bottom,
+        translateLabel.setBounds(25 + insets.right, 81 + insets.bottom,
                 size.width, size.height);
 
         studiedButton = new JButton();
@@ -335,11 +337,11 @@ public class VocabularyDialog implements PropertyChangeListener {
         sittingsPanel.add(targetLabel);
 
         size = studiedButton.getPreferredSize();
-        studiedButton.setBounds(10 + insets.right, 90 + insets.bottom,
+        studiedButton.setBounds(10 + insets.right, 105 + insets.bottom,
                 size.width, size.height);
 
         size = targetLabel.getPreferredSize();
-        targetLabel.setBounds(25 + insets.right, 86 + insets.bottom,
+        targetLabel.setBounds(25 + insets.right, 101 + insets.bottom,
                 size.width, size.height);
 
         familiarButton = new JButton();
@@ -362,19 +364,19 @@ public class VocabularyDialog implements PropertyChangeListener {
         sittingsPanel.add(familiarLabel);
 
         size = familiarButton.getPreferredSize();
-        familiarButton.setBounds(10 + insets.right, 110 + insets.bottom,
+        familiarButton.setBounds(10 + insets.right, 125 + insets.bottom,
                 size.width, size.height);
 
         size = familiarLabel.getPreferredSize();
-        familiarLabel.setBounds(25 + insets.right, 106 + insets.bottom,
+        familiarLabel.setBounds(25 + insets.right, 121 + insets.bottom,
                 size.width, size.height);
 
-        generateSubtitle = new JButton("Генерация субтитров...");
+        generateSubtitle = new JButton("Генерация субтитров");
         generateSubtitle.addActionListener(new SaveFileListener());
         sittingsPanel.add(generateSubtitle);
 
         size = generateSubtitle.getPreferredSize();
-        generateSubtitle.setBounds(5 + insets.right, 130 + insets.bottom,
+        generateSubtitle.setBounds(20 + insets.right, 145 + insets.bottom,
                 size.width, size.height);
 
         saveTable = new JButton("Сохранить данные");
@@ -382,7 +384,7 @@ public class VocabularyDialog implements PropertyChangeListener {
         sittingsPanel.add(saveTable);
 
         size = saveTable.getPreferredSize();
-        saveTable.setBounds(30 + insets.right, 160 + insets.bottom, size.width,
+        saveTable.setBounds(30 + insets.right, 175 + insets.bottom, size.width,
                 size.height);
 
         rightPanel.add(sittingsPanel);
@@ -454,8 +456,7 @@ public class VocabularyDialog implements PropertyChangeListener {
                                 e1.printStackTrace();
                             }
                         }
-                    }
-                    updateStatistic();
+                    }                    
                 }
             }
         }
@@ -782,6 +783,7 @@ public class VocabularyDialog implements PropertyChangeListener {
             }
             db.closeConnection();
             tableToDefaultSort();
+            updateStatistic();
             return null;
         }
 
