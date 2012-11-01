@@ -441,7 +441,6 @@ public class VocabularyDialog implements PropertyChangeListener {
             fileopen.setFileFilter(new SubtitleFilter());
             int ret = fileopen.showDialog(null, "Открыть");
             if (ret == JFileChooser.APPROVE_OPTION) {
-                progressBar.setVisible(true);
                 File file = fileopen.getSelectedFile();
                 String pathSubtitle = file.getAbsolutePath();
                 if (pathSubtitle != null) {
@@ -452,11 +451,11 @@ public class VocabularyDialog implements PropertyChangeListener {
                         subtitle = new SrtSubtitle(pathSubtitle);
                     }
 
-                    if (subtitle != null) {
+                    if (subtitle != null) {                        
                         if (loadSubtitle()) {
                             try {
                                 loadTable();
-                            } catch (ClassNotFoundException e1) {
+                            } catch (ClassNotFoundException e1) {                                
                                 e1.printStackTrace();
                             }
                         }
@@ -685,7 +684,6 @@ public class VocabularyDialog implements PropertyChangeListener {
     }
 
     public void loadTable() throws ClassNotFoundException {
-
         if (subtitle != null) {
             TaskLoadTable task = new TaskLoadTable();
             task.addPropertyChangeListener(this);
@@ -746,14 +744,14 @@ public class VocabularyDialog implements PropertyChangeListener {
         @Override
         public Void doInBackground() throws ClassNotFoundException {
             // Initialize progress property.
-            float progress = 0;
-            setProgress((int) progress);
+            //float progress = 0f;
+            //setProgress((int) progress);
             Map<Stem, Integer> stems = subtitle.getListStems();
 
             // Clear table
             ((DefaultTableModel) table.getModel()).setRowCount(0);
-            progress += 50f;
-            setProgress((int) progress);
+            //progress += 50f;
+            //setProgress((int) progress);
 
             Vocabulary db = new Vocabulary("Vocabulary");
             db.createConnection();
@@ -782,8 +780,8 @@ public class VocabularyDialog implements PropertyChangeListener {
 
                 model.addRow(new Object[]{remember, key, translate,
                             stems.get(key), meeting});
-                progress += 50f / stems.keySet().size();
-                setProgress((int) progress);
+               // progress += 50f / stems.keySet().size();
+               // setProgress((int) progress);
             }
             db.closeConnection();
             tableToDefaultSort();
@@ -791,11 +789,11 @@ public class VocabularyDialog implements PropertyChangeListener {
             return null;
         }
 
-        @Override
+        /*@Override
         public void done() {
             setProgress(0);
             progressBar.setVisible(false);
-        }
+        }*/
     }
 
     class TaskUpdateDB extends SwingWorker<Void, Void> {
