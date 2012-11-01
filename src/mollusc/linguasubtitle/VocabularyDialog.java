@@ -221,19 +221,23 @@ public class VocabularyDialog implements PropertyChangeListener {
                 size.height);
 
         hideDialog = new JCheckBox("<html>Скрывать известные<br/>диалоги</html>");
-        hideDialog.setBackground(Color.lightGray);
+        hideDialog.setBackground(Color.lightGray);        
         sittingsPanel.add(hideDialog);
 
         size = hideDialog.getPreferredSize();
         hideDialog.setBounds(5 + insets.right, 20 + insets.bottom, size.width,
                 size.height);
 
-        if (sittings != null && sittings.containsKey("hideKnownDialog")
-                && sittings.get("hideKnownDialog").equals("true")) {
-            hideDialog.setSelected(true);
-        } else {
-            hideDialog.setSelected(false);
+        if (sittings != null && sittings.containsKey("hideKnownDialog")) {
+            if (sittings.get("hideKnownDialog").equals("true")) {
+                hideDialog.setSelected(true);
+            } else {
+                hideDialog.setSelected(false);
+            }
         }
+        else
+            hideDialog.setSelected(true);
+
 
         if (sittings != null && sittings.containsKey("colorKnownWords")) {
             colorKnownWords = Color.decode("#"
@@ -246,21 +250,21 @@ public class VocabularyDialog implements PropertyChangeListener {
             colorTranslateWords = Color.decode("#"
                     + sittings.get("colorTranslateWords"));
         } else {
-            colorTranslateWords = new Color(255, 163, 163);
+            colorTranslateWords = new Color(204, 255, 204);
         }
 
         if (sittings != null && sittings.containsKey("colorStudiedWords")) {
             colorStudiedWords = Color.decode("#"
                     + sittings.get("colorStudiedWords"));
         } else {
-            colorStudiedWords = new Color(255, 205, 205);
+            colorStudiedWords = Color.white;
         }
 
         if (sittings != null && sittings.containsKey("colorFamiliarWords")) {
             colorFamiliarWords = Color.decode("#"
                     + sittings.get("colorFamiliarWords"));
         } else {
-            colorFamiliarWords = new Color(163, 255, 163);
+            colorFamiliarWords = new Color(255, 255, 204);
         }
 
         knownButton = new JButton();
