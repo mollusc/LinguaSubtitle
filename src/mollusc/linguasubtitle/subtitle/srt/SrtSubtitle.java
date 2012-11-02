@@ -326,7 +326,8 @@ public class SrtSubtitle extends Subtitle {
             }
             if(wordTranslate.length() > i - start ||
                     (i < strTranslate.length() && wordTranslate.length() == i - start && strTranslate.charAt(i) != '\u00A0'))
-                strTranslate.setCharAt(i-1, '.');
+                // Horizontal ellipsis
+                strTranslate.setCharAt(i-1, '\u2026');
             
             // Add tag
             strTranslate.insert(i, "</font>");
