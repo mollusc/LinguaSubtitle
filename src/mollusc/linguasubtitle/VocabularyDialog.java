@@ -454,6 +454,7 @@ public class VocabularyDialog implements PropertyChangeListener {
                     if (subtitle != null) {                        
                         if (loadSubtitle()) {
                             try {
+                                ((DefaultTableModel)table.getModel()).setRowCount(0);
                                 loadTable();
                             } catch (ClassNotFoundException e1) {                                
                                 e1.printStackTrace();
@@ -811,6 +812,7 @@ public class VocabularyDialog implements PropertyChangeListener {
         public Void doInBackground() throws ClassNotFoundException {
             // Initialize progress property.
             generateSubtitle.setEnabled(false);
+            saveTable.setEnabled(false);
             float progress = 0f;
             setProgress((int) progress);
             Map<Stem, Integer> stems = subtitle.getListStems();
@@ -836,6 +838,7 @@ public class VocabularyDialog implements PropertyChangeListener {
         public void done() {
             setProgress(0);
             generateSubtitle.setEnabled(true);
+            saveTable.setEnabled(true);
             progressBar.setVisible(false);
         }
     }
