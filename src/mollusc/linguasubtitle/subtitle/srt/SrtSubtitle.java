@@ -234,15 +234,15 @@ public class SrtSubtitle extends Subtitle {
         String result = new String();
         Cloner cloner = new Cloner();
         Map<Integer, Speech> cloneSpeeches = cloner.deepClone(speeches);
-        Map<Integer, String> mapTranslation = new HashMap<>();
-        ArrayList<IndexWord> indices = new ArrayList<>();       
+        Map<Integer, String> mapTranslation = new HashMap<Integer, String>();
+        ArrayList<IndexWord> indices = new ArrayList<IndexWord>();       
 
         for (String stemString : stemsTranslate.keySet())
             indices.addAll(index.get(stemString));
 
         Collections.sort(indices, new IndexWordComparator());
         
-        HashSet<Integer> modifiedSpeech = new HashSet<>();          
+        HashSet<Integer> modifiedSpeech = new HashSet<Integer>();          
         
         for (IndexWord indexWord : indices) {
             modifiedSpeech.add(indexWord.indexSpeech);

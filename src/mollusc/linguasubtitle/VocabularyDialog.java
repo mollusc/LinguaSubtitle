@@ -532,7 +532,7 @@ public class VocabularyDialog implements PropertyChangeListener {
      * @return
      */
     private Map<String, String> getTranslate() {
-        Map<String, String> stems = new HashMap<>();
+        Map<String, String> stems = new HashMap<String, String>();
         Vocabulary db = new Vocabulary("Vocabulary");
         db.createConnection();
         for (int i = 0; i < table.getRowCount(); i++) {
@@ -552,7 +552,7 @@ public class VocabularyDialog implements PropertyChangeListener {
      * @return
      */
     private Map<String, String> getColorsStems() {
-        Map<String, String> stems = new HashMap<>();
+        Map<String, String> stems = new HashMap<String, String>();
         Vocabulary db = new Vocabulary("Vocabulary");
         db.createConnection();
         for (int i = 0; i < table.getRowCount(); i++) {
@@ -577,7 +577,7 @@ public class VocabularyDialog implements PropertyChangeListener {
      * @return
      */
     private Map<String, String> getColorsTranslate() {
-        Map<String, String> stems = new HashMap<>();
+        Map<String, String> stems = new HashMap<String, String>();
         Vocabulary db = new Vocabulary("Vocabulary");
         db.createConnection();
         for (int i = 0; i < table.getRowCount(); i++) {
@@ -600,7 +600,7 @@ public class VocabularyDialog implements PropertyChangeListener {
      * @return
      */
     private ArrayList<String> getUnknownStems() {
-        ArrayList<String> stems = new ArrayList<>();
+        ArrayList<String> stems = new ArrayList<String>();
         for (int i = 0; i < table.getRowCount(); i++) {
             if (!((Boolean) table.getValueAt(i, 0))) {
                 Stem stem = (Stem) table.getValueAt(i, 1);
