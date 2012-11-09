@@ -46,7 +46,7 @@ public class SrtSubtitle extends Subtitle {
                 headerSpeech = false;
                 continue;
             }
-            if (line.isEmpty()) {
+            if (line.isEmpty() && !text.isEmpty()) {
                 text = text.substring(0, text.length() - 1);
                 speeches.put(sequenceNumber, new Speech(sequenceNumber, timing,
                         text));

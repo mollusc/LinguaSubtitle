@@ -388,7 +388,7 @@ public class VocabularyDialog implements PropertyChangeListener {
         sittingsPanel.add(saveTable);
 
         size = saveTable.getPreferredSize();
-        saveTable.setBounds(30 + insets.right, 175 + insets.bottom, size.width,
+        saveTable.setBounds(28 + insets.right, 175 + insets.bottom, size.width,
                 size.height);
 
         rightPanel.add(sittingsPanel);
