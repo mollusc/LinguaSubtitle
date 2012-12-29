@@ -150,8 +150,11 @@ public abstract class Subtitle {
 	 */
 	public static boolean isNumeric(String text) {
 		try {
-			Integer.parseInt(text);
-		} catch (NumberFormatException nfe) {
+                    byte[] b = text.getBytes("UTF-8");
+                    String s = new String(b, "US-ASCII");
+                    Integer.parseInt(s);
+
+		} catch (Exception nfe) {
 			return false;
 		}
 		return true;
@@ -166,10 +169,10 @@ public abstract class Subtitle {
 	 */
 	protected static void saveSubtitle(String path, String content) {
 		try {
-			BufferedWriter out = new BufferedWriter(new FileWriter(path));
-			out.write(content);
-			out.close();
-		} catch (IOException e) {
+			OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(path, true), "windows-1251");
+			writer.append(content);
+                        writer.close();
+		} catch (Exception e) {
 			System.err.println("Error: " + e.getMessage());
 		}
 	}

@@ -13,6 +13,7 @@ import mollusc.linguasubtitle.db.Vocabulary;
 import mollusc.linguasubtitle.subtitle.Subtitle;
 import mollusc.linguasubtitle.subtitle.parser.Stem;
 import mollusc.linguasubtitle.subtitle.srt.SrtSubtitle;
+import sun.awt.windows.ThemeReader;
 
 /**
  * Create main window
@@ -56,7 +57,6 @@ public class VocabularyDialog implements PropertyChangeListener {
         createSittings();
         createProgressBar();
         rightPanel.setVisible(true);
-
     }
 
     private void createTextPanel() {
@@ -447,6 +447,7 @@ public class VocabularyDialog implements PropertyChangeListener {
                     subtitle = null;
                     Filename fn = new Filename(pathSubtitle, '/', '.');
                     String extension = fn.extension().toLowerCase();
+                    
                     if (extension.toLowerCase().equals("srt")) {
                         subtitle = new SrtSubtitle(pathSubtitle);
                     }
