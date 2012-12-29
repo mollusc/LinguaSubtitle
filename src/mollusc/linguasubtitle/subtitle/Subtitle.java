@@ -150,9 +150,7 @@ public abstract class Subtitle {
 	 */
 	public static boolean isNumeric(String text) {
 		try {
-                    byte[] b = text.getBytes("UTF-8");
-                    String s = new String(b, "US-ASCII");
-                    Integer.parseInt(s);
+                    Integer.parseInt(text);
 
 		} catch (Exception nfe) {
 			return false;
