@@ -6,7 +6,7 @@
 * VLC плеер
 
 ##Установка
-1. Скачать архив [https://github.com/mollusc/LinguaSubtitle/downloads](https://github.com/mollusc/LinguaSubtitle/downloads).
+1. Скачать архив [LinguaSubtitle_v1.2.rar](http://goo.gl/3qPtB).
 2. Распаковать скаченный архив и запустить файл **LinguaSubtitle.jar**.
 
 > **Замечание**: В распакованной папке находится файл **Vocabulary.db**, который уже содержит перевод около 7500 наиболее часто встречающихся слов в фильмах. Если вы не хотите использовать данный словарь, то просто удалите файл **Vocabulary.db**.
