@@ -21,7 +21,7 @@ import sun.awt.windows.ThemeReader;
  * @author mollusc
  */
 public class VocabularyDialog implements PropertyChangeListener {
-
+    private JFrame mainFrame;
     private JPanel rightPanel;
     private JPanel sittingsPanel;
     private JTable table;
@@ -46,8 +46,9 @@ public class VocabularyDialog implements PropertyChangeListener {
     private Color colorStudiedWords;
     private Subtitle subtitle;
 
-    public VocabularyDialog() {
+    public VocabularyDialog(JFrame frame) {
         super();
+        mainFrame = frame;
         rightPanel = new JPanel();
         rightPanel.setBackground(Color.lightGray);
         rightPanel.setPreferredSize(new Dimension(400, 0));
@@ -413,7 +414,7 @@ public class VocabularyDialog implements PropertyChangeListener {
         JFrame frame = new JFrame("LinguaSubtitle");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        VocabularyDialog newContentPane = new VocabularyDialog();
+        VocabularyDialog newContentPane = new VocabularyDialog(frame);
         Container contentPane = frame.getContentPane();
 
         contentPane.add(newContentPane.scroller);
@@ -447,7 +448,7 @@ public class VocabularyDialog implements PropertyChangeListener {
                     subtitle = null;
                     Filename fn = new Filename(pathSubtitle, '/', '.');
                     String extension = fn.extension().toLowerCase();
-                    
+                    mainFrame.setTitle("LinguaSubtitle - " + pathSubtitle);
                     if (extension.toLowerCase().equals("srt")) {
                         subtitle = new SrtSubtitle(pathSubtitle);
                     }
