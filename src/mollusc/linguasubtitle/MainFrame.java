@@ -4,9 +4,15 @@
  */
 package mollusc.linguasubtitle;
 
+import java.io.File;
+import javax.swing.JFileChooser;
+import javax.swing.table.DefaultTableModel;
+import mollusc.linguasubtitle.subtitle.Subtitle;
+import mollusc.linguasubtitle.subtitle.srt.SrtSubtitle;
+
 /**
  *
- * @author vofedoseenko
+ * @author mollusc
  */
 public class MainFrame extends javax.swing.JFrame {
 
@@ -25,35 +31,28 @@ public class MainFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jSplitPane2 = new javax.swing.JSplitPane();
-        jTextField1 = new javax.swing.JTextField();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableMain = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
-        jTable2 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        tableStatistic = new javax.swing.JTable();
+        loadSubtitle = new javax.swing.JButton();
+        jProgressBar1 = new javax.swing.JProgressBar();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        textSubtitle = new javax.swing.JTextPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jSplitPane2.setDividerLocation(350);
 
-        jTextField1.setText("jTextField1");
-        jTextField1.setMinimumSize(new java.awt.Dimension(100, 100));
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
-        jSplitPane2.setLeftComponent(jTextField1);
-
         jPanel2.setName(""); // NOI18N
 
         jScrollPane1.setMinimumSize(new java.awt.Dimension(0, 0));
 
-        jTable1.setShowGrid(true);
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableMain.setShowGrid(true);
+        tableMain.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null}
             },
@@ -76,20 +75,20 @@ public class MainFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setGridColor(new java.awt.Color(0, 0, 0));
-        jScrollPane1.setViewportView(jTable1);
-        jTable1.getColumnModel().getColumn(0).setPreferredWidth(40);
-        jTable1.getColumnModel().getColumn(0).setMaxWidth(40);
-        jTable1.getColumnModel().getColumn(1).setPreferredWidth(40);
-        jTable1.getColumnModel().getColumn(1).setMaxWidth(40);
-        jTable1.getColumnModel().getColumn(2).setPreferredWidth(50);
-        jTable1.getColumnModel().getColumn(2).setMaxWidth(50);
-        jTable1.getColumnModel().getColumn(3).setPreferredWidth(100);
-        jTable1.getColumnModel().getColumn(4).setPreferredWidth(100);
-        jTable1.getColumnModel().getColumn(5).setPreferredWidth(40);
-        jTable1.getColumnModel().getColumn(5).setMaxWidth(40);
-        jTable1.getColumnModel().getColumn(6).setPreferredWidth(50);
-        jTable1.getColumnModel().getColumn(6).setMaxWidth(150);
+        tableMain.setGridColor(new java.awt.Color(0, 0, 0));
+        jScrollPane1.setViewportView(tableMain);
+        tableMain.getColumnModel().getColumn(0).setPreferredWidth(40);
+        tableMain.getColumnModel().getColumn(0).setMaxWidth(40);
+        tableMain.getColumnModel().getColumn(1).setPreferredWidth(40);
+        tableMain.getColumnModel().getColumn(1).setMaxWidth(40);
+        tableMain.getColumnModel().getColumn(2).setPreferredWidth(50);
+        tableMain.getColumnModel().getColumn(2).setMaxWidth(50);
+        tableMain.getColumnModel().getColumn(3).setPreferredWidth(100);
+        tableMain.getColumnModel().getColumn(4).setPreferredWidth(100);
+        tableMain.getColumnModel().getColumn(5).setPreferredWidth(40);
+        tableMain.getColumnModel().getColumn(5).setMaxWidth(40);
+        tableMain.getColumnModel().getColumn(6).setPreferredWidth(50);
+        tableMain.getColumnModel().getColumn(6).setMaxWidth(150);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -99,15 +98,15 @@ public class MainFrame extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
         );
 
-        jPanel3.setMaximumSize(new java.awt.Dimension(415, 135));
-        jPanel3.setMinimumSize(new java.awt.Dimension(415, 135));
+        jPanel3.setMaximumSize(new java.awt.Dimension(516, 172));
+        jPanel3.setMinimumSize(new java.awt.Dimension(516, 172));
 
-        jTable2.setShowGrid(true);
-        jTable2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tableStatistic.setShowGrid(true);
+        tableStatistic.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        tableStatistic.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"Количество диалогов с двумя и более неизвестными словами",  new Float(1.0)},
                 {"Общее количество слов",  new Float(2.0)},
@@ -132,9 +131,16 @@ public class MainFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable2.setGridColor(new java.awt.Color(204, 204, 204));
+        tableStatistic.setGridColor(new java.awt.Color(204, 204, 204));
 
-        jButton1.setText("Загрузить субтитры");
+        loadSubtitle.setText("Загрузить субтитры");
+        loadSubtitle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loadSubtitleActionPerformed(evt);
+            }
+        });
+
+        //jProgressBar1.setVisible(false);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -142,21 +148,25 @@ public class MainFrame extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton1))
+                .addComponent(loadSubtitle))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTable2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tableStatistic, javax.swing.GroupLayout.DEFAULT_SIZE, 506, Short.MAX_VALUE)
+                    .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jTable2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(tableStatistic, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(loadSubtitle)
+                .addGap(18, 18, 18)
+                .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
-        jTable2.getColumnModel().getColumn(1).setMaxWidth(70);
+        tableStatistic.getColumnModel().getColumn(1).setMaxWidth(70);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -180,6 +190,11 @@ public class MainFrame extends javax.swing.JFrame {
 
         jSplitPane2.setRightComponent(jTabbedPane2);
 
+        textSubtitle.setEditable(false);
+        jScrollPane2.setViewportView(textSubtitle);
+
+        jSplitPane2.setLeftComponent(jScrollPane2);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -200,10 +215,51 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    private void loadSubtitleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadSubtitleActionPerformed
+	JFileChooser fileopen = new JFileChooser();
+	fileopen.setFileFilter(new SubtitleFilter());
+	int ret = fileopen.showDialog(null, "Открыть");
+	if (ret == JFileChooser.APPROVE_OPTION) {
+	    File file = fileopen.getSelectedFile();
+	    String pathSubtitle = file.getAbsolutePath();
+	    if (pathSubtitle != null) {
+		subtitle = null;
+		Filename fn = new Filename(pathSubtitle, '/', '.');
+		String extension = fn.extension().toLowerCase();
+		if (extension.toLowerCase().equals("srt")) {
+		    subtitle = new SrtSubtitle(pathSubtitle);
+		}
+		if (subtitle != null) {
+		   if (loadSubtitle()) {	    
+			    loadTable();
+		    }
+		}                    
+	    }
+	}
+    }//GEN-LAST:event_loadSubtitleActionPerformed
 
+    private boolean loadSubtitle() {
+        textSubtitle.setContentType("text/html");
+        if (subtitle != null) {
+            String formatedText = subtitle.hideHeader();
+            textSubtitle.setText(formatedText);
+            return true;
+        }
+        return false;
+    }
+    public void loadTable() {
+	try {
+	    ((DefaultTableModel) tableMain.getModel()).setRowCount(0);
+	    if (subtitle != null) {
+		/*VocabularyDialog.TaskLoadTable task = new VocabularyDialog.TaskLoadTable();
+		task.addPropertyChangeListener(this);
+		task.execute();*/
+	    }
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+    }
+	
     /**
      * @param args the command line arguments
      */
@@ -239,15 +295,18 @@ public class MainFrame extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSplitPane jSplitPane2;
     private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JButton loadSubtitle;
+    private Subtitle subtitle;
+    private javax.swing.JTable tableMain;
+    private javax.swing.JTable tableStatistic;
+    private javax.swing.JTextPane textSubtitle;
     // End of variables declaration//GEN-END:variables
 }

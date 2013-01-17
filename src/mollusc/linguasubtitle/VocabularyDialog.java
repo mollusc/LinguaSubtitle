@@ -528,7 +528,7 @@ public class VocabularyDialog implements PropertyChangeListener {
             }
         }
     }
-
+	
     /**
      * Get list of unknown stems and translations
      *
