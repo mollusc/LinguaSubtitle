@@ -10,7 +10,11 @@ import javax.swing.table.DefaultTableModel;
 import mollusc.linguasubtitle.subtitle.Subtitle;
 import mollusc.linguasubtitle.subtitle.srt.SrtSubtitle;
 import java.awt.Cursor;
+import java.util.ArrayList;
 import java.util.Map;
+import javax.swing.DefaultRowSorter;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
 import mollusc.linguasubtitle.db.ItemVocabulary;
 import mollusc.linguasubtitle.db.Vocabulary;
 import mollusc.linguasubtitle.subtitle.parser.Stem;
@@ -80,7 +84,7 @@ public class MainFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tableMain.setGridColor(new java.awt.Color(0, 0, 0));
+        tableMain.setGridColor(new java.awt.Color(153, 153, 153));
         jScrollPane1.setViewportView(tableMain);
         tableMain.getColumnModel().getColumn(0).setPreferredWidth(40);
         tableMain.getColumnModel().getColumn(0).setMaxWidth(40);
@@ -137,7 +141,7 @@ public class MainFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tableStatistic.setGridColor(new java.awt.Color(204, 204, 204));
+        tableStatistic.setGridColor(new java.awt.Color(153, 153, 153));
 
         loadSubtitle.setText("Загрузить субтитры");
         loadSubtitle.addActionListener(new java.awt.event.ActionListener() {
@@ -285,9 +289,23 @@ public class MainFrame extends javax.swing.JFrame {
 	}
 
 	db.closeConnection();
-	/*tableToDefaultSort();
-	updateStatistic();
+	tableDefaultSort();
+	/*updateStatistic();
 	return null;*/
+    }
+
+    /**
+     * Sort tableMain in the original condition
+     */
+    private void tableDefaultSort() {
+	DefaultRowSorter sorter = ((DefaultRowSorter) tableMain.getRowSorter());
+	ArrayList list = new ArrayList();
+	list.add(new RowSorter.SortKey(2, SortOrder.ASCENDING));
+	list.add(new RowSorter.SortKey(5, SortOrder.DESCENDING));
+	list.add(new RowSorter.SortKey(6, SortOrder.ASCENDING));
+	list.add(new RowSorter.SortKey(3, SortOrder.DESCENDING));
+	sorter.setSortKeys(list);
+	sorter.sort();
     }
 	
     /**
