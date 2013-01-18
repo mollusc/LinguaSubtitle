@@ -536,8 +536,6 @@ public class VocabularyDialog implements PropertyChangeListener {
      */
     private Map<String, String> getTranslate() {
         Map<String, String> stems = new HashMap<String, String>();
-        Vocabulary db = new Vocabulary("Vocabulary");
-        db.createConnection();
         for (int i = 0; i < table.getRowCount(); i++) {
             if (!((Boolean) table.getValueAt(i, 0))) {
                 Stem stem = (Stem) table.getValueAt(i, 1);
@@ -545,7 +543,6 @@ public class VocabularyDialog implements PropertyChangeListener {
                 stems.put(stem.getStem(), translate);
             }
         }
-        db.closeConnection();
         return stems;
     }
 
@@ -688,9 +685,9 @@ public class VocabularyDialog implements PropertyChangeListener {
 
     public void loadTable() throws ClassNotFoundException {
         if (subtitle != null) {
-            TaskLoadTable task = new TaskLoadTable();
+           /* TaskLoadTable task = new TaskLoadTable();
             task.addPropertyChangeListener(this);
-            task.execute();
+            task.execute();*/
         }
 
     }
@@ -740,12 +737,12 @@ public class VocabularyDialog implements PropertyChangeListener {
         }
     }
 
-    class TaskLoadTable extends SwingWorker<Void, Void> {
+   /* class TaskLoadTable extends SwingWorker<Void, Void> {
         /*
          * Main task. Executed in background thread.
          */
-        @Override
-        public Void doInBackground() throws ClassNotFoundException {
+        //@Override
+       /* public Void doInBackground() throws ClassNotFoundException {
             // Initialize progress property.
             //float progress = 0f;
             //setProgress((int) progress);
@@ -790,14 +787,14 @@ public class VocabularyDialog implements PropertyChangeListener {
             tableToDefaultSort();
             updateStatistic();
             return null;
-        }
+        }*/
 
         /*@Override
         public void done() {
             setProgress(0);
             progressBar.setVisible(false);
         }*/
-    }
+    //}*/
 
     class TaskUpdateDB extends SwingWorker<Void, Void> {
 
@@ -826,8 +823,8 @@ public class VocabularyDialog implements PropertyChangeListener {
                 String translation = (String) table.getModel().getValueAt(i, 2);
                 boolean isKnown = (Boolean) table.getModel().getValueAt(i, 0);
                 String word = stem.getWord();
-                db.updateValues(stem.getStem(), word, translation, isKnown,
-                        updateMeeting);
+                /*db.updateValues(stem.getStem(), word, translation, isKnown,
+                        updateMeeting);*/
 
                 progress += 100f / table.getRowCount();
                 setProgress((int) progress);

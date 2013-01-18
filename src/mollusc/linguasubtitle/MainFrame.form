@@ -81,8 +81,8 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jPanel2" max="32767" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="jPanel3" min="-2" pref="142" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -101,7 +101,7 @@
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane1" alignment="0" pref="394" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" alignment="0" pref="391" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                   </Layout>
@@ -120,12 +120,13 @@
                       <SubComponents>
                         <Component class="javax.swing.JTable" name="tableMain">
                           <Properties>
+                            <Property name="autoCreateRowSorter" type="boolean" value="true"/>
                             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                               <Table columnCount="7" rowCount="1">
                                 <Column editable="true" title="&#x418;&#x43c;&#x44f;" type="java.lang.Boolean"/>
                                 <Column editable="true" title="&#x423;&#x447;&#x443;" type="java.lang.Boolean"/>
                                 <Column editable="true" title="&#x417;&#x43d;&#x430;&#x44e;" type="java.lang.Boolean"/>
-                                <Column editable="false" title="&#x421;&#x43b;&#x43e;&#x432;&#x43e;" type="java.lang.String"/>
+                                <Column editable="false" title="&#x421;&#x43b;&#x43e;&#x432;&#x43e;" type="java.lang.Object"/>
                                 <Column editable="true" title="&#x41f;&#x435;&#x440;&#x435;&#x432;&#x43e;&#x434;" type="java.lang.String"/>
                                 <Column editable="false" title="&#x41a;&#x43e;&#x43b;." type="java.lang.Integer"/>
                                 <Column editable="false" title="&#x412;&#x441;&#x442;&#x440;&#x435;&#x447;&#x430;&#x43b;&#x43e;&#x441;&#x44c; &#x440;&#x430;&#x43d;&#x435;&#x435;" type="java.lang.Integer"/>
@@ -198,16 +199,14 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                              <Component id="loadSubtitle" min="-2" max="-2" attributes="0"/>
-                          </Group>
                           <Group type="102" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="tableStatistic" pref="506" max="32767" attributes="0"/>
-                                  <Component id="jProgressBar1" max="32767" attributes="0"/>
-                              </Group>
+                              <Component id="tableStatistic" pref="506" max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="loadSubtitle" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -215,11 +214,9 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="tableStatistic" min="-2" pref="95" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="loadSubtitle" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jProgressBar1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="loadSubtitle" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -233,16 +230,18 @@
                           </Border>
                         </Property>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                          <Table columnCount="2" rowCount="3">
+                          <Table columnCount="2" rowCount="4">
                             <Column editable="false" title="&#x41f;&#x430;&#x440;&#x430;&#x43c;&#x435;&#x442;&#x440;" type="java.lang.String">
                               <Data value="&#x41a;&#x43e;&#x43b;&#x438;&#x447;&#x435;&#x441;&#x442;&#x432;&#x43e; &#x434;&#x438;&#x430;&#x43b;&#x43e;&#x433;&#x43e;&#x432; &#x441; &#x434;&#x432;&#x443;&#x43c;&#x44f; &#x438; &#x431;&#x43e;&#x43b;&#x435;&#x435; &#x43d;&#x435;&#x438;&#x437;&#x432;&#x435;&#x441;&#x442;&#x43d;&#x44b;&#x43c;&#x438; &#x441;&#x43b;&#x43e;&#x432;&#x430;&#x43c;&#x438;"/>
                               <Data value="&#x41e;&#x431;&#x449;&#x435;&#x435; &#x43a;&#x43e;&#x43b;&#x438;&#x447;&#x435;&#x441;&#x442;&#x432;&#x43e; &#x441;&#x43b;&#x43e;&#x432;"/>
                               <Data value="&#x41a;&#x43e;&#x43b;&#x438;&#x447;&#x435;&#x441;&#x442;&#x432;&#x43e; &#x43d;&#x435;&#x438;&#x437;&#x432;&#x435;&#x441;&#x442;&#x43d;&#x44b;&#x445; &#x441;&#x43b;&#x43e;&#x432; "/>
+                              <Data value="&#x41a;&#x43e;&#x43b;&#x438;&#x447;&#x435;&#x441;&#x442;&#x432;&#x43e; &#x438;&#x437;&#x443;&#x447;&#x430;&#x435;&#x43c;&#x44b;&#x445; &#x441;&#x43b;&#x43e;&#x432;"/>
                             </Column>
                             <Column editable="false" title="&#x417;&#x43d;&#x430;&#x447;&#x435;&#x43d;&#x438;&#x435;" type="java.lang.Float">
                               <Data value="1.0"/>
                               <Data value="2.0"/>
                               <Data value="3.0"/>
+                              <Data value="4.0"/>
                             </Column>
                           </Table>
                         </Property>
@@ -280,11 +279,6 @@
                       </Events>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="private Subtitle subtitle;"/>
-                      </AuxValues>
-                    </Component>
-                    <Component class="javax.swing.JProgressBar" name="jProgressBar1">
-                      <AuxValues>
-                        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="//jProgressBar1.setVisible(false);"/>
                       </AuxValues>
                     </Component>
                   </SubComponents>

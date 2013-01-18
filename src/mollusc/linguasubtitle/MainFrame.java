@@ -9,6 +9,11 @@ import javax.swing.JFileChooser;
 import javax.swing.table.DefaultTableModel;
 import mollusc.linguasubtitle.subtitle.Subtitle;
 import mollusc.linguasubtitle.subtitle.srt.SrtSubtitle;
+import java.awt.Cursor;
+import java.util.Map;
+import mollusc.linguasubtitle.db.ItemVocabulary;
+import mollusc.linguasubtitle.db.Vocabulary;
+import mollusc.linguasubtitle.subtitle.parser.Stem;
 
 /**
  *
@@ -39,7 +44,6 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         tableStatistic = new javax.swing.JTable();
         loadSubtitle = new javax.swing.JButton();
-        jProgressBar1 = new javax.swing.JProgressBar();
         jScrollPane2 = new javax.swing.JScrollPane();
         textSubtitle = new javax.swing.JTextPane();
 
@@ -52,6 +56,7 @@ public class MainFrame extends javax.swing.JFrame {
         jScrollPane1.setMinimumSize(new java.awt.Dimension(0, 0));
 
         tableMain.setShowGrid(true);
+        tableMain.setAutoCreateRowSorter(true);
         tableMain.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null}
@@ -61,7 +66,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
+                java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Object.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
                 true, true, true, false, true, false, false
@@ -98,7 +103,7 @@ public class MainFrame extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 391, Short.MAX_VALUE)
         );
 
         jPanel3.setMaximumSize(new java.awt.Dimension(516, 172));
@@ -110,7 +115,8 @@ public class MainFrame extends javax.swing.JFrame {
             new Object [][] {
                 {"Количество диалогов с двумя и более неизвестными словами",  new Float(1.0)},
                 {"Общее количество слов",  new Float(2.0)},
-                {"Количество неизвестных слов ",  new Float(3.0)}
+                {"Количество неизвестных слов ",  new Float(3.0)},
+                {"Количество изучаемых слов",  new Float(4.0)}
             },
             new String [] {
                 "Параметр", "Значение"
@@ -140,30 +146,25 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        //jProgressBar1.setVisible(false);
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(loadSubtitle))
-            .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tableStatistic, javax.swing.GroupLayout.DEFAULT_SIZE, 506, Short.MAX_VALUE)
-                    .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(tableStatistic, javax.swing.GroupLayout.DEFAULT_SIZE, 506, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(loadSubtitle)
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(tableStatistic, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(loadSubtitle)
                 .addGap(18, 18, 18)
-                .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(loadSubtitle)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         tableStatistic.getColumnModel().getColumn(1).setMaxWidth(70);
@@ -182,8 +183,8 @@ public class MainFrame extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jTabbedPane2.addTab("Обработка", jPanel1);
@@ -220,6 +221,7 @@ public class MainFrame extends javax.swing.JFrame {
 	fileopen.setFileFilter(new SubtitleFilter());
 	int ret = fileopen.showDialog(null, "Открыть");
 	if (ret == JFileChooser.APPROVE_OPTION) {
+	    this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 	    File file = fileopen.getSelectedFile();
 	    String pathSubtitle = file.getAbsolutePath();
 	    if (pathSubtitle != null) {
@@ -230,11 +232,12 @@ public class MainFrame extends javax.swing.JFrame {
 		    subtitle = new SrtSubtitle(pathSubtitle);
 		}
 		if (subtitle != null) {
-		   if (loadSubtitle()) {	    
-			    loadTable();
+		    if (loadSubtitle()) {
+			loadTable();
 		    }
-		}                    
+		}
 	    }
+	    this.setCursor(Cursor.getDefaultCursor());
 	}
     }//GEN-LAST:event_loadSubtitleActionPerformed
 
@@ -248,16 +251,43 @@ public class MainFrame extends javax.swing.JFrame {
         return false;
     }
     public void loadTable() {
-	try {
-	    ((DefaultTableModel) tableMain.getModel()).setRowCount(0);
-	    if (subtitle != null) {
-		/*VocabularyDialog.TaskLoadTable task = new VocabularyDialog.TaskLoadTable();
-		task.addPropertyChangeListener(this);
-		task.execute();*/
+	Map<Stem, Integer> stems = subtitle.getListStems();
+        ((DefaultTableModel) tableMain.getModel()).setRowCount(0);
+	DefaultTableModel tableModel = ((DefaultTableModel) tableMain.getModel());
+	Vocabulary db = new Vocabulary("Vocabulary");
+	db.createConnection();
+	for (Stem key : stems.keySet()) {
+	    ItemVocabulary item = db.getItem(key.getStem());
+	    boolean remember = false;
+	    boolean learning = false;
+	    int meeting = 0;
+	    String translate = "";
+	    if(item != null)
+	    {
+		remember = item.remember;
+		learning = item.learning;
+		meeting = item.meeting;
+		translate = item.translate;
+		
+		if (item.word.length() < key.getWord().length()) {
+		    if (Character.isUpperCase(item.word.charAt(0))
+			    && Character.isLowerCase(key.getWord().charAt(0))) {
+			item.word = item.word.toLowerCase();
+		    }
+		    key.setWord(item.word);
+		}
+		if (Character.isUpperCase(key.getWord().charAt(0))
+			&& Character.isLowerCase(item.word.charAt(0))) {
+		    key.setWord(key.getWord().toLowerCase());
+		}
 	    }
-	} catch (Exception e) {
-	    e.printStackTrace();
+	    tableModel.addRow(new Object[]{false, learning, remember, key, translate, stems.get(key), meeting});
 	}
+
+	db.closeConnection();
+	/*tableToDefaultSort();
+	updateStatistic();
+	return null;*/
     }
 	
     /**
@@ -298,7 +328,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSplitPane jSplitPane2;
