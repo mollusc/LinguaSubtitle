@@ -10,11 +10,14 @@ import javax.swing.table.DefaultTableModel;
 import mollusc.linguasubtitle.subtitle.Subtitle;
 import mollusc.linguasubtitle.subtitle.srt.SrtSubtitle;
 import java.awt.Cursor;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Map;
 import javax.swing.DefaultRowSorter;
+import javax.swing.JTable;
 import javax.swing.RowSorter;
 import javax.swing.SortOrder;
+import javax.swing.SwingUtilities;
 import mollusc.linguasubtitle.db.ItemVocabulary;
 import mollusc.linguasubtitle.db.Vocabulary;
 import mollusc.linguasubtitle.subtitle.parser.Stem;
@@ -61,9 +64,13 @@ public class MainFrame extends javax.swing.JFrame {
 
         tableMain.setShowGrid(true);
         tableMain.setAutoCreateRowSorter(true);
+        tableMain.setDefaultRenderer(Object.class, new CellRender());
+        tableMain.setDefaultRenderer(Integer.class, new CellRender());
+        tableMain.setDefaultRenderer(Boolean.class, new CheckBoxRenderer());
+        tableMain.setDefaultEditor(Object.class, new CellReadOnlyEditor());
         tableMain.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "Имя", "Учу", "Знаю", "Слово", "Перевод", "Кол.", "Встречалось ранее"
@@ -73,7 +80,7 @@ public class MainFrame extends javax.swing.JFrame {
                 java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Object.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                true, true, true, false, true, false, false
+                true, true, true, true, true, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -85,6 +92,11 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         tableMain.setGridColor(new java.awt.Color(153, 153, 153));
+        tableMain.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableMainMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableMain);
         tableMain.getColumnModel().getColumn(0).setPreferredWidth(40);
         tableMain.getColumnModel().getColumn(0).setMaxWidth(40);
@@ -93,6 +105,7 @@ public class MainFrame extends javax.swing.JFrame {
         tableMain.getColumnModel().getColumn(2).setPreferredWidth(50);
         tableMain.getColumnModel().getColumn(2).setMaxWidth(50);
         tableMain.getColumnModel().getColumn(3).setPreferredWidth(100);
+        tableMain.getColumnModel().getColumn(3).setCellEditor(null);
         tableMain.getColumnModel().getColumn(4).setPreferredWidth(100);
         tableMain.getColumnModel().getColumn(5).setPreferredWidth(40);
         tableMain.getColumnModel().getColumn(5).setMaxWidth(40);
@@ -103,11 +116,11 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 516, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 391, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jPanel3.setMaximumSize(new java.awt.Dimension(516, 172));
@@ -156,7 +169,7 @@ public class MainFrame extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(tableStatistic, javax.swing.GroupLayout.DEFAULT_SIZE, 506, Short.MAX_VALUE))
+                .addComponent(tableStatistic, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(loadSubtitle)
@@ -245,6 +258,31 @@ public class MainFrame extends javax.swing.JFrame {
 	}
     }//GEN-LAST:event_loadSubtitleActionPerformed
 
+    private void tableMainMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMainMouseClicked
+	if ( SwingUtilities.isRightMouseButton( evt ) ) {
+	    Point p = evt.getPoint();
+	    int colNumber = tableMain.columnAtPoint( p );
+	    int rowNumber = tableMain.rowAtPoint( p );
+	    if(colNumber == 3)
+		highlightWord(rowNumber);
+	}
+    }//GEN-LAST:event_tableMainMouseClicked
+
+    /**
+     * Highlight selected word
+     */
+    public void highlightWord(int rowNumber) {
+	textSubtitle.setContentType("text/html");
+	    int row = tableMain.convertRowIndexToModel(rowNumber);
+	    if (row != -1 && subtitle != null) {
+		Stem stem = (Stem) tableMain.getModel().getValueAt(row, 3);
+		String formatedText = subtitle.markWord(stem.getStem());
+		textSubtitle.setText(formatedText);
+		textSubtitle.setCaretPosition(subtitle.getPositionStem(stem
+			.getStem()));
+	}
+    }
+    
     private boolean loadSubtitle() {
         textSubtitle.setContentType("text/html");
         if (subtitle != null) {

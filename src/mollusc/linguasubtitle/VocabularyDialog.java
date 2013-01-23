@@ -110,7 +110,7 @@ public class VocabularyDialog implements PropertyChangeListener {
                 }
             }
         };
-
+	
         table = new JTable(model);
         table.setPreferredScrollableViewportSize(new Dimension(390, 250));
         table.getColumnModel().getColumn(0).setPreferredWidth(36);

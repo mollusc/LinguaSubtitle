@@ -6,29 +6,26 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableModel;
 
 /**
  * @author mollusc
  */
 public class CheckBoxRenderer extends JCheckBox implements TableCellRenderer {
-
+    
     CheckBoxRenderer() {
-        setHorizontalAlignment(JLabel.CENTER);
+	setHorizontalAlignment(JLabel.CENTER);
+	setOpaque(true);
     }
-
+    
     @Override
-    public Component getTableCellRendererComponent(JTable table, Object value,
-            boolean isSelected, boolean hasFocus, int row, int column) {
-        int indexRow = table.convertRowIndexToModel(row);
-        boolean isKnown = (Boolean) table.getModel().getValueAt(indexRow, 0);
-        if (isKnown) {
-            setBackground(Color.LIGHT_GRAY);
-            setForeground(Color.BLACK);
-        } else {
-            setBackground(Color.white);
-            setForeground(Color.BLACK);
-        }
-        setSelected((value != null && ((Boolean) value).booleanValue()));
-        return this;
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+	int indexRow = table.convertRowIndexToModel(row);
+	boolean isKnown = (Boolean) table.getModel().getValueAt(indexRow, 2);
+	boolean isFamilar = (Boolean) table.getModel().getValueAt(indexRow, 1);
+	int meeting = (Integer) table.getModel().getValueAt(indexRow, 6);
+	CellRender.paintCell(this, row, meeting, isKnown, isFamilar);
+	setSelected((value != null && ((Boolean) value).booleanValue()));
+	return this;
     }
 }
