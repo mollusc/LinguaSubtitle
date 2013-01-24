@@ -120,7 +120,7 @@
                       <SubComponents>
                         <Component class="javax.swing.JTable" name="tableMain">
                           <Properties>
-                            <Property name="autoCreateRowSorter" type="boolean" value="true" postCode="tableMain.setDefaultRenderer(Object.class, new CellRender());&#xa;tableMain.setDefaultRenderer(Integer.class, new CellRender());&#xa;tableMain.setDefaultRenderer(Boolean.class, new CheckBoxRenderer());&#xa;tableMain.setDefaultEditor(Object.class, new CellReadOnlyEditor());"/>
+                            <Property name="autoCreateRowSorter" type="boolean" value="true" postCode="tableMain.setDefaultRenderer(Object.class, new CellRender());&#xa;tableMain.setDefaultRenderer(Integer.class, new CellRender());&#xa;tableMain.setDefaultRenderer(Boolean.class, new CheckBoxRenderer());&#xa;tableMain.setDefaultEditor(Object.class, new mollusc.linguasubtitle.CellEditor());"/>
                             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                               <Table columnCount="7" rowCount="0">
                                 <Column editable="true" title="&#x418;&#x43c;&#x44f;" type="java.lang.Boolean"/>
@@ -151,9 +151,7 @@
                                 </Column>
                                 <Column maxWidth="-1" minWidth="-1" prefWidth="100" resizable="true">
                                   <Title/>
-                                  <Editor editor="org.netbeans.modules.form.ComponentChooserEditor">
-                                    <ComponentRef name="null"/>
-                                  </Editor>
+                                  <Editor/>
                                   <Renderer/>
                                 </Column>
                                 <Column maxWidth="-1" minWidth="-1" prefWidth="100" resizable="true">
@@ -204,22 +202,19 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="tableStatistic" max="32767" attributes="0"/>
-                          </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace min="29" max="32767" attributes="0"/>
                               <Component id="loadSubtitle" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
+                          <Component id="jScrollPane4" alignment="0" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="tableStatistic" min="-2" pref="95" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="jScrollPane4" min="-2" pref="100" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Component id="loadSubtitle" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
@@ -227,54 +222,6 @@
                     </DimensionLayout>
                   </Layout>
                   <SubComponents>
-                    <Component class="javax.swing.JTable" name="tableStatistic">
-                      <Properties>
-                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                          <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                            <LineBorder/>
-                          </Border>
-                        </Property>
-                        <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                          <Table columnCount="2" rowCount="4">
-                            <Column editable="false" title="&#x41f;&#x430;&#x440;&#x430;&#x43c;&#x435;&#x442;&#x440;" type="java.lang.String">
-                              <Data value="&#x41a;&#x43e;&#x43b;&#x438;&#x447;&#x435;&#x441;&#x442;&#x432;&#x43e; &#x434;&#x438;&#x430;&#x43b;&#x43e;&#x433;&#x43e;&#x432; &#x441; &#x434;&#x432;&#x443;&#x43c;&#x44f; &#x438; &#x431;&#x43e;&#x43b;&#x435;&#x435; &#x43d;&#x435;&#x438;&#x437;&#x432;&#x435;&#x441;&#x442;&#x43d;&#x44b;&#x43c;&#x438; &#x441;&#x43b;&#x43e;&#x432;&#x430;&#x43c;&#x438;"/>
-                              <Data value="&#x41e;&#x431;&#x449;&#x435;&#x435; &#x43a;&#x43e;&#x43b;&#x438;&#x447;&#x435;&#x441;&#x442;&#x432;&#x43e; &#x441;&#x43b;&#x43e;&#x432;"/>
-                              <Data value="&#x41a;&#x43e;&#x43b;&#x438;&#x447;&#x435;&#x441;&#x442;&#x432;&#x43e; &#x43d;&#x435;&#x438;&#x437;&#x432;&#x435;&#x441;&#x442;&#x43d;&#x44b;&#x445; &#x441;&#x43b;&#x43e;&#x432; "/>
-                              <Data value="&#x41a;&#x43e;&#x43b;&#x438;&#x447;&#x435;&#x441;&#x442;&#x432;&#x43e; &#x438;&#x437;&#x443;&#x447;&#x430;&#x435;&#x43c;&#x44b;&#x445; &#x441;&#x43b;&#x43e;&#x432;"/>
-                            </Column>
-                            <Column editable="false" title="&#x417;&#x43d;&#x430;&#x447;&#x435;&#x43d;&#x438;&#x435;" type="java.lang.Float">
-                              <Data value="1.0"/>
-                              <Data value="2.0"/>
-                              <Data value="3.0"/>
-                              <Data value="4.0"/>
-                            </Column>
-                          </Table>
-                        </Property>
-                        <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
-                          <TableColumnModel selectionModel="0">
-                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                              <Title/>
-                              <Editor/>
-                              <Renderer/>
-                            </Column>
-                            <Column maxWidth="70" minWidth="-1" prefWidth="-1" resizable="true">
-                              <Title/>
-                              <Editor/>
-                              <Renderer/>
-                            </Column>
-                          </TableColumnModel>
-                        </Property>
-                        <Property name="gridColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="99" green="99" red="99" type="rgb"/>
-                        </Property>
-                        <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
-                          <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
-                        </Property>
-                      </Properties>
-                      <AuxValues>
-                        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="tableStatistic.setShowGrid(true);"/>
-                      </AuxValues>
-                    </Component>
                     <Component class="javax.swing.JButton" name="loadSubtitle">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="&#x417;&#x430;&#x433;&#x440;&#x443;&#x437;&#x438;&#x442;&#x44c; &#x441;&#x443;&#x431;&#x442;&#x438;&#x442;&#x440;&#x44b;"/>
@@ -286,6 +233,61 @@
                         <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="private Subtitle subtitle;"/>
                       </AuxValues>
                     </Component>
+                    <Container class="javax.swing.JScrollPane" name="jScrollPane4">
+
+                      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                      <SubComponents>
+                        <Component class="javax.swing.JTable" name="tableStatistic">
+                          <Properties>
+                            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                              <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                                <LineBorder/>
+                              </Border>
+                            </Property>
+                            <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+                              <Table columnCount="3" rowCount="4">
+                                <Column editable="false" title="&#x41f;&#x430;&#x440;&#x430;&#x43c;&#x435;&#x442;&#x440;" type="java.lang.String">
+                                  <Data value="&#x41e;&#x431;&#x449;&#x435;&#x435; &#x43a;&#x43e;&#x43b;&#x438;&#x447;&#x435;&#x441;&#x442;&#x432;&#x43e; &#x441;&#x43b;&#x43e;&#x432;"/>
+                                  <Data value="&#x41a;&#x43e;&#x43b;&#x438;&#x447;&#x435;&#x441;&#x442;&#x432;&#x43e; &#x43d;&#x435;&#x438;&#x437;&#x432;&#x435;&#x441;&#x442;&#x43d;&#x44b;&#x445; &#x441;&#x43b;&#x43e;&#x432; "/>
+                                  <Data value="&#x41a;&#x43e;&#x43b;&#x438;&#x447;&#x435;&#x441;&#x442;&#x432;&#x43e; &#x438;&#x437;&#x432;&#x435;&#x441;&#x442;&#x43d;&#x44b;&#x445; &#x441;&#x43b;&#x43e;&#x432;"/>
+                                  <Data value="&#x41a;&#x43e;&#x43b;&#x438;&#x447;&#x435;&#x441;&#x442;&#x432;&#x43e; &#x438;&#x437;&#x443;&#x447;&#x430;&#x435;&#x43c;&#x44b;&#x445; &#x441;&#x43b;&#x43e;&#x432;"/>
+                                </Column>
+                                <Column editable="false" title="&#x423;&#x43d;&#x438;&#x43a;&#x430;&#x43b;&#x44c;&#x43d;&#x44b;&#x445;" type="java.lang.String"/>
+                                <Column editable="false" title="&#x412;&#x441;&#x435;&#x433;&#x43e;" type="java.lang.String"/>
+                              </Table>
+                            </Property>
+                            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+                              <TableColumnModel selectionModel="0">
+                                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                  <Title/>
+                                  <Editor/>
+                                  <Renderer/>
+                                </Column>
+                                <Column maxWidth="150" minWidth="-1" prefWidth="100" resizable="true">
+                                  <Title/>
+                                  <Editor/>
+                                  <Renderer/>
+                                </Column>
+                                <Column maxWidth="150" minWidth="-1" prefWidth="100" resizable="true">
+                                  <Title/>
+                                  <Editor/>
+                                  <Renderer/>
+                                </Column>
+                              </TableColumnModel>
+                            </Property>
+                            <Property name="gridColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="99" green="99" red="99" type="rgb"/>
+                            </Property>
+                            <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+                              <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+                            </Property>
+                          </Properties>
+                          <AuxValues>
+                            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="tableStatistic.setShowGrid(true);"/>
+                          </AuxValues>
+                        </Component>
+                      </SubComponents>
+                    </Container>
                   </SubComponents>
                 </Container>
               </SubComponents>

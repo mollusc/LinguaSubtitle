@@ -13,9 +13,9 @@ import mollusc.linguasubtitle.subtitle.parser.Stem;
  *
  * @author vofedoseenko
  */
-public class CellReadOnlyEditor extends DefaultCellEditor{
+public class CellEditor extends DefaultCellEditor{
     
-  public CellReadOnlyEditor() {
+  public CellEditor() {
     super(new JTextField());
     setClickCountToStart(1);
   }

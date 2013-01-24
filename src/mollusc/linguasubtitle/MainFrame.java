@@ -49,8 +49,9 @@ public class MainFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tableMain = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
-        tableStatistic = new javax.swing.JTable();
         loadSubtitle = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tableStatistic = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         textSubtitle = new javax.swing.JTextPane();
 
@@ -67,7 +68,7 @@ public class MainFrame extends javax.swing.JFrame {
         tableMain.setDefaultRenderer(Object.class, new CellRender());
         tableMain.setDefaultRenderer(Integer.class, new CellRender());
         tableMain.setDefaultRenderer(Boolean.class, new CheckBoxRenderer());
-        tableMain.setDefaultEditor(Object.class, new CellReadOnlyEditor());
+        tableMain.setDefaultEditor(Object.class, new mollusc.linguasubtitle.CellEditor());
         tableMain.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -105,7 +106,6 @@ public class MainFrame extends javax.swing.JFrame {
         tableMain.getColumnModel().getColumn(2).setPreferredWidth(50);
         tableMain.getColumnModel().getColumn(2).setMaxWidth(50);
         tableMain.getColumnModel().getColumn(3).setPreferredWidth(100);
-        tableMain.getColumnModel().getColumn(3).setCellEditor(null);
         tableMain.getColumnModel().getColumn(4).setPreferredWidth(100);
         tableMain.getColumnModel().getColumn(5).setPreferredWidth(40);
         tableMain.getColumnModel().getColumn(5).setMaxWidth(40);
@@ -126,24 +126,31 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel3.setMaximumSize(new java.awt.Dimension(516, 172));
         jPanel3.setMinimumSize(new java.awt.Dimension(516, 172));
 
+        loadSubtitle.setText("Загрузить субтитры");
+        loadSubtitle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loadSubtitleActionPerformed(evt);
+            }
+        });
+
         tableStatistic.setShowGrid(true);
         tableStatistic.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         tableStatistic.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"Количество диалогов с двумя и более неизвестными словами",  new Float(1.0)},
-                {"Общее количество слов",  new Float(2.0)},
-                {"Количество неизвестных слов ",  new Float(3.0)},
-                {"Количество изучаемых слов",  new Float(4.0)}
+                {"Общее количество слов", null, null},
+                {"Количество неизвестных слов ", null, null},
+                {"Количество известных слов", null, null},
+                {"Количество изучаемых слов", null, null}
             },
             new String [] {
-                "Параметр", "Значение"
+                "Параметр", "Уникальных", "Всего"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Float.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -155,36 +162,30 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         tableStatistic.setGridColor(new java.awt.Color(153, 153, 153));
-
-        loadSubtitle.setText("Загрузить субтитры");
-        loadSubtitle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loadSubtitleActionPerformed(evt);
-            }
-        });
+        jScrollPane4.setViewportView(tableStatistic);
+        tableStatistic.getColumnModel().getColumn(1).setPreferredWidth(100);
+        tableStatistic.getColumnModel().getColumn(1).setMaxWidth(150);
+        tableStatistic.getColumnModel().getColumn(2).setPreferredWidth(100);
+        tableStatistic.getColumnModel().getColumn(2).setMaxWidth(150);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(tableStatistic, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(loadSubtitle)
                 .addContainerGap())
+            .addComponent(jScrollPane4)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(tableStatistic, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(loadSubtitle)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        tableStatistic.getColumnModel().getColumn(1).setMaxWidth(70);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -266,6 +267,12 @@ public class MainFrame extends javax.swing.JFrame {
 	    if(colNumber == 3)
 		highlightWord(rowNumber);
 	}
+	if ( SwingUtilities.isLeftMouseButton( evt ) ) {
+	    Point p = evt.getPoint();
+	    int colNumber = tableMain.columnAtPoint( p );
+	    if(colNumber == 0 || colNumber == 1 || colNumber == 2)
+		updateStatistic();
+	}
     }//GEN-LAST:event_tableMainMouseClicked
 
     /**
@@ -328,8 +335,7 @@ public class MainFrame extends javax.swing.JFrame {
 
 	db.closeConnection();
 	tableDefaultSort();
-	/*updateStatistic();
-	return null;*/
+	updateStatistic();
     }
 
     /**
@@ -345,7 +351,63 @@ public class MainFrame extends javax.swing.JFrame {
 	sorter.setSortKeys(list);
 	sorter.sort();
     }
+
+    private void updateStatistic() {
+	int totalWords = 0;
+	int totalUnique = tableMain.getRowCount();
 	
+	int unknownWords = 0;
+	int unknownUnique = 0;
+	
+	int knownWords = 0;
+	int knownUnique = 0;
+	
+	int studyWords = 0;
+	int studyUnique = 0;
+	
+	for (int i = 0; i < totalUnique; i++) {
+	    boolean isName = (Boolean) tableMain.getValueAt(i, 0);
+	    boolean isStudy = (Boolean) tableMain.getValueAt(i, 1);
+	    boolean isKnown = (Boolean) tableMain.getValueAt(i, 2);
+	    int count = (Integer) tableMain.getValueAt(i, 5);
+	    totalWords += count;
+	    
+	    if(isKnown)
+	    {
+		knownUnique++;
+		knownWords += count;
+		continue;
+	    }
+	    
+	    if(isStudy)
+	    {
+		studyUnique++;
+		studyWords += count;
+		continue;
+	    }
+	    
+	    if(!isName && !isStudy && !isKnown)
+	    {
+		unknownUnique++;
+		unknownWords += count;
+		continue;
+	    }
+	}
+	
+	tableStatistic.setValueAt(totalUnique, 0, 1);
+	tableStatistic.setValueAt(totalWords, 0, 2);
+	
+	tableStatistic.setValueAt(String.valueOf(unknownUnique) + " (" + String.format("%.1f", 100f * (float)unknownUnique / (float)totalUnique) + "%)", 1, 1);
+	tableStatistic.setValueAt(String.valueOf(unknownWords) + " (" + String.format("%.1f", 100f * (float)unknownWords / (float)totalWords) + "%)", 1, 2);
+	
+	tableStatistic.setValueAt(String.valueOf(knownUnique) + " (" + String.format("%.1f", 100f * (float)knownUnique / (float)totalUnique) + "%)", 2, 1);
+	tableStatistic.setValueAt(String.valueOf(knownWords) + " (" + String.format("%.1f", 100f * (float)knownWords / (float)totalWords) + "%)", 2, 2);
+	
+	tableStatistic.setValueAt(String.valueOf(studyUnique) + " (" + String.format("%.1f", 100f * (float)studyUnique / (float)totalUnique) + "%)", 3, 1);
+	tableStatistic.setValueAt(String.valueOf(studyWords) + " (" + String.format("%.1f", 100f * (float)studyWords / (float)totalWords) + "%)", 3, 2);
+	
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -386,6 +448,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSplitPane jSplitPane2;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JButton loadSubtitle;
