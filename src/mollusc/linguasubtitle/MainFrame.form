@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.5" maxVersion="1.8" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <NonVisualComponents>
+    <Component class="mollusc.linguasubtitle.ColorSelectionButton" name="colorSelectionButton1">
+    </Component>
+  </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
   </Properties>
@@ -24,7 +28,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jSplitPane2" pref="887" max="32767" attributes="0"/>
+              <Component id="jSplitPane2" pref="874" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -126,7 +130,7 @@
                                 <Column editable="true" title="&#x418;&#x43c;&#x44f;" type="java.lang.Boolean"/>
                                 <Column editable="true" title="&#x423;&#x447;&#x443;" type="java.lang.Boolean"/>
                                 <Column editable="true" title="&#x417;&#x43d;&#x430;&#x44e;" type="java.lang.Boolean"/>
-                                <Column editable="true" title="&#x421;&#x43b;&#x43e;&#x432;&#x43e;" type="java.lang.Object"/>
+                                <Column editable="true" title="&#x421;&#x43b;&#x43e;&#x432;&#x43e;" type="java.lang.String"/>
                                 <Column editable="true" title="&#x41f;&#x435;&#x440;&#x435;&#x432;&#x43e;&#x434;" type="java.lang.String"/>
                                 <Column editable="false" title="&#x41a;&#x43e;&#x43b;." type="java.lang.Integer"/>
                                 <Column editable="false" title="&#x412;&#x441;&#x442;&#x440;&#x435;&#x447;&#x430;&#x43b;&#x43e;&#x441;&#x44c; &#x440;&#x430;&#x43d;&#x435;&#x435;" type="java.lang.Integer"/>
@@ -290,6 +294,43 @@
                     </Container>
                   </SubComponents>
                 </Container>
+              </SubComponents>
+            </Container>
+            <Container class="javax.swing.JPanel" name="jPanel4">
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+                  <JTabbedPaneConstraints tabName="&#x42d;&#x43a;&#x441;&#x43f;&#x43e;&#x440;&#x442;">
+                    <Property name="tabTitle" type="java.lang.String" value="&#x42d;&#x43a;&#x441;&#x43f;&#x43e;&#x440;&#x442;"/>
+                  </JTabbedPaneConstraints>
+                </Constraint>
+              </Constraints>
+
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+                          <Component id="colorSelectionButton2" min="-2" pref="53" max="-2" attributes="0"/>
+                          <EmptySpace pref="433" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="colorSelectionButton2" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace pref="522" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
+              <SubComponents>
+                <Component class="mollusc.linguasubtitle.ColorSelectionButton" name="colorSelectionButton2">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="colorSelectionButton2"/>
+                  </Properties>
+                </Component>
               </SubComponents>
             </Container>
           </SubComponents>

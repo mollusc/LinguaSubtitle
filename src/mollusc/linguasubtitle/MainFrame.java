@@ -4,6 +4,7 @@
  */
 package mollusc.linguasubtitle;
 
+import java.awt.Color;
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.table.DefaultTableModel;
@@ -14,6 +15,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Map;
 import javax.swing.DefaultRowSorter;
+import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.RowSorter;
 import javax.swing.SortOrder;
@@ -42,6 +44,7 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        colorSelectionButton1 = new mollusc.linguasubtitle.ColorSelectionButton();
         jSplitPane2 = new javax.swing.JSplitPane();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
@@ -52,6 +55,8 @@ public class MainFrame extends javax.swing.JFrame {
         loadSubtitle = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         tableStatistic = new javax.swing.JTable();
+        jPanel4 = new javax.swing.JPanel();
+        colorSelectionButton2 = new mollusc.linguasubtitle.ColorSelectionButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         textSubtitle = new javax.swing.JTextPane();
 
@@ -78,7 +83,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Object.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
+                java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
                 true, true, true, true, true, false, false
@@ -207,6 +212,27 @@ public class MainFrame extends javax.swing.JFrame {
 
         jTabbedPane2.addTab("Обработка", jPanel1);
 
+        colorSelectionButton2.setText("colorSelectionButton2");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(colorSelectionButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(433, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(colorSelectionButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(522, Short.MAX_VALUE))
+        );
+
+        jTabbedPane2.addTab("Экспорт", jPanel4);
+
         jSplitPane2.setRightComponent(jTabbedPane2);
 
         textSubtitle.setEditable(false);
@@ -220,7 +246,7 @@ public class MainFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 887, Short.MAX_VALUE)
+                .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 874, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -235,44 +261,44 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loadSubtitleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadSubtitleActionPerformed
-	JFileChooser fileopen = new JFileChooser();
-	fileopen.setFileFilter(new SubtitleFilter());
-	int ret = fileopen.showDialog(null, "Открыть");
-	if (ret == JFileChooser.APPROVE_OPTION) {
-	    this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-	    File file = fileopen.getSelectedFile();
-	    String pathSubtitle = file.getAbsolutePath();
-	    if (pathSubtitle != null) {
-		subtitle = null;
-		Filename fn = new Filename(pathSubtitle, '/', '.');
-		String extension = fn.extension().toLowerCase();
-		if (extension.toLowerCase().equals("srt")) {
-		    subtitle = new SrtSubtitle(pathSubtitle);
-		}
-		if (subtitle != null) {
-		    if (loadSubtitle()) {
-			loadTable();
-		    }
-		}
-	    }
-	    this.setCursor(Cursor.getDefaultCursor());
-	}
+        JFileChooser fileopen = new JFileChooser();
+        fileopen.setFileFilter(new SubtitleFilter());
+        int ret = fileopen.showDialog(null, "Открыть");
+        if (ret == JFileChooser.APPROVE_OPTION) {
+            this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            File file = fileopen.getSelectedFile();
+            String pathSubtitle = file.getAbsolutePath();
+            if (pathSubtitle != null) {
+                subtitle = null;
+                Filename fn = new Filename(pathSubtitle, '/', '.');
+                String extension = fn.extension().toLowerCase();
+                if (extension.toLowerCase().equals("srt")) {
+                    subtitle = new SrtSubtitle(pathSubtitle);
+                }
+                if (subtitle != null) {
+                    if (loadSubtitle()) {
+                        loadTable();
+                    }
+                }
+            }
+            this.setCursor(Cursor.getDefaultCursor());
+        }
     }//GEN-LAST:event_loadSubtitleActionPerformed
 
     private void tableMainMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMainMouseClicked
-	if ( SwingUtilities.isRightMouseButton( evt ) ) {
-	    Point p = evt.getPoint();
-	    int colNumber = tableMain.columnAtPoint( p );
-	    int rowNumber = tableMain.rowAtPoint( p );
-	    if(colNumber == 3)
-		highlightWord(rowNumber);
-	}
-	if ( SwingUtilities.isLeftMouseButton( evt ) ) {
-	    Point p = evt.getPoint();
-	    int colNumber = tableMain.columnAtPoint( p );
-	    if(colNumber == 0 || colNumber == 1 || colNumber == 2)
-		updateStatistic();
-	}
+        if ( SwingUtilities.isRightMouseButton( evt ) ) {
+            Point p = evt.getPoint();
+            int colNumber = tableMain.columnAtPoint( p );
+            int rowNumber = tableMain.rowAtPoint( p );
+            if(colNumber == 3)
+            highlightWord(rowNumber);
+        }
+        if ( SwingUtilities.isLeftMouseButton( evt ) ) {
+            Point p = evt.getPoint();
+            int colNumber = tableMain.columnAtPoint( p );
+            if(colNumber == 0 || colNumber == 1 || colNumber == 2)
+            updateStatistic();
+        }
     }//GEN-LAST:event_tableMainMouseClicked
 
     /**
@@ -282,11 +308,11 @@ public class MainFrame extends javax.swing.JFrame {
 	textSubtitle.setContentType("text/html");
 	    int row = tableMain.convertRowIndexToModel(rowNumber);
 	    if (row != -1 && subtitle != null) {
-		Stem stem = (Stem) tableMain.getModel().getValueAt(row, 3);
+		String stemString = tableMain.getModel().getValueAt(row, 3).toString();
+		Stem stem = new Stem(stemString);
 		String formatedText = subtitle.markWord(stem.getStem());
 		textSubtitle.setText(formatedText);
-		textSubtitle.setCaretPosition(subtitle.getPositionStem(stem
-			.getStem()));
+		textSubtitle.setCaretPosition(subtitle.getPositionStem(stem.getStem()));
 	}
     }
     
@@ -330,7 +356,7 @@ public class MainFrame extends javax.swing.JFrame {
 		    key.setWord(key.getWord().toLowerCase());
 		}
 	    }
-	    tableModel.addRow(new Object[]{false, learning, remember, key, translate, stems.get(key), meeting});
+	    tableModel.addRow(new Object[]{false, learning, remember, key.toString(), translate, stems.get(key), meeting});
 	}
 
 	db.closeConnection();
@@ -443,9 +469,12 @@ public class MainFrame extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private mollusc.linguasubtitle.ColorSelectionButton colorSelectionButton1;
+    private mollusc.linguasubtitle.ColorSelectionButton colorSelectionButton2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;

@@ -4,10 +4,8 @@
  */
 package mollusc.linguasubtitle;
 
-import java.awt.Component;
-import java.awt.Insets;
+import java.awt.*;
 import javax.swing.*;
-import mollusc.linguasubtitle.subtitle.parser.Stem;
 
 /**
  *
@@ -23,9 +21,8 @@ public class CellEditor extends DefaultCellEditor{
 @Override
     public Component getTableCellEditorComponent(JTable table,
 	    Object value, boolean isSelected, int row, int column) {
-
 	JTextField ec = (JTextField) editorComponent;
-	if (value instanceof Stem) {
+	if (column == 3) {
 	    ec.setEditable(false);
 	    
 	} else {

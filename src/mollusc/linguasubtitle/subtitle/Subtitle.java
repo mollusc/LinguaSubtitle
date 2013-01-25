@@ -108,6 +108,7 @@ public abstract class Subtitle {
 			boolean hideKnownSpeech);
 
 	/**
+	 * На удаление
 	 * Quantity of dialogs with unknown stems more than maxNumber
 	 * 
 	 * @param stems
