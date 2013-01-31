@@ -13,7 +13,6 @@ import mollusc.linguasubtitle.db.Vocabulary;
 import mollusc.linguasubtitle.subtitle.Subtitle;
 import mollusc.linguasubtitle.subtitle.parser.Stem;
 import mollusc.linguasubtitle.subtitle.srt.SrtSubtitle;
-import sun.awt.windows.ThemeReader;
 
 /**
  * Create main window
@@ -45,7 +44,6 @@ public class VocabularyDialog implements PropertyChangeListener {
     private Color colorFamiliarWords;
     private Color colorStudiedWords;
     private Subtitle subtitle;
-
     public VocabularyDialog(JFrame frame) {
         super();
         mainFrame = frame;
@@ -126,8 +124,8 @@ public class VocabularyDialog implements PropertyChangeListener {
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.setFillsViewportHeight(true);
         table.setAutoCreateRowSorter(true);
-        table.setDefaultRenderer(Object.class, new CellRender());
-        table.setDefaultRenderer(Integer.class, new CellRender());
+        //table.setDefaultRenderer(Object.class, new CellRender());
+        //table.setDefaultRenderer(Integer.class, new CellRender());
         table.setDefaultRenderer(Boolean.class, new CheckBoxRenderer());
         rightPanel.add(new JScrollPane(table));
     }
@@ -644,20 +642,20 @@ public class VocabularyDialog implements PropertyChangeListener {
         task.execute();
     }
 
-    private void UpdateSittings() {
-        Vocabulary db = new Vocabulary("Vocabulary");
+   private void UpdateSittings() {
+       /* Vocabulary db = new Vocabulary("Vocabulary");
         db.createConnection();
-        db.updateSittings(hideDialog.isSelected(),
+        db.updatSettings(hideDialog.isSelected(),
                 toHexString(colorTranslateWords),
                 toHexString(colorStudiedWords),
                 toHexString(colorFamiliarWords), toHexString(colorKnownWords));
-        db.closeConnection();
+        db.closeConnection();*/
     }
 
     private Map<String, String> getSittings() {
         Vocabulary db = new Vocabulary("Vocabulary");
         db.createConnection();
-        Map<String, String> result = db.getSittings();
+        Map<String, String> result = db.getSettings();
         db.closeConnection();
         return result;
     }

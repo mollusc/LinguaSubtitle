@@ -3,40 +3,44 @@ package mollusc.linguasubtitle;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
-import javax.swing.JCheckBox;
-import javax.swing.JLabel;
+import java.util.ArrayList;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableModel;
-import sun.org.mozilla.javascript.internal.ast.Comment;
+import mollusc.linguasubtitle.subtitle.parser.Stem;
 
 /**
  * @author mollusc
  */
 public class CellRender extends DefaultTableCellRenderer{
 
-    public CellRender() {
+    private ArrayList<String> hardWords;
+    public CellRender(ArrayList<String> hardWords) {
 	setOpaque(true);
+	this.hardWords = hardWords;
     }
 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 	int indexRow = table.convertRowIndexToModel(row);
 	boolean isKnown = (Boolean) table.getModel().getValueAt(indexRow, 2);
-	boolean isFamilar = (Boolean) table.getModel().getValueAt(indexRow, 1);
+	boolean isStudy = (Boolean) table.getModel().getValueAt(indexRow, 1);
 	int meeting = (Integer) table.getModel().getValueAt(indexRow, 6);
 	
-	Component c= super.getTableCellRendererComponent(table, value, isSelected, hasFocus, indexRow, column);	
-	paintCell(c, row, meeting, isKnown, isFamilar);
-	
+	Component c= super.getTableCellRendererComponent(table, value, isSelected, hasFocus, indexRow, column);
+	boolean isHard = false;
+	if(hardWords != null)
+	{
+	    Stem stem = new Stem((String)table.getValueAt(row, 3));
+	    if(hardWords.contains(stem.getStem()))
+		isHard = true;
+	}
+		
+	paintCell(c, row, meeting, isKnown, isStudy, isHard);
 	return c;
     }
     
 
-    static public void paintCell(Component component, int row, int meeting, boolean isKnown, boolean  isFamilar) {
+    static public void paintCell(Component component, int row, int meeting, boolean isKnown, boolean  isStudy, boolean isHard) {
 	if (isKnown) {
 	    if (meeting == 0) {
 		component.setFont(component.getFont().deriveFont(Font.BOLD));
@@ -47,12 +51,15 @@ public class CellRender extends DefaultTableCellRenderer{
 	    if (meeting == 0) {
 		component.setFont(component.getFont().deriveFont(Font.BOLD));
 	    }
+	    
 	    if (row % 2 == 0) {
 		component.setBackground(Color.white);
 	    } else {
 		component.setBackground(Color.decode("#eeeeee"));
 	    }
-	    if(isFamilar) component.setForeground(Color.decode("#007000"));
+	    
+	    if(isStudy) component.setForeground(Color.decode("#007000"));
+	    else if(isHard) component.setForeground(Color.RED);
 	    else component.setForeground(Color.BLACK);
 	}
     }

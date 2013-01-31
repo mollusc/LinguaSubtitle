@@ -225,9 +225,9 @@ public class SrtSubtitle extends Subtitle {
 
     @Override
     public void generateSubtitle(String pathToSave,
-            Map<String, String> stemsTranslate,
-            Map<String, String> stemsColors,
-            Map<String, String> translateColors,
+            Map<String, String> pairsStemTranslate,
+            Map<String, String> pairStemColor,
+            Map<String, String> pairStemTranslateColor,
             String knownColor,
             boolean hideKnownDialog) {
         
@@ -237,7 +237,7 @@ public class SrtSubtitle extends Subtitle {
         Map<Integer, String> mapTranslation = new HashMap<Integer, String>();
         ArrayList<IndexWord> indices = new ArrayList<IndexWord>();       
 
-        for (String stemString : stemsTranslate.keySet())
+        for (String stemString : pairsStemTranslate.keySet())
             indices.addAll(index.get(stemString));
 
         Collections.sort(indices, new IndexWordComparator());
@@ -259,12 +259,12 @@ public class SrtSubtitle extends Subtitle {
                 strTranslate =  new StringBuilder(blankTranslate(speech.content));  
 
             int start = html2text(left).length();
-            String wordTranslationString = stemsTranslate.get(stemString);
-            String colorTranslate =  translateColors.get(stemString);
+            String wordTranslationString = pairsStemTranslate.get(stemString);
+            String colorTranslate =  pairStemTranslateColor.get(stemString);
             InsertWordTranslation(strTranslate, wordTranslationString, start, colorTranslate);            
             mapTranslation.put(indexWord.indexSpeech, strTranslate.toString());
             
-            String middle = "<font color=\"" + stemsColors.get(stemString) + "\">" + word + "</font>";
+            String middle = "<font color=\"" + pairStemColor.get(stemString) + "\">" + word + "</font>";
             String right = speech.content.substring(indexWord.end);
             speech.content = left + middle + right;
         }

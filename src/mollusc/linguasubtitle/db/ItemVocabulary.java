@@ -12,16 +12,16 @@ public class ItemVocabulary {
     public String stem;
     public String word;
     public String translate;
-    public boolean remember;
+    public boolean known;
     public int meeting;
-    public boolean learning;
+    public boolean study;
 
-    public ItemVocabulary(String stem, String word, String translate, boolean remember, int meeting, boolean learning) {
+    public ItemVocabulary(String stem, String word, String translate, boolean known, int meeting, boolean study) {
 	this.stem = stem;
 	this.word = word;
 	this.translate = translate;
-	this.remember = remember;
+	this.known = known;
 	this.meeting = meeting;
-	this.learning = learning;
+	this.study = study;
     }
 }

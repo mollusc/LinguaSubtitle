@@ -37,7 +37,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jSplitPane2" max="32767" attributes="0"/>
+              <Component id="jSplitPane2" pref="602" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -124,7 +124,7 @@
                       <SubComponents>
                         <Component class="javax.swing.JTable" name="tableMain">
                           <Properties>
-                            <Property name="autoCreateRowSorter" type="boolean" value="true" postCode="tableMain.setDefaultRenderer(Object.class, new CellRender());&#xa;tableMain.setDefaultRenderer(Integer.class, new CellRender());&#xa;tableMain.setDefaultRenderer(Boolean.class, new CheckBoxRenderer());&#xa;tableMain.setDefaultEditor(Object.class, new mollusc.linguasubtitle.CellEditor());"/>
+                            <Property name="autoCreateRowSorter" type="boolean" value="true" postCode="tableMain.setDefaultRenderer(Object.class, new CellRender(hardWords));&#xa;tableMain.setDefaultRenderer(Integer.class, new CellRender(hardWords));&#xa;tableMain.setDefaultRenderer(Boolean.class, new CheckBoxRenderer());&#xa;tableMain.setDefaultEditor(Object.class, new mollusc.linguasubtitle.CellEditor());"/>
                             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                               <Table columnCount="7" rowCount="0">
                                 <Column editable="true" title="&#x418;&#x43c;&#x44f;" type="java.lang.Boolean"/>
@@ -186,7 +186,9 @@
                             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tableMainMouseClicked"/>
                           </Events>
                           <AuxValues>
+                            <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="private ArrayList&lt;String&gt; hardWords;"/>
                             <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="tableMain.setShowGrid(true);"/>
+                            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
                           </AuxValues>
                         </Component>
                       </SubComponents>
@@ -297,6 +299,9 @@
               </SubComponents>
             </Container>
             <Container class="javax.swing.JPanel" name="jPanel4">
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="ProgressMonitor progressMonitor;"/>
+              </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
                   <JTabbedPaneConstraints tabName="&#x42d;&#x43a;&#x441;&#x43f;&#x43e;&#x440;&#x442;">
@@ -308,10 +313,10 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
-                          <Component id="colorSelectionButton2" min="-2" pref="53" max="-2" attributes="0"/>
-                          <EmptySpace pref="433" max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jPanel5" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -319,18 +324,225 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="colorSelectionButton2" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="522" max="32767" attributes="0"/>
+                          <Component id="jPanel5" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace pref="374" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="mollusc.linguasubtitle.ColorSelectionButton" name="colorSelectionButton2">
+                <Container class="javax.swing.JPanel" name="jPanel5">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="colorSelectionButton2"/>
+                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                      <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                        <TitledBorder title="&#x421;&#x444;&#x43e;&#x440;&#x43c;&#x438;&#x440;&#x43e;&#x432;&#x430;&#x442;&#x44c; &#x441;&#x443;&#x431;&#x442;&#x438;&#x442;&#x440;"/>
+                      </Border>
+                    </Property>
+                    <Property name="toolTipText" type="java.lang.String" value=""/>
                   </Properties>
-                </Component>
+                  <AccessibilityProperties>
+                    <Property name="AccessibleContext.accessibleName" type="java.lang.String" value=""/>
+                  </AccessibilityProperties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="Map&lt;String, String&gt; settings;"/>
+                  </AuxValues>
+
+                  <Layout>
+                    <DimensionLayout dim="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="exportToSubtitleButton" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Component id="hideDialog" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <Component id="colorButtonKnownWords" min="-2" pref="35" max="-2" attributes="0"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Component id="jLabel1" min="-2" pref="114" max="-2" attributes="0"/>
+                                                  <EmptySpace max="32767" attributes="0"/>
+                                              </Group>
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <Component id="colorButtonUnknownWords" min="-2" pref="35" max="-2" attributes="0"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Component id="jLabel2" max="32767" attributes="0"/>
+                                                  <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Component id="colorButtonTranslateWords" min="-2" pref="35" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="jLabel3" min="-2" pref="115" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" attributes="0">
+                                              <Component id="colorButtonHardWords" min="-2" pref="35" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="jLabel4" max="32767" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" attributes="0">
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Group type="102" attributes="0">
+                                                      <Component id="colorButtonStudiedWords" min="-2" pref="35" max="-2" attributes="0"/>
+                                                      <EmptySpace max="-2" attributes="0"/>
+                                                      <Component id="jLabel6" min="-2" pref="120" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <Group type="102" attributes="0">
+                                                      <Component id="colorButtonNameWords" min="-2" pref="35" max="-2" attributes="0"/>
+                                                      <EmptySpace max="-2" attributes="0"/>
+                                                      <Component id="jLabel5" min="-2" pref="120" max="-2" attributes="0"/>
+                                                  </Group>
+                                              </Group>
+                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                  </Group>
+                              </Group>
+                              <EmptySpace min="-2" pref="154" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                    </DimensionLayout>
+                    <DimensionLayout dim="1">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace pref="12" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="colorButtonTranslateWords" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="colorButtonStudiedWords" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="colorButtonUnknownWords" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="colorButtonNameWords" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="colorButtonKnownWords" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="colorButtonHardWords" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="hideDialog" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="exportToSubtitleButton" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                    </DimensionLayout>
+                  </Layout>
+                  <SubComponents>
+                    <Component class="mollusc.linguasubtitle.ColorSelectionButton" name="colorButtonKnownWords">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="colorSelectionButton2"/>
+                      </Properties>
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="if(settings != null &amp;&amp; settings.containsKey(&quot;colorKnownWords&quot;))&#xa;    colorButtonKnownWords.setColor(Color.decode(&quot;#&quot; + settings.get(&quot;colorKnownWords&quot;)));&#xa;else&#xa;    colorButtonKnownWords.setColor(Color.decode(&quot;#999999&quot;));"/>
+                      </AuxValues>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="jLabel1">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="&#x418;&#x437;&#x432;&#x435;&#x441;&#x442;&#x43d;&#x44b;&#x435; &#x441;&#x43b;&#x43e;&#x432;&#x430;"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="jLabel2">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="&#x41d;&#x435;&#x438;&#x437;&#x432;&#x435;&#x441;&#x442;&#x43d;&#x44b;&#x435; &#x441;&#x43b;&#x43e;&#x432;&#x430;"/>
+                      </Properties>
+                    </Component>
+                    <Component class="mollusc.linguasubtitle.ColorSelectionButton" name="colorButtonUnknownWords">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="colorSelectionButton2"/>
+                      </Properties>
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="if(settings != null &amp;&amp; settings.containsKey(&quot;colorUnknownWords&quot;))&#xa;    colorButtonUnknownWords.setColor(Color.decode(&quot;#&quot; + settings.get(&quot;colorUnknownWords&quot;)));&#xa;else&#xa;    colorButtonUnknownWords.setColor(Color.decode(&quot;#ffffff&quot;));"/>
+                      </AuxValues>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="jLabel3">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="&#x41f;&#x435;&#x440;&#x435;&#x432;&#x43e;&#x434;"/>
+                      </Properties>
+                    </Component>
+                    <Component class="mollusc.linguasubtitle.ColorSelectionButton" name="colorButtonTranslateWords">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="colorSelectionButton2"/>
+                      </Properties>
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="if(settings != null &amp;&amp; settings.containsKey(&quot;colorTranslateWords&quot;))&#xa;    colorButtonTranslateWords.setColor(Color.decode(&quot;#&quot; + settings.get(&quot;colorTranslateWords&quot;)));&#xa;else&#xa;    colorButtonTranslateWords.setColor(Color.decode(&quot;#ccffcc&quot;));"/>
+                      </AuxValues>
+                    </Component>
+                    <Component class="mollusc.linguasubtitle.ColorSelectionButton" name="colorButtonHardWords">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="colorSelectionButton2"/>
+                      </Properties>
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="if(settings != null &amp;&amp; settings.containsKey(&quot;colorHardWord&quot;))&#xa;    colorButtonHardWords.setColor(Color.decode(&quot;#&quot; + settings.get(&quot;colorHardWord&quot;)));&#xa;else&#xa;    colorButtonHardWords.setColor(Color.decode(&quot;#ffcccc&quot;));"/>
+                      </AuxValues>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="jLabel4">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="&#x422;&#x440;&#x443;&#x434;&#x43d;&#x44b;&#x435; &#x441;&#x43b;&#x43e;&#x432;&#x430;"/>
+                      </Properties>
+                    </Component>
+                    <Component class="mollusc.linguasubtitle.ColorSelectionButton" name="colorButtonNameWords">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="colorSelectionButton2"/>
+                      </Properties>
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="if(settings != null &amp;&amp; settings.containsKey(&quot;colorNameWords&quot;))&#xa;    colorButtonNameWords.setColor(Color.decode(&quot;#&quot; + settings.get(&quot;colorNameWords&quot;)));&#xa;else&#xa;    colorButtonNameWords.setColor(Color.decode(&quot;#ccccff&quot;));"/>
+                      </AuxValues>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="jLabel5">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="&#x418;&#x43c;&#x435;&#x43d;&#x430;"/>
+                      </Properties>
+                    </Component>
+                    <Component class="mollusc.linguasubtitle.ColorSelectionButton" name="colorButtonStudiedWords">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="colorSelectionButton2"/>
+                      </Properties>
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="if(settings != null &amp;&amp; settings.containsKey(&quot;colorStudiedWords&quot;))&#xa;    colorButtonStudiedWords.setColor(Color.decode(&quot;#&quot; + settings.get(&quot;colorStudiedWords&quot;)));&#xa;else&#xa;    colorButtonStudiedWords.setColor(Color.decode(&quot;#ffff33&quot;));"/>
+                      </AuxValues>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="jLabel6">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="&#x418;&#x437;&#x443;&#x447;&#x430;&#x435;&#x43c;&#x44b;&#x435; &#x441;&#x43b;&#x43e;&#x432;&#x430;"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JCheckBox" name="hideDialog">
+                      <Properties>
+                        <Property name="selected" type="boolean" value="true" postCode="if(settings != null &amp;&amp; settings.containsKey(&quot;hideKnownDialog&quot;) &amp;&amp; settings.get(&quot;hideKnownDialog&quot;).equals(&quot;false&quot;))&#xa;    hideDialog.setSelected(false);"/>
+                        <Property name="text" type="java.lang.String" value="&#x41d;&#x435; &#x43f;&#x43e;&#x43a;&#x430;&#x437;&#x44b;&#x432;&#x430;&#x442;&#x44c; &#x442;&#x438;&#x442;&#x440;&#x44b; &#x432; &#x43a;&#x43e;&#x442;&#x43e;&#x440;&#x44b;&#x445; &#x432;&#x441;&#x435; &#x441;&#x43b;&#x43e;&#x432;&#x430; &#x438;&#x437;&#x432;&#x435;&#x441;&#x442;&#x43d;&#x44b;"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JButton" name="exportToSubtitleButton">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="&#x42d;&#x43a;&#x441;&#x43f;&#x43e;&#x440;&#x442;"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exportToSubtitleButtonActionPerformed"/>
+                      </Events>
+                      <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+                      </AuxValues>
+                    </Component>
+                  </SubComponents>
+                </Container>
               </SubComponents>
             </Container>
           </SubComponents>

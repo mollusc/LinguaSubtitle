@@ -24,7 +24,7 @@ public class CheckBoxRenderer extends JCheckBox implements TableCellRenderer {
 	boolean isKnown = (Boolean) table.getModel().getValueAt(indexRow, 2);
 	boolean isFamilar = (Boolean) table.getModel().getValueAt(indexRow, 1);
 	int meeting = (Integer) table.getModel().getValueAt(indexRow, 6);
-	CellRender.paintCell(this, row, meeting, isKnown, isFamilar);
+	CellRender.paintCell(this, row, meeting, isKnown, isFamilar, false);
 	setSelected((value != null && ((Boolean) value).booleanValue()));
 	return this;
     }
