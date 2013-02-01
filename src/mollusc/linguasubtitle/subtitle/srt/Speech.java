@@ -2,7 +2,7 @@ package mollusc.linguasubtitle.subtitle.srt;
 
 /**
  * Container for data of a srt subtitle
- * @author mollusc
+ * @author mollusc <MolluscLab@gmail.com>
  *
  */
 public class Speech {

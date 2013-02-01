@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author mollusc <MolluscLab@gmail.com>
+ */
 public class Vocabulary {
 
     /**

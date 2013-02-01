@@ -8,8 +8,7 @@ import java.awt.*;
 import javax.swing.*;
 
 /**
- *
- * @author vofedoseenko
+ * @author mollusc <MolluscLab@gmail.com>
  */
 public class CellEditor extends DefaultCellEditor{
     

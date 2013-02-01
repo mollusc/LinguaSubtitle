@@ -9,7 +9,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import mollusc.linguasubtitle.subtitle.parser.Stem;
 
 /**
- * @author mollusc
+ * @author mollusc <MolluscLab@gmail.com>
  */
 public class CellRender extends DefaultTableCellRenderer{
 
@@ -39,7 +39,9 @@ public class CellRender extends DefaultTableCellRenderer{
 	return c;
     }
     
-
+    /**
+     * Set background and foreground
+     */
     static public void paintCell(Component component, int row, int meeting, boolean isKnown, boolean  isStudy, boolean isHard) {
 	if (isKnown) {
 	    if (meeting == 0) {

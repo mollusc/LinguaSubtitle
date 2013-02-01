@@ -6,7 +6,7 @@ package mollusc.linguasubtitle.db;
 
 /**
  * Item of the table Stem
- * @author mollusc
+ * @author mollusc <MolluscLab@gmail.com>
  */
 public class ItemVocabulary {
     public String stem;

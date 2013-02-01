@@ -4,7 +4,7 @@ import org.tartarus.snowball.ext.englishStemmer;
 
 /**
  * Class for getting stem from a word
- * @author mollusc
+ * @author mollusc <MolluscLab@gmail.com>
  *
  */
 public class Stem implements Comparable<Stem> {
@@ -45,8 +45,18 @@ public class Stem implements Comparable<Stem> {
 	 * @param word
 	 */
 	public Stem(String word) {
-		this.setWord(word);
-		stem = stemmingWord(this.getWord().toLowerCase());
+		this.word = word;
+		stem = stemmingWord(this.word.toLowerCase());
+	}
+	
+	 /**
+	 * Initialize stem
+	 * 
+	 * @param word
+	 */
+	public Stem(String stem, String word) {
+		this.word = word;
+		this.stem = stem;
 	}
 
 	/**

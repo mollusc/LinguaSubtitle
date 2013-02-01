@@ -27,8 +27,7 @@ import mollusc.linguasubtitle.subtitle.parser.Stem;
 import mollusc.linguasubtitle.subtitle.srt.SrtSubtitle;
 
 /**
- *
- * @author mollusc
+ * @author mollusc <MolluscLab@gmail.com>
  */
 public class MainFrame extends javax.swing.JFrame implements PropertyChangeListener {
 
@@ -804,6 +803,7 @@ public class MainFrame extends javax.swing.JFrame implements PropertyChangeListe
 
 	/* Create and display the form */
 	java.awt.EventQueue.invokeLater(new Runnable() {
+	    @Override
 	    public void run() {
 		new MainFrame().setVisible(true);
 	    }

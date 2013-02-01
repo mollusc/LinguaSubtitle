@@ -1,8 +1,4 @@
 package mollusc.linguasubtitle;
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -12,6 +8,11 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 
+/**
+ * Button select color
+ *
+ * @author mollusc <MolluscLab@gmail.com>
+ */
 public class ColorSelectionButton extends JButton implements ActionListener {
 
     private Color color;
@@ -50,15 +51,13 @@ public class ColorSelectionButton extends JButton implements ActionListener {
 		getHeight() - ins.top - ins.bottom);
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
-
 	Color c = JColorChooser.showDialog(
 		this,
 		"Choose a color...",
 		color);
-
-	if (c != null) {
+	if (c != null) 
 	    setColor(c);
-	}
     }
 }

@@ -1,15 +1,13 @@
 package mollusc.linguasubtitle;
 
-import java.awt.Color;
 import java.awt.Component;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableModel;
 
 /**
- * @author mollusc
+ * @author mollusc <MolluscLab@gmail.com>
  */
 public class CheckBoxRenderer extends JCheckBox implements TableCellRenderer {
     

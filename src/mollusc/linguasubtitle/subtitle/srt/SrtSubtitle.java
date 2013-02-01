@@ -1,24 +1,24 @@
 package mollusc.linguasubtitle.subtitle.srt;
 
 import com.rits.cloning.Cloner;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
 import java.util.*;
-import javax.print.DocFlavor;
-import mollusc.linguasubtitle.VocabularyDialog;
 import mollusc.linguasubtitle.subtitle.Subtitle;
 import mollusc.linguasubtitle.subtitle.parser.Stem;
 
 /**
  * Class for srt subtitles
- *
- * @author mollusc
+ * @author mollusc <MolluscLab@gmail.com>
  */
 public class SrtSubtitle extends Subtitle {
-
+    
+    /**
+     * Speech subtitles
+     */
     private Map<Integer, Speech> speeches;
+    
+    /**
+     * Word index
+     */
     private Map<String, ArrayList<IndexWord>> index;
 
     public SrtSubtitle(String path) {
@@ -48,8 +48,7 @@ public class SrtSubtitle extends Subtitle {
             }
             if (line.isEmpty() && !text.isEmpty()) {
                 text = text.substring(0, text.length() - 1);
-                speeches.put(sequenceNumber, new Speech(sequenceNumber, timing,
-                        text));
+                speeches.put(sequenceNumber, new Speech(sequenceNumber, timing, text));
                 text = "";
                 headerSpeech = true;
                 continue;
@@ -86,13 +85,11 @@ public class SrtSubtitle extends Subtitle {
                         text += Character.toLowerCase(ch);
                     }
                 }
-                if (ch == '<') {
+                if (ch == '<')
                     isTag = true;
-                }
 
-                if (ch == '>') {
+                if (ch == '>')
                     isTag = false;
-                }
             }
         }
 
@@ -117,25 +114,17 @@ public class SrtSubtitle extends Subtitle {
                     currentWord = word;
                     continue;
                 }
-
-                if (word.length() < currentWord.length()) {
-                    if (Character.isUpperCase(word.charAt(0))
-                            && Character.isLowerCase(currentWord.charAt(0))) {
-                        word = word.toLowerCase();
-                    }
-                    currentWord = word;
-                }
-
-                if (Character.isUpperCase(currentWord.charAt(0))
-                        && Character.isLowerCase(word.charAt(0))) {
-                    currentWord = currentWord.toLowerCase();
-                }
+		
+		if (word.length() < currentWord.length())
+		    currentWord = word;
+		
+		if (Character.isLowerCase(word.charAt(0)) || Character.isLowerCase(currentWord.charAt(0)))
+		    currentWord = currentWord.toLowerCase();
             }
             if (!currentWord.isEmpty()) {
-                Stem stem = new Stem(currentWord);
-                result.put(stem, index.get(stemString).size());
+                Stem stem = new Stem(stemString, currentWord);
+                result.put(stem, indexWords.size());
             }
-
         }
         return result;
     }
@@ -145,6 +134,10 @@ public class SrtSubtitle extends Subtitle {
         return hideHeader(speeches);
     }
 
+    /**
+     * Hide headers of in the subtitle
+     * @return HTML text of the subtitle
+     */
     private static String hideHeader(Map<Integer, Speech> speeches) {
         String result = new String();
         for (Integer indexSpeech : speeches.keySet()) {
@@ -165,45 +158,21 @@ public class SrtSubtitle extends Subtitle {
         ArrayList<IndexWord> indexWords = index.get(stem);
         if (indexWords != null && indexWords.size() > 0) {
             int indexSpeech = indexWords.get(0).indexSpeech;
-            int lengthToWord = indexWords.get(0).end;
+            int lengthToWord = 0;
 
             for (Integer idSpeech : speeches.keySet()) {
                 Speech speech = speeches.get(idSpeech);
-                lengthToWord += Integer.toString(speech.sequenceNumber)
-                        .length() + 1;
+                lengthToWord += Integer.toString(speech.sequenceNumber).length() + 1;
                 lengthToWord += speech.timing.length() + 1;
 
                 if (indexSpeech == idSpeech) {
+		    lengthToWord += html2text(speech.content.substring(0, indexWords.get(0).end)).length();
                     return lengthToWord;
                 }
                 lengthToWord += html2text(speech.content).length() + 2;
             }
         }
         return 0;
-    }
-
-    @Override
-    public int numberDialogWithStems(List<String> stems, int maxNumber) {
-        int result = 0;
-        Map<Integer, Integer> ListSequenceNumber = new HashMap<Integer, Integer>();
-
-        for (String string : stems) {
-            ArrayList<IndexWord> list = index.get(string);
-            for (IndexWord indexWord : list) {
-                if (!ListSequenceNumber.containsKey(indexWord.indexSpeech)) {
-                    ListSequenceNumber.put(indexWord.indexSpeech, 0);
-                }
-                Integer count = ListSequenceNumber.get(indexWord.indexSpeech);
-                count++;
-                ListSequenceNumber.put(indexWord.indexSpeech, count);
-            }
-        }
-        for (Integer i : ListSequenceNumber.keySet()) {
-            if (ListSequenceNumber.get(i) >= maxNumber) {
-                result++;
-            }
-        }
-        return result;
     }
 
     @Override

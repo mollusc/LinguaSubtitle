@@ -5,7 +5,7 @@ import javax.swing.SwingWorker;
 
 /**
  * Class change progress bar in real-time
- * @author mollusc
+ * @author mollusc <MolluscLab@gmail.com>
  */
 class Worker extends SwingWorker<Object, Object> {
 

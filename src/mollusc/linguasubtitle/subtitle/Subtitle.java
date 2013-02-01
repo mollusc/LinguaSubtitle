@@ -7,7 +7,7 @@ import mollusc.linguasubtitle.subtitle.parser.Stem;
 
 /**
  * 
- * @author mollusc
+ * @author mollusc <MolluscLab@gmail.com>
  */
 public abstract class Subtitle {
 
@@ -72,7 +72,7 @@ public abstract class Subtitle {
 	public abstract String markWord(String stem);
 
 	/**
-	 * Hide headers of dialogs
+	 * Hide headers of in the subtitle
 	 * 
 	 * @return Text with hidden headers
 	 */
@@ -106,18 +106,6 @@ public abstract class Subtitle {
 			Map<String, String> translateColors,
 			String knownColor,
 			boolean hideKnownSpeech);
-
-	/**
-	 * На удаление
-	 * Quantity of dialogs with unknown stems more than maxNumber
-	 * 
-	 * @param stems
-	 *            List of unknown stems
-	 * @param maxNumber
-	 *            Maximum number of words in a dialog
-	 * @return
-	 */
-	public abstract int numberDialogWithStems(List<String> stems, int maxNumber);
 
 	/**
 	 * Check, the text is a word?

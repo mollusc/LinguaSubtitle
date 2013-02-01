@@ -1,8 +1,7 @@
 package mollusc.linguasubtitle.subtitle.srt;
 /**
  * Container for index data
- * @author mollusc
- *
+ * @author mollusc <MolluscLab@gmail.com>
  */
 public class IndexWord {
 	/**
