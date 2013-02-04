@@ -4,27 +4,21 @@
  */
 package mollusc.linguasubtitle;
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Point;
+import mollusc.linguasubtitle.db.ItemVocabulary;
+import mollusc.linguasubtitle.db.Vocabulary;
+import mollusc.linguasubtitle.subtitle.Subtitle;
+import mollusc.linguasubtitle.subtitle.parser.Stem;
+import mollusc.linguasubtitle.subtitle.srt.SrtSubtitle;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import javax.swing.DefaultRowSorter;
-import javax.swing.JFileChooser;
-import javax.swing.ProgressMonitor;
-import javax.swing.RowSorter;
-import javax.swing.SortOrder;
-import javax.swing.SwingUtilities;
-import javax.swing.table.DefaultTableModel;
-import mollusc.linguasubtitle.db.ItemVocabulary;
-import mollusc.linguasubtitle.db.Vocabulary;
-import mollusc.linguasubtitle.subtitle.Subtitle;
-import mollusc.linguasubtitle.subtitle.parser.Stem;
-import mollusc.linguasubtitle.subtitle.srt.SrtSubtitle;
 
 /**
  * @author mollusc <MolluscLab@gmail.com>
@@ -37,8 +31,8 @@ public class MainFrame extends javax.swing.JFrame implements PropertyChangeListe
      * Creates new form MainFrame
      */
     public MainFrame() {
-	settings = getSettings();
-	initComponents();
+        settings = getSettings();
+        initComponents();
     }
 
     /**
@@ -93,26 +87,26 @@ public class MainFrame extends javax.swing.JFrame implements PropertyChangeListe
         tableMain.setDefaultRenderer(Boolean.class, new CheckBoxRenderer());
         tableMain.setDefaultEditor(Object.class, new mollusc.linguasubtitle.CellEditor());
         tableMain.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+                new Object[][]{
 
-            },
-            new String [] {
-                "Имя", "Учу", "Знаю", "Слово", "Перевод", "Кол.", "Встречалось ранее"
-            }
+                },
+                new String[]{
+                        "Имя", "Учу", "Знаю", "Слово", "Перевод", "Кол.", "Встречалось ранее"
+                }
         ) {
-            Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
+            Class[] types = new Class[]{
+                    java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
             };
-            boolean[] canEdit = new boolean [] {
-                true, true, true, true, true, false, false
+            boolean[] canEdit = new boolean[]{
+                    true, true, true, true, true, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+                return types[columnIndex];
             }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+                return canEdit[columnIndex];
             }
         });
         tableMain.setGridColor(new java.awt.Color(153, 153, 153));
@@ -138,12 +132,12 @@ public class MainFrame extends javax.swing.JFrame implements PropertyChangeListe
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jPanel3.setMaximumSize(new java.awt.Dimension(516, 172));
@@ -159,29 +153,29 @@ public class MainFrame extends javax.swing.JFrame implements PropertyChangeListe
         tableStatistic.setShowGrid(true);
         tableStatistic.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         tableStatistic.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"Общее количество слов", null, null},
-                {"Количество неизвестных слов ", null, null},
-                {"Количество известных слов", null, null},
-                {"Количество изучаемых слов", null, null}
-            },
-            new String [] {
-                "Параметр", "Уникальных", "Всего"
-            }
+                new Object[][]{
+                        {"Общее количество слов", null, null},
+                        {"Количество неизвестных слов ", null, null},
+                        {"Количество известных слов", null, null},
+                        {"Количество изучаемых слов", null, null}
+                },
+                new String[]{
+                        "Параметр", "Уникальных", "Всего"
+                }
         ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
+            Class[] types = new Class[]{
+                    java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
-            boolean[] canEdit = new boolean [] {
-                false, false, false
+            boolean[] canEdit = new boolean[]{
+                    false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+                return types[columnIndex];
             }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+                return canEdit[columnIndex];
             }
         });
         tableStatistic.setGridColor(new java.awt.Color(153, 153, 153));
@@ -194,38 +188,38 @@ public class MainFrame extends javax.swing.JFrame implements PropertyChangeListe
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(loadSubtitle)
-                .addContainerGap())
-            .addComponent(jScrollPane4)
+                jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(loadSubtitle)
+                                .addContainerGap())
+                        .addComponent(jScrollPane4)
         );
         jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(loadSubtitle)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(loadSubtitle)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jTabbedPane2.addTab("Обработка", jPanel1);
@@ -233,57 +227,57 @@ public class MainFrame extends javax.swing.JFrame implements PropertyChangeListe
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Сформировать субтитр"));
         jPanel5.setToolTipText("");
 
-        if(settings != null && settings.containsKey("colorKnownWords"))
-        colorButtonKnownWords.setColor(Color.decode("#" + settings.get("colorKnownWords")));
+        if (settings != null && settings.containsKey("colorKnownWords"))
+            colorButtonKnownWords.setColor(Color.decode("#" + settings.get("colorKnownWords")));
         else
-        colorButtonKnownWords.setColor(Color.decode("#999999"));
+            colorButtonKnownWords.setColor(Color.decode("#999999"));
         colorButtonKnownWords.setText("colorSelectionButton2");
 
         jLabel1.setText("Известные слова");
 
         jLabel2.setText("Неизвестные слова");
 
-        if(settings != null && settings.containsKey("colorUnknownWords"))
-        colorButtonUnknownWords.setColor(Color.decode("#" + settings.get("colorUnknownWords")));
+        if (settings != null && settings.containsKey("colorUnknownWords"))
+            colorButtonUnknownWords.setColor(Color.decode("#" + settings.get("colorUnknownWords")));
         else
-        colorButtonUnknownWords.setColor(Color.decode("#ffffff"));
+            colorButtonUnknownWords.setColor(Color.decode("#ffffff"));
         colorButtonUnknownWords.setText("colorSelectionButton2");
 
         jLabel3.setText("Перевод");
 
-        if(settings != null && settings.containsKey("colorTranslateWords"))
-        colorButtonTranslateWords.setColor(Color.decode("#" + settings.get("colorTranslateWords")));
+        if (settings != null && settings.containsKey("colorTranslateWords"))
+            colorButtonTranslateWords.setColor(Color.decode("#" + settings.get("colorTranslateWords")));
         else
-        colorButtonTranslateWords.setColor(Color.decode("#ccffcc"));
+            colorButtonTranslateWords.setColor(Color.decode("#ccffcc"));
         colorButtonTranslateWords.setText("colorSelectionButton2");
 
-        if(settings != null && settings.containsKey("colorHardWord"))
-        colorButtonHardWords.setColor(Color.decode("#" + settings.get("colorHardWord")));
+        if (settings != null && settings.containsKey("colorHardWord"))
+            colorButtonHardWords.setColor(Color.decode("#" + settings.get("colorHardWord")));
         else
-        colorButtonHardWords.setColor(Color.decode("#ffcccc"));
+            colorButtonHardWords.setColor(Color.decode("#ffcccc"));
         colorButtonHardWords.setText("colorSelectionButton2");
 
         jLabel4.setText("Трудные слова");
 
-        if(settings != null && settings.containsKey("colorNameWords"))
-        colorButtonNameWords.setColor(Color.decode("#" + settings.get("colorNameWords")));
+        if (settings != null && settings.containsKey("colorNameWords"))
+            colorButtonNameWords.setColor(Color.decode("#" + settings.get("colorNameWords")));
         else
-        colorButtonNameWords.setColor(Color.decode("#ccccff"));
+            colorButtonNameWords.setColor(Color.decode("#ccccff"));
         colorButtonNameWords.setText("colorSelectionButton2");
 
         jLabel5.setText("Имена");
 
-        if(settings != null && settings.containsKey("colorStudiedWords"))
-        colorButtonStudiedWords.setColor(Color.decode("#" + settings.get("colorStudiedWords")));
+        if (settings != null && settings.containsKey("colorStudiedWords"))
+            colorButtonStudiedWords.setColor(Color.decode("#" + settings.get("colorStudiedWords")));
         else
-        colorButtonStudiedWords.setColor(Color.decode("#ffff33"));
+            colorButtonStudiedWords.setColor(Color.decode("#ffff33"));
         colorButtonStudiedWords.setText("colorSelectionButton2");
 
         jLabel6.setText("Изучаемые слова");
 
         hideDialog.setSelected(true);
-        if(settings != null && settings.containsKey("hideKnownDialog") && settings.get("hideKnownDialog").equals("false"))
-        hideDialog.setSelected(false);
+        if (settings != null && settings.containsKey("hideKnownDialog") && settings.get("hideKnownDialog").equals("false"))
+            hideDialog.setSelected(false);
         hideDialog.setText("Не показывать титры в которых все слова известны");
 
         exportToSubtitleButton.setText("Экспорт");
@@ -296,95 +290,95 @@ public class MainFrame extends javax.swing.JFrame implements PropertyChangeListe
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(exportToSubtitleButton)
-                .addContainerGap())
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(hideDialog)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel5Layout.createSequentialGroup()
-                                    .addComponent(colorButtonKnownWords, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGroup(jPanel5Layout.createSequentialGroup()
-                                    .addComponent(colorButtonUnknownWords, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGap(3, 3, 3)))
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(colorButtonTranslateWords, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(3, 3, 3)))
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(colorButtonHardWords, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel5Layout.createSequentialGroup()
+                jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(exportToSubtitleButton)
+                                .addContainerGap())
+                        .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addContainerGap()
                                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel5Layout.createSequentialGroup()
-                                        .addComponent(colorButtonStudiedWords, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel5Layout.createSequentialGroup()
-                                        .addComponent(colorButtonNameWords, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 0, Short.MAX_VALUE)))))
-                .addGap(154, 154, 154))
+                                        .addGroup(jPanel5Layout.createSequentialGroup()
+                                                .addComponent(hideDialog)
+                                                .addGap(0, 0, Short.MAX_VALUE))
+                                        .addGroup(jPanel5Layout.createSequentialGroup()
+                                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                .addGroup(jPanel5Layout.createSequentialGroup()
+                                                                        .addComponent(colorButtonKnownWords, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                                .addGroup(jPanel5Layout.createSequentialGroup()
+                                                                        .addComponent(colorButtonUnknownWords, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                        .addGap(3, 3, 3)))
+                                                        .addGroup(jPanel5Layout.createSequentialGroup()
+                                                                .addComponent(colorButtonTranslateWords, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addGap(3, 3, 3)))
+                                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addGroup(jPanel5Layout.createSequentialGroup()
+                                                                .addComponent(colorButtonHardWords, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                        .addGroup(jPanel5Layout.createSequentialGroup()
+                                                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                        .addGroup(jPanel5Layout.createSequentialGroup()
+                                                                                .addComponent(colorButtonStudiedWords, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                        .addGroup(jPanel5Layout.createSequentialGroup()
+                                                                                .addComponent(colorButtonNameWords, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                                .addGap(0, 0, Short.MAX_VALUE)))))
+                                .addGap(154, 154, 154))
         );
         jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(colorButtonTranslateWords, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(colorButtonStudiedWords, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(colorButtonUnknownWords, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(colorButtonNameWords, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(colorButtonKnownWords, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
-                    .addComponent(colorButtonHardWords, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(hideDialog)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(exportToSubtitleButton))
+                jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addContainerGap(12, Short.MAX_VALUE)
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(colorButtonTranslateWords, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel3)
+                                        .addComponent(colorButtonStudiedWords, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel6))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(colorButtonUnknownWords, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel2)
+                                        .addComponent(colorButtonNameWords, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel5))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(colorButtonKnownWords, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel1)
+                                        .addComponent(colorButtonHardWords, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel4))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(hideDialog)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(exportToSubtitleButton))
         );
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(374, Short.MAX_VALUE))
+                jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(374, Short.MAX_VALUE))
         );
 
         jPanel5.getAccessibleContext().setAccessibleName("");
@@ -401,18 +395,18 @@ public class MainFrame extends javax.swing.JFrame implements PropertyChangeListe
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 874, Short.MAX_VALUE)
-                .addContainerGap())
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 874, Short.MAX_VALUE)
+                                .addContainerGap())
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 602, Short.MAX_VALUE)
-                .addContainerGap())
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 602, Short.MAX_VALUE)
+                                .addContainerGap())
         );
 
         pack();
@@ -422,92 +416,93 @@ public class MainFrame extends javax.swing.JFrame implements PropertyChangeListe
      * Handle clicks on loadSubtitle button.
      */
     private void loadSubtitleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadSubtitleActionPerformed
-	JFileChooser fileOpen = new JFileChooser();
-	fileOpen.setFileFilter(new SubtitleFilter());
-	int returnValue = fileOpen.showDialog(null, "Открыть");
-	if (returnValue == JFileChooser.APPROVE_OPTION) {
-	    this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-	    File file = fileOpen.getSelectedFile();
-	    String path = file.getAbsolutePath();
-	    if (path != null) {
-		subtitle = null;
-		Filename fileName = new Filename(path, '/', '.');
-		String extension = fileName.extension().toLowerCase();
-		if (extension.equals("srt"))
-		    subtitle = new SrtSubtitle(path);
-		if (subtitle != null && loadSubtitle()) {
-		    loadTable();
-		}
-	    }
-	    this.setCursor(Cursor.getDefaultCursor());
-	}
+        JFileChooser fileOpen = new JFileChooser();
+        fileOpen.setFileFilter(new SubtitleFilter());
+        int returnValue = fileOpen.showDialog(null, "Открыть");
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            File file = fileOpen.getSelectedFile();
+            String path = file.getAbsolutePath();
+            if (path != null) {
+                subtitle = null;
+                Filename fileName = new Filename(path, '/', '.');
+                String extension = fileName.extension().toLowerCase();
+                if (extension.equals("srt"))
+                    subtitle = new SrtSubtitle(path);
+                if (subtitle != null && loadSubtitle()) {
+                    loadTable();
+                }
+            }
+            this.setCursor(Cursor.getDefaultCursor());
+        }
     }//GEN-LAST:event_loadSubtitleActionPerformed
 
     /**
      * Invoked when the mouse button has been clicked on tableMain
      */
     private void tableMainMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMainMouseClicked
-	Point point = evt.getPoint();
-	int columnIndex = tableMain.columnAtPoint(point);
-	int rowIndex = tableMain.rowAtPoint(point);
-	if (SwingUtilities.isRightMouseButton(evt) && columnIndex == 3)
-		highlightWord(rowIndex);
-	if (SwingUtilities.isLeftMouseButton(evt) &&(columnIndex == 0 || columnIndex == 1 || columnIndex == 2))
-		updateStatistic();
+        Point point = evt.getPoint();
+        int columnIndex = tableMain.columnAtPoint(point);
+        int rowIndex = tableMain.rowAtPoint(point);
+        if (SwingUtilities.isRightMouseButton(evt) && columnIndex == 3)
+            highlightWord(rowIndex);
+        if (SwingUtilities.isLeftMouseButton(evt) && (columnIndex == 0 || columnIndex == 1 || columnIndex == 2))
+            updateStatistic();
     }//GEN-LAST:event_tableMainMouseClicked
 
-     /**
+    /**
      * Handle clicks on exportToSubtitle button.
      */
     private void exportToSubtitleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportToSubtitleButtonActionPerformed
-	JFileChooser fileOpen = new JFileChooserWithCheck();
-	fileOpen.setFileFilter(new SubtitleFilter());
-	fileOpen.setCurrentDirectory(new File(subtitle.getPathToSubtitle()));
-	int returnValue = fileOpen.showSaveDialog(null);
-	if (returnValue == JFileChooser.APPROVE_OPTION) {
-	    File file = fileOpen.getSelectedFile();
-	    String pathGeneratedSubtitle = file.getAbsolutePath();
-	    subtitle.generateSubtitle(pathGeneratedSubtitle,
-		    getStemTranslatePairs(),
-		    getStemColorPairs(),
-		    getColorsTranslate(),
-		    toHexString(colorButtonKnownWords.getColor()),
-		    hideDialog.isSelected());
-	    updateDatabase(true);
-	}
+        JFileChooser fileOpen = new JFileChooserWithCheck();
+        fileOpen.setFileFilter(new SubtitleFilter());
+        fileOpen.setCurrentDirectory(new File(subtitle.getPathToSubtitle()));
+        int returnValue = fileOpen.showSaveDialog(null);
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            File file = fileOpen.getSelectedFile();
+            String pathGeneratedSubtitle = file.getAbsolutePath();
+            subtitle.generateSubtitle(pathGeneratedSubtitle,
+                    getStemTranslatePairs(),
+                    getStemColorPairs(),
+                    getColorsTranslate(),
+                    toHexString(colorButtonKnownWords.getColor()),
+                    hideDialog.isSelected());
+            updateDatabase(true);
+        }
     }//GEN-LAST:event_exportToSubtitleButtonActionPerformed
 
     /**
      * Updating records in the Database
+     *
      * @param updateMeeting Is it necessary to increment Meeting
      */
     private void updateDatabase(boolean updateMeeting) {
-	exportToSubtitleButton.setEnabled(false);
-	progressMonitor = new ProgressMonitor(this,
-		"Обновляю базу данных...",
-		"", 0, 100);
-	progressMonitor.setProgress(0);
+        exportToSubtitleButton.setEnabled(false);
+        progressMonitor = new ProgressMonitor(this,
+                "Обновляю базу данных...",
+                "", 0, 100);
+        progressMonitor.setProgress(0);
 
-	updateSettings();
-	task = new TaskUpdateDatabase(updateMeeting, this);
+        updateSettings();
+    /*task = new TaskUpdateDatabase(updateMeeting, this);
 	task.addPropertyChangeListener(this);
-	task.execute();
+	task.execute();*/
     }
 
     /**
      * Save all settings in the Database
      */
     private void updateSettings() {
-	Vocabulary db = new Vocabulary("Vocabulary");
-	db.createConnection();
-	db.updatSettings(hideDialog.isSelected(),
-		toHexString(colorButtonTranslateWords.getColor()),
-		toHexString(colorButtonUnknownWords.getColor()),
-		toHexString(colorButtonKnownWords.getColor()),
-		toHexString(colorButtonStudiedWords.getColor()),
-		toHexString(colorButtonNameWords.getColor()),
-		toHexString(colorButtonHardWords.getColor()));
-	db.closeConnection();
+        Vocabulary db = new Vocabulary("Vocabulary");
+        db.createConnection();
+        db.updatSettings(hideDialog.isSelected(),
+                toHexString(colorButtonTranslateWords.getColor()),
+                toHexString(colorButtonUnknownWords.getColor()),
+                toHexString(colorButtonKnownWords.getColor()),
+                toHexString(colorButtonStudiedWords.getColor()),
+                toHexString(colorButtonNameWords.getColor()),
+                toHexString(colorButtonHardWords.getColor()));
+        db.closeConnection();
     }
 
     /**
@@ -515,263 +510,266 @@ public class MainFrame extends javax.swing.JFrame implements PropertyChangeListe
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-	if ("progress".equals(evt.getPropertyName())) {
-	    int progress = (Integer) evt.getNewValue();
-	    progressMonitor.setProgress(progress);
-	    String message =
-		    String.format("Выполненно %d%%.\n", progress);
-	    progressMonitor.setNote(message);
-	    if (progressMonitor.isCanceled() || task.isDone()) {
-		if (progressMonitor.isCanceled()) {
-		    task.cancel(true);
-		}
-		exportToSubtitleButton.setEnabled(true);
-	    }
-	}
+        if ("progress".equals(evt.getPropertyName())) {
+            int progress = (Integer) evt.getNewValue();
+            progressMonitor.setProgress(progress);
+            String message =
+                    String.format("Выполненно %d%%.\n", progress);
+            progressMonitor.setNote(message);
+            if (progressMonitor.isCanceled() || task.isDone()) {
+                if (progressMonitor.isCanceled()) {
+                    task.cancel(true);
+                }
+                exportToSubtitleButton.setEnabled(true);
+            }
+        }
     }
 
     /**
      * Get pairs of an unknown stem and a translation
      */
     private Map<String, String> getStemTranslatePairs() {
-	Map<String, String> stems = new HashMap<String, String>();
-	for (int i = 0; i < tableMain.getRowCount(); i++) {
-	    boolean isName = (Boolean) tableMain.getModel().getValueAt(i, 0);
-	    boolean isStudy = (Boolean) tableMain.getModel().getValueAt(i, 1);
-	    boolean isKnown = (Boolean) tableMain.getModel().getValueAt(i, 2);
-	    if (!isName && !isStudy && !isKnown) {
-		String word = tableMain.getModel().getValueAt(i, 3).toString();
-		Stem stem = new Stem(word);
-		String translate = (String) tableMain.getModel().getValueAt(i, 4);
-		stems.put(stem.getStem(), translate);
-	    }
-	}
-	return stems;
+        Map<String, String> stems = new HashMap<String, String>();
+        for (int i = 0; i < tableMain.getRowCount(); i++) {
+            boolean isName = (Boolean) tableMain.getModel().getValueAt(i, 0);
+            boolean isStudy = (Boolean) tableMain.getModel().getValueAt(i, 1);
+            boolean isKnown = (Boolean) tableMain.getModel().getValueAt(i, 2);
+            if (!isName && !isStudy && !isKnown) {
+                String word = tableMain.getModel().getValueAt(i, 3).toString();
+                Stem stem = new Stem(word);
+                String translate = (String) tableMain.getModel().getValueAt(i, 4);
+                stems.put(stem.getStem(), translate);
+            }
+        }
+        return stems;
     }
 
     /**
      * Get pairs of an stem and a color
      */
     private Map<String, String> getStemColorPairs() {
-	Map<String, String> stems = new HashMap<String, String>();
-	for (int i = 0; i < tableMain.getRowCount(); i++) {
-	    boolean isName = (Boolean) tableMain.getModel().getValueAt(i, 0);
-	    boolean isStudy = (Boolean) tableMain.getModel().getValueAt(i, 1);
-	    boolean isKnown = (Boolean) tableMain.getModel().getValueAt(i, 2);
-	    String word = tableMain.getModel().getValueAt(i, 3).toString();
-	    Stem stem = new Stem(word);
+        Map<String, String> stems = new HashMap<String, String>();
+        for (int i = 0; i < tableMain.getRowCount(); i++) {
+            boolean isName = (Boolean) tableMain.getModel().getValueAt(i, 0);
+            boolean isStudy = (Boolean) tableMain.getModel().getValueAt(i, 1);
+            boolean isKnown = (Boolean) tableMain.getModel().getValueAt(i, 2);
+            String word = tableMain.getModel().getValueAt(i, 3).toString();
+            Stem stem = new Stem(word);
 
-	    if (isKnown)
-		continue;
+            if (isKnown)
+                continue;
 
-	    if (isStudy) {
-		stems.put(stem.getStem(), toHexString(colorButtonStudiedWords.getColor()));
-		continue;
-	    }
+            if (isStudy) {
+                stems.put(stem.getStem(), toHexString(colorButtonStudiedWords.getColor()));
+                continue;
+            }
 
-	    if (isName) {
-		stems.put(stem.getStem(), toHexString(colorButtonStudiedWords.getColor()));
-		continue;
-	    }
+            if (isName) {
+                stems.put(stem.getStem(), toHexString(colorButtonStudiedWords.getColor()));
+                continue;
+            }
 
-	    if (hardWords.contains(stem.getStem()))
-		stems.put(stem.getStem(), toHexString(colorButtonHardWords.getColor()));
-	     else
-		stems.put(stem.getStem(), toHexString(colorButtonUnknownWords.getColor()));
-	}
-	return stems;
+            if (hardWords.contains(stem.getStem()))
+                stems.put(stem.getStem(), toHexString(colorButtonHardWords.getColor()));
+            else
+                stems.put(stem.getStem(), toHexString(colorButtonUnknownWords.getColor()));
+        }
+        return stems;
     }
 
     /**
      * Get pairs of an unknown stems and a translate color
      */
     private Map<String, String> getColorsTranslate() {
-	Map<String, String> stems = new HashMap<String, String>();
-	for (int i = 0; i < tableMain.getRowCount(); i++) {
-	    boolean isName = (Boolean) tableMain.getModel().getValueAt(i, 0);
-	    boolean isStudy = (Boolean) tableMain.getModel().getValueAt(i, 1);
-	    boolean isKnown = (Boolean) tableMain.getModel().getValueAt(i, 2);
-	    if (!isName && !isStudy && !isKnown) {
-		String word = tableMain.getModel().getValueAt(i, 3).toString();
-		Stem stem = new Stem(word);
-		stems.put(stem.getStem(), toHexString(colorButtonTranslateWords.getColor()));
-	    }
-	}
-	return stems;
+        Map<String, String> stems = new HashMap<String, String>();
+        for (int i = 0; i < tableMain.getRowCount(); i++) {
+            boolean isName = (Boolean) tableMain.getModel().getValueAt(i, 0);
+            boolean isStudy = (Boolean) tableMain.getModel().getValueAt(i, 1);
+            boolean isKnown = (Boolean) tableMain.getModel().getValueAt(i, 2);
+            if (!isName && !isStudy && !isKnown) {
+                String word = tableMain.getModel().getValueAt(i, 3).toString();
+                Stem stem = new Stem(word);
+                stems.put(stem.getStem(), toHexString(colorButtonTranslateWords.getColor()));
+            }
+        }
+        return stems;
     }
 
     /**
      * Convert a color to a hex string
      */
     public static String toHexString(Color c) {
-	StringBuilder sb = new StringBuilder('#');
+        StringBuilder sb = new StringBuilder('#');
 
-	if (c.getRed() < 16) {
-	    sb.append('0');
-	}
-	sb.append(Integer.toHexString(c.getRed()));
+        if (c.getRed() < 16) {
+            sb.append('0');
+        }
+        sb.append(Integer.toHexString(c.getRed()));
 
-	if (c.getGreen() < 16) {
-	    sb.append('0');
-	}
-	sb.append(Integer.toHexString(c.getGreen()));
+        if (c.getGreen() < 16) {
+            sb.append('0');
+        }
+        sb.append(Integer.toHexString(c.getGreen()));
 
-	if (c.getBlue() < 16) {
-	    sb.append('0');
-	}
-	sb.append(Integer.toHexString(c.getBlue()));
+        if (c.getBlue() < 16) {
+            sb.append('0');
+        }
+        sb.append(Integer.toHexString(c.getBlue()));
 
-	return sb.toString();
+        return sb.toString();
     }
-    
+
     /**
      * Highlight a selected word
+     *
      * @param rowNumber selected row
      */
     public void highlightWord(int rowNumber) {
-	textSubtitle.setContentType("text/html");
-	int rowIndex = tableMain.convertRowIndexToModel(rowNumber);
-	if (rowIndex != -1 && subtitle != null) {
-	    String word = tableMain.getModel().getValueAt(rowIndex, 3).toString();
-	    Stem stem = new Stem(word);
-	    String formatedText = subtitle.markWord(stem.getStem());
-	    textSubtitle.setText(formatedText);
-	    textSubtitle.setCaretPosition(subtitle.getPositionStem(stem.getStem()));
-	}
+        textSubtitle.setContentType("text/html");
+        int rowIndex = tableMain.convertRowIndexToModel(rowNumber);
+        if (rowIndex != -1 && subtitle != null) {
+            String word = tableMain.getModel().getValueAt(rowIndex, 3).toString();
+            Stem stem = new Stem(word);
+            String formatedText = subtitle.markWord(stem.getStem());
+            textSubtitle.setText(formatedText);
+            textSubtitle.setCaretPosition(subtitle.getPositionStem(stem.getStem()));
+        }
     }
 
     /**
      * Insert subtitle's text to textSubtitle
+     *
      * @return true if it is success, otherwise false
      */
     private boolean loadSubtitle() {
-	textSubtitle.setContentType("text/html");
-	if (subtitle != null) {
-	    String formatedText = subtitle.hideHeader();
-	    textSubtitle.setText(formatedText);
-	    return true;
-	}
-	return false;
+        textSubtitle.setContentType("text/html");
+        if (subtitle != null) {
+            String formatedText = subtitle.hideHeader();
+            textSubtitle.setText(formatedText);
+            return true;
+        }
+        return false;
     }
 
     /**
      * Fill tableMain
      */
     public void loadTable() {
-	Map<Stem, Integer> stems = subtitle.getListStems();
-	DefaultTableModel tableModel = ((DefaultTableModel) tableMain.getModel());
-	tableModel.setRowCount(0);
-	Vocabulary db = new Vocabulary("Vocabulary");
-	db.createConnection();
-	hardWords = db.getHardWords();
-	tableMain.setDefaultRenderer(Object.class, new CellRender(hardWords));
-	tableMain.setDefaultRenderer(Integer.class, new CellRender(hardWords));
-	for (Stem key : stems.keySet()) {
-	    ItemVocabulary itemDatabase = db.getItem(key.getStem());
-	    boolean known = false;
-	    boolean study = false;
-	    int meeting = 0;
-	    String translate = "";
-	    String word = key.getWord();
-	    if (itemDatabase != null) {
-		known = itemDatabase.known;
-		study = itemDatabase.study;
-		meeting = itemDatabase.meeting;
-		translate = itemDatabase.translate;
+        Map<Stem, Integer> stems = subtitle.getListStems();
+        DefaultTableModel tableModel = ((DefaultTableModel) tableMain.getModel());
+        tableModel.setRowCount(0);
+        Vocabulary db = new Vocabulary("Vocabulary");
+        db.createConnection();
+        hardWords = db.getHardWords();
+        tableMain.setDefaultRenderer(Object.class, new CellRender(hardWords));
+        tableMain.setDefaultRenderer(Integer.class, new CellRender(hardWords));
+        for (Stem key : stems.keySet()) {
+            ItemVocabulary itemDatabase = db.getItem(key.getStem());
+            boolean known = false;
+            boolean study = false;
+            int meeting = 0;
+            String translate = "";
+            String word = key.getWord();
+            if (itemDatabase != null) {
+                known = itemDatabase.known;
+                study = itemDatabase.study;
+                meeting = itemDatabase.meeting;
+                translate = itemDatabase.translate;
 
-		if (itemDatabase.word.length() < word.length())
-		    word = itemDatabase.word;
-		
-		if (Character.isLowerCase(itemDatabase.word.charAt(0)) || Character.isLowerCase(key.getWord().charAt(0)))
-		    word = word.toLowerCase();
-	    }
-	    tableModel.addRow(new Object[]{false, study, known, word, translate, stems.get(key), meeting});
-	}
-	db.closeConnection();
-	tableDefaultSort();
-	updateStatistic();
+                if (itemDatabase.word.length() < word.length())
+                    word = itemDatabase.word;
+
+                if (Character.isLowerCase(itemDatabase.word.charAt(0)) || Character.isLowerCase(key.getWord().charAt(0)))
+                    word = word.toLowerCase();
+            }
+            tableModel.addRow(new Object[]{false, study, known, word, translate, stems.get(key), meeting});
+        }
+        db.closeConnection();
+        tableDefaultSort();
+        updateStatistic();
     }
 
     /**
      * Sort tableMain in the original condition
      */
     private void tableDefaultSort() {
-	DefaultRowSorter sorter = ((DefaultRowSorter) tableMain.getRowSorter());
-	ArrayList list = new ArrayList();
-	list.add(new RowSorter.SortKey(2, SortOrder.ASCENDING));
-	list.add(new RowSorter.SortKey(5, SortOrder.DESCENDING));
-	list.add(new RowSorter.SortKey(6, SortOrder.ASCENDING));
-	list.add(new RowSorter.SortKey(3, SortOrder.DESCENDING));
-	sorter.setSortKeys(list);
-	sorter.sort();
+        DefaultRowSorter sorter = ((DefaultRowSorter) tableMain.getRowSorter());
+        ArrayList list = new ArrayList();
+        list.add(new RowSorter.SortKey(2, SortOrder.ASCENDING));
+        list.add(new RowSorter.SortKey(5, SortOrder.DESCENDING));
+        list.add(new RowSorter.SortKey(6, SortOrder.ASCENDING));
+        list.add(new RowSorter.SortKey(3, SortOrder.DESCENDING));
+        sorter.setSortKeys(list);
+        sorter.sort();
     }
 
     /**
      * Update statistic
      */
     private void updateStatistic() {
-	int totalWords = 0;
-	int totalUnique = tableMain.getRowCount();
+        int totalWords = 0;
+        int totalUnique = tableMain.getRowCount();
 
-	int unknownWords = 0;
-	int unknownUnique = 0;
+        int unknownWords = 0;
+        int unknownUnique = 0;
 
-	int knownWords = 0;
-	int knownUnique = 0;
+        int knownWords = 0;
+        int knownUnique = 0;
 
-	int studyWords = 0;
-	int studyUnique = 0;
+        int studyWords = 0;
+        int studyUnique = 0;
 
-	for (int i = 0; i < totalUnique; i++) {
-	    boolean isName = (Boolean) tableMain.getModel().getValueAt(i, 0);
-	    boolean isStudy = (Boolean) tableMain.getModel().getValueAt(i, 1);
-	    boolean isKnown = (Boolean) tableMain.getModel().getValueAt(i, 2);
-	    int count = (Integer) tableMain.getModel().getValueAt(i, 5);
-	    totalWords += count;
+        for (int i = 0; i < totalUnique; i++) {
+            boolean isName = (Boolean) tableMain.getModel().getValueAt(i, 0);
+            boolean isStudy = (Boolean) tableMain.getModel().getValueAt(i, 1);
+            boolean isKnown = (Boolean) tableMain.getModel().getValueAt(i, 2);
+            int count = (Integer) tableMain.getModel().getValueAt(i, 5);
+            totalWords += count;
 
-	    if (isKnown) {
-		knownUnique++;
-		knownWords += count;
-		continue;
-	    }
+            if (isKnown) {
+                knownUnique++;
+                knownWords += count;
+                continue;
+            }
 
-	    if (isStudy) {
-		studyUnique++;
-		studyWords += count;
-		continue;
-	    }
+            if (isStudy) {
+                studyUnique++;
+                studyWords += count;
+                continue;
+            }
 
-	    if (!isName && !isStudy && !isKnown) {
-		unknownUnique++;
-		unknownWords += count;
-		continue;
-	    }
-	}
+            if (!isName && !isStudy && !isKnown) {
+                unknownUnique++;
+                unknownWords += count;
+                continue;
+            }
+        }
 
-	tableStatistic.setValueAt(totalUnique, 0, 1);
-	tableStatistic.setValueAt(totalWords, 0, 2);
+        tableStatistic.setValueAt(totalUnique, 0, 1);
+        tableStatistic.setValueAt(totalWords, 0, 2);
 
-	tableStatistic.setValueAt(String.valueOf(unknownUnique) + " (" + String.format("%.1f", 100f * (float) unknownUnique / (float) totalUnique) + "%)", 1, 1);
-	tableStatistic.setValueAt(String.valueOf(unknownWords) + " (" + String.format("%.1f", 100f * (float) unknownWords / (float) totalWords) + "%)", 1, 2);
+        tableStatistic.setValueAt(String.valueOf(unknownUnique) + " (" + String.format("%.1f", 100f * (float) unknownUnique / (float) totalUnique) + "%)", 1, 1);
+        tableStatistic.setValueAt(String.valueOf(unknownWords) + " (" + String.format("%.1f", 100f * (float) unknownWords / (float) totalWords) + "%)", 1, 2);
 
-	tableStatistic.setValueAt(String.valueOf(knownUnique) + " (" + String.format("%.1f", 100f * (float) knownUnique / (float) totalUnique) + "%)", 2, 1);
-	tableStatistic.setValueAt(String.valueOf(knownWords) + " (" + String.format("%.1f", 100f * (float) knownWords / (float) totalWords) + "%)", 2, 2);
+        tableStatistic.setValueAt(String.valueOf(knownUnique) + " (" + String.format("%.1f", 100f * (float) knownUnique / (float) totalUnique) + "%)", 2, 1);
+        tableStatistic.setValueAt(String.valueOf(knownWords) + " (" + String.format("%.1f", 100f * (float) knownWords / (float) totalWords) + "%)", 2, 2);
 
-	tableStatistic.setValueAt(String.valueOf(studyUnique) + " (" + String.format("%.1f", 100f * (float) studyUnique / (float) totalUnique) + "%)", 3, 1);
-	tableStatistic.setValueAt(String.valueOf(studyWords) + " (" + String.format("%.1f", 100f * (float) studyWords / (float) totalWords) + "%)", 3, 2);
+        tableStatistic.setValueAt(String.valueOf(studyUnique) + " (" + String.format("%.1f", 100f * (float) studyUnique / (float) totalUnique) + "%)", 3, 1);
+        tableStatistic.setValueAt(String.valueOf(studyWords) + " (" + String.format("%.1f", 100f * (float) studyWords / (float) totalWords) + "%)", 3, 2);
 
     }
 
     /**
      * Get settings from the database
+     *
      * @return pairs a parameter name and value
      */
     private Map<String, String> getSettings() {
-	Vocabulary db = new Vocabulary("Vocabulary");
-	db.createConnection();
-	Map<String, String> result = db.getSettings();
-	db.closeConnection();
-	return result;
+        Vocabulary db = new Vocabulary("Vocabulary");
+        db.createConnection();
+        Map<String, String> result = db.getSettings();
+        db.closeConnection();
+        return result;
     }
 
     /**
@@ -779,36 +777,37 @@ public class MainFrame extends javax.swing.JFrame implements PropertyChangeListe
      */
     public static void main(String args[]) {
 	/* Set the Nimbus look and feel */
-	//<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
 	 * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
 	 */
-	try {
-	    for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-		if ("Nimbus".equals(info.getName())) {
-		    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-		    break;
-		}
-	    }
-	} catch (ClassNotFoundException ex) {
-	    java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-	} catch (InstantiationException ex) {
-	    java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-	} catch (IllegalAccessException ex) {
-	    java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-	} catch (javax.swing.UnsupportedLookAndFeelException ex) {
-	    java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-	}
-	//</editor-fold>
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
 
 	/* Create and display the form */
-	java.awt.EventQueue.invokeLater(new Runnable() {
-	    @Override
-	    public void run() {
-		new MainFrame().setVisible(true);
-	    }
-	});
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new MainFrame().setVisible(true);
+            }
+        });
     }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private mollusc.linguasubtitle.ColorSelectionButton colorButtonHardWords;
     private mollusc.linguasubtitle.ColorSelectionButton colorButtonKnownWords;

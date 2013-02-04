@@ -1,10 +1,10 @@
 package mollusc.linguasubtitle;
 
-import javax.swing.JProgressBar;
-import javax.swing.SwingWorker;
+import javax.swing.*;
 
 /**
  * Class change progress bar in real-time
+ *
  * @author mollusc <MolluscLab@gmail.com>
  */
 class Worker extends SwingWorker<Object, Object> {

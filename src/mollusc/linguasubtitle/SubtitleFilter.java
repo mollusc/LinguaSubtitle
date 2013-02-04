@@ -4,6 +4,7 @@ import java.io.File;
 
 /**
  * Filter subtitles
+ *
  * @author mollusc <MolluscLab@gmail.com>
  */
 public class SubtitleFilter extends javax.swing.filechooser.FileFilter {

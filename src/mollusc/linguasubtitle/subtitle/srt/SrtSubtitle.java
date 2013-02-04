@@ -1,21 +1,23 @@
 package mollusc.linguasubtitle.subtitle.srt;
 
 import com.rits.cloning.Cloner;
-import java.util.*;
 import mollusc.linguasubtitle.subtitle.Subtitle;
 import mollusc.linguasubtitle.subtitle.parser.Stem;
 
+import java.util.*;
+
 /**
  * Class for srt subtitles
+ *
  * @author mollusc <MolluscLab@gmail.com>
  */
 public class SrtSubtitle extends Subtitle {
-    
+
     /**
      * Speech subtitles
      */
     private Map<Integer, Speech> speeches;
-    
+
     /**
      * Word index
      */
@@ -114,12 +116,12 @@ public class SrtSubtitle extends Subtitle {
                     currentWord = word;
                     continue;
                 }
-		
-		if (word.length() < currentWord.length())
-		    currentWord = word;
-		
-		if (Character.isLowerCase(word.charAt(0)) || Character.isLowerCase(currentWord.charAt(0)))
-		    currentWord = currentWord.toLowerCase();
+
+                if (word.length() < currentWord.length())
+                    currentWord = word;
+
+                if (Character.isLowerCase(word.charAt(0)) || Character.isLowerCase(currentWord.charAt(0)))
+                    currentWord = currentWord.toLowerCase();
             }
             if (!currentWord.isEmpty()) {
                 Stem stem = new Stem(stemString, currentWord);
@@ -136,6 +138,7 @@ public class SrtSubtitle extends Subtitle {
 
     /**
      * Hide headers of in the subtitle
+     *
      * @return HTML text of the subtitle
      */
     private static String hideHeader(Map<Integer, Speech> speeches) {
@@ -166,7 +169,7 @@ public class SrtSubtitle extends Subtitle {
                 lengthToWord += speech.timing.length() + 1;
 
                 if (indexSpeech == idSpeech) {
-		    lengthToWord += html2text(speech.content.substring(0, indexWords.get(0).end)).length();
+                    lengthToWord += html2text(speech.content.substring(0, indexWords.get(0).end)).length();
                     return lengthToWord;
                 }
                 lengthToWord += html2text(speech.content).length() + 2;
@@ -194,45 +197,45 @@ public class SrtSubtitle extends Subtitle {
 
     @Override
     public void generateSubtitle(String pathToSave,
-            Map<String, String> pairsStemTranslate,
-            Map<String, String> pairStemColor,
-            Map<String, String> pairStemTranslateColor,
-            String knownColor,
-            boolean hideKnownDialog) {
-        
+                                 Map<String, String> pairsStemTranslate,
+                                 Map<String, String> pairStemColor,
+                                 Map<String, String> pairStemTranslateColor,
+                                 String knownColor,
+                                 boolean hideKnownDialog) {
+
         String result = new String();
         Cloner cloner = new Cloner();
         Map<Integer, Speech> cloneSpeeches = cloner.deepClone(speeches);
         Map<Integer, String> mapTranslation = new HashMap<Integer, String>();
-        ArrayList<IndexWord> indices = new ArrayList<IndexWord>();       
+        ArrayList<IndexWord> indices = new ArrayList<IndexWord>();
 
         for (String stemString : pairsStemTranslate.keySet())
             indices.addAll(index.get(stemString));
 
         Collections.sort(indices, new IndexWordComparator());
-        
-        HashSet<Integer> modifiedSpeech = new HashSet<Integer>();          
-        
+
+        HashSet<Integer> modifiedSpeech = new HashSet<Integer>();
+
         for (IndexWord indexWord : indices) {
             modifiedSpeech.add(indexWord.indexSpeech);
-            Speech speech = cloneSpeeches.get(indexWord.indexSpeech);   
-            
+            Speech speech = cloneSpeeches.get(indexWord.indexSpeech);
+
             String word = speech.content.substring(indexWord.start, indexWord.end);
             String stemString = Stem.stemmingWord(word.toLowerCase());
             String left = speech.content.substring(0, indexWord.start);
-            
+
             StringBuilder strTranslate;
-            if(mapTranslation.containsKey(indexWord.indexSpeech))
+            if (mapTranslation.containsKey(indexWord.indexSpeech))
                 strTranslate = new StringBuilder(mapTranslation.get(indexWord.indexSpeech));
             else
-                strTranslate =  new StringBuilder(blankTranslate(speech.content));  
+                strTranslate = new StringBuilder(blankTranslate(speech.content));
 
             int start = html2text(left).length();
             String wordTranslationString = pairsStemTranslate.get(stemString);
-            String colorTranslate =  pairStemTranslateColor.get(stemString);
-            InsertWordTranslation(strTranslate, wordTranslationString, start, colorTranslate);            
+            String colorTranslate = pairStemTranslateColor.get(stemString);
+            InsertWordTranslation(strTranslate, wordTranslationString, start, colorTranslate);
             mapTranslation.put(indexWord.indexSpeech, strTranslate.toString());
-            
+
             String middle = "<font color=\"" + pairStemColor.get(stemString) + "\">" + word + "</font>";
             String right = speech.content.substring(indexWord.end);
             speech.content = left + middle + right;
@@ -247,19 +250,19 @@ public class SrtSubtitle extends Subtitle {
             Speech speech = cloneSpeeches.get(i);
             result += indexSpeech + "\n";
             result += speech.timing + "\n";
-            
-            String strTranslate =  mapTranslation.get(i);
+
+            String strTranslate = mapTranslation.get(i);
             String strContent = speech.content;
-            
+
             String[] linesTranslate = strTranslate.split("\n");
             String[] linesContant = strContent.split("\n");
-            String content ="";
+            String content = "";
             for (int j = 0; j < linesTranslate.length; j++) {
                 content += linesTranslate[j] + "\n" + linesContant[j] + "\n";
             }
-            
+
             // Hack for vlc 
-            content = content.replace("> <", ">\u00A0<");           
+            content = content.replace("> <", ">\u00A0<");
 
             result += "<font color=\"" + knownColor + "\">" + content
                     + "</font>\n\n";
@@ -268,14 +271,12 @@ public class SrtSubtitle extends Subtitle {
         result += "\n";
         saveSubtitle(pathToSave, result);
     }
-    
-    private String blankTranslate(String content)
-    {
+
+    private String blankTranslate(String content) {
         String strTranslate = new String();
         content = html2text(content);
-        for(int i=0; i < content.length(); i++)
-        {
-            if(content.charAt(i) == '\n')   
+        for (int i = 0; i < content.length(); i++) {
+            if (content.charAt(i) == '\n')
                 strTranslate += '\n';
             else
                 strTranslate += '\u00A0';
@@ -284,20 +285,20 @@ public class SrtSubtitle extends Subtitle {
     }
 
     private void InsertWordTranslation(StringBuilder strTranslate, String wordTranslate, int start, String colorTranslate) {
-        if (!wordTranslate.isEmpty()) {                
+        if (!wordTranslate.isEmpty()) {
             int i = start;
             while (i < strTranslate.length() &&
                     wordTranslate.length() > i - start &&
-                    strTranslate.charAt(i) == '\u00A0') { 
+                    strTranslate.charAt(i) == '\u00A0') {
                 char ch = wordTranslate.charAt(i - start);
                 strTranslate.setCharAt(i, ch);
                 i++;
             }
-            if(wordTranslate.length() > i - start ||
+            if (wordTranslate.length() > i - start ||
                     (i < strTranslate.length() && wordTranslate.length() == i - start && strTranslate.charAt(i) != '\u00A0'))
                 // Horizontal ellipsis
-                strTranslate.setCharAt(i-1, '\u2026');
-            
+                strTranslate.setCharAt(i - 1, '\u2026');
+
             // Add tag
             strTranslate.insert(i, "</font>");
             strTranslate.insert(start, "<font color=\"" + colorTranslate + "\">");

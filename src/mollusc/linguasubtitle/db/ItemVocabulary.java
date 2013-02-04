@@ -6,6 +6,7 @@ package mollusc.linguasubtitle.db;
 
 /**
  * Item of the table Stem
+ *
  * @author mollusc <MolluscLab@gmail.com>
  */
 public class ItemVocabulary {
@@ -17,11 +18,11 @@ public class ItemVocabulary {
     public boolean study;
 
     public ItemVocabulary(String stem, String word, String translate, boolean known, int meeting, boolean study) {
-	this.stem = stem;
-	this.word = word;
-	this.translate = translate;
-	this.known = known;
-	this.meeting = meeting;
-	this.study = study;
+        this.stem = stem;
+        this.word = word;
+        this.translate = translate;
+        this.known = known;
+        this.meeting = meeting;
+        this.study = study;
     }
 }
