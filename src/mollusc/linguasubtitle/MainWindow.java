@@ -292,7 +292,7 @@ public class MainWindow extends JFrame implements PropertyChangeListener {
             }
 
             if (isName) {
-                stems.put(stem.getStem(), toHexString(colorButtonStudiedWords.getColor()));
+                stems.put(stem.getStem(), toHexString(colorButtonNameWords.getColor()));
                 continue;
             }
 

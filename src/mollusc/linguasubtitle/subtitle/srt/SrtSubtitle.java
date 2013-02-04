@@ -209,7 +209,7 @@ public class SrtSubtitle extends Subtitle {
         Map<Integer, String> mapTranslation = new HashMap<Integer, String>();
         ArrayList<IndexWord> indices = new ArrayList<IndexWord>();
 
-        for (String stemString : pairsStemTranslate.keySet())
+        for (String stemString : pairStemColor.keySet())
             indices.addAll(index.get(stemString));
 
         Collections.sort(indices, new IndexWordComparator());
@@ -231,9 +231,12 @@ public class SrtSubtitle extends Subtitle {
                 strTranslate = new StringBuilder(blankTranslate(speech.content));
 
             int start = html2text(left).length();
-            String wordTranslationString = pairsStemTranslate.get(stemString);
-            String colorTranslate = pairStemTranslateColor.get(stemString);
-            InsertWordTranslation(strTranslate, wordTranslationString, start, colorTranslate);
+            if(pairsStemTranslate.containsKey(stemString)){
+                String wordTranslationString = pairsStemTranslate.get(stemString);
+                String colorTranslate = pairStemTranslateColor.get(stemString);
+                InsertWordTranslation(strTranslate, wordTranslationString, start, colorTranslate);
+            }
+
             mapTranslation.put(indexWord.indexSpeech, strTranslate.toString());
 
             String middle = "<font color=\"" + pairStemColor.get(stemString) + "\">" + word + "</font>";
