@@ -365,7 +365,6 @@ public class MainWindow extends JFrame implements PropertyChangeListener {
      * @param rowNumber selected row
      */
     public void highlightWord(int rowNumber) {
-        textSubtitle.setContentType("text/html");
         int rowIndex = tableMain.convertRowIndexToModel(rowNumber);
         if (rowIndex != -1 && subtitle != null) {
             String word = tableMain.getModel().getValueAt(rowIndex, 3).toString();
@@ -490,7 +489,7 @@ public class MainWindow extends JFrame implements PropertyChangeListener {
      * @return true if it is success, otherwise false
      */
     private boolean loadTextPane() {
-        textSubtitle.setContentType("text/html");
+        //textSubtitle.setContentType("text/html");
         if (subtitle != null) {
             String formatedText = subtitle.hideHeader();
             textSubtitle.setText(formatedText);

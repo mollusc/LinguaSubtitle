@@ -30,6 +30,7 @@
               <component id="65288" class="javax.swing.JTextPane" binding="textSubtitle" default-binding="true">
                 <constraints/>
                 <properties>
+                  <contentType value="text/html"/>
                   <editable value="false"/>
                 </properties>
               </component>
@@ -285,7 +286,7 @@
                           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
-                          <text value="Button"/>
+                          <text value="Экспорт субтитров"/>
                         </properties>
                       </component>
                     </children>

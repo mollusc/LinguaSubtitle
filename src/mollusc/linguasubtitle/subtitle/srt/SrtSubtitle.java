@@ -34,7 +34,7 @@ public class SrtSubtitle extends Subtitle {
      */
     private void initialSpeechs() {
         speeches = new TreeMap<Integer, Speech>();
-        String[] lines = content.split("\n");
+        String[] lines = content.split("\r\n");
         boolean headerSpeech = true;
         int sequenceNumber = 0;
         String timing = new String();
@@ -72,7 +72,8 @@ public class SrtSubtitle extends Subtitle {
                 char ch = speech.content.charAt(j);
                 if (!isTag) {
                     if (!Character.isLetter(ch) && ch != '\'') {
-                        if (text.length() > 2 && isWord(text)) {
+                       // if (text.length() > 2 && isWord(text)) {
+                        if (text.length() > 2 && !isNumeric(text)) {
                             String stemString = Stem.stemmingWord(text);
                             if (!index.containsKey(stemString)) {
                                 index.put(stemString,
@@ -142,19 +143,18 @@ public class SrtSubtitle extends Subtitle {
      * @return HTML text of the subtitle
      */
     private static String hideHeader(Map<Integer, Speech> speeches) {
-        String result = new String();
-        for (Integer indexSpeech : speeches.keySet()) {
-            Speech speech = speeches.get(indexSpeech);
-            result += "<font color=\"#cccccc\">" + speech.sequenceNumber
-                    + "</font><br>";
-            result += "<font color=\"#cccccc\">" + speech.timing
-                    + "</font><br>";
-            String text = speech.content + "<br><br>";
-            text = text.replace("\n", "<br>");
-            result += text;
+        String result = "";
+        for (Speech speech : speeches.values()) {
+            String text = speech.content.replace("\n", "<br>");
+
+            result += "<font color=\"#cccccc\">" + speech.sequenceNumber + "<br>"
+            + speech.timing + "</font><br>"
+            + text  + "<br><br>";
         }
         return result;
     }
+
+
 
     @Override
     public int getPositionStem(String stem) {

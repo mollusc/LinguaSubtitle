@@ -3,6 +3,12 @@ package mollusc.linguasubtitle.subtitle;
 import mollusc.linguasubtitle.subtitle.parser.Stem;
 
 import java.io.*;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
 
 /**
@@ -38,11 +44,11 @@ public abstract class Subtitle {
         return pathToSubtitle;
     }
 
-    public Subtitle(String path) {
+    /*public Subtitle(String path) {
         pathToSubtitle = path;
         try {
-            FileInputStream fstream = new FileInputStream(pathToSubtitle);
-            DataInputStream in = new DataInputStream(fstream);
+            FileInputStream firearm = new FileInputStream(pathToSubtitle);
+            DataInputStream in = new DataInputStream(firearm);
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
             String strLine = "";
             content = "";
@@ -52,7 +58,34 @@ public abstract class Subtitle {
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
         }
+    }*/
+
+    // 1
+    public Subtitle(String path){
+        pathToSubtitle = path;
+        try {
+            FileInputStream stream = new FileInputStream(new File(pathToSubtitle));
+            try {
+                FileChannel fc = stream.getChannel();
+                MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
+                content = Charset.defaultCharset().decode(bb).toString();
+            } finally {
+                stream.close();
+            }
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
     }
+    /*public Subtitle(String path){
+        pathToSubtitle = path;
+        Path p = Paths.get(pathToSubtitle);
+        try {
+            content = String.valueOf(Files.readAllLines(p, Charset.defaultCharset()));
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+    }*/
+
 
     /**
      * Get the list of stems
