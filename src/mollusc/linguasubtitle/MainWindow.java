@@ -23,7 +23,7 @@ import java.util.Map;
  * Time: 13:24
  * To change this template use File | Settings | File Templates.
  */
-public class MainWindow extends JFrame implements PropertyChangeListener {
+public class MainWindow implements PropertyChangeListener {
     private JPanel panel1;
     private JTextPane textSubtitle;
     private JTabbedPane tabbedPane1;
@@ -43,8 +43,12 @@ public class MainWindow extends JFrame implements PropertyChangeListener {
     Map<String, String> settings;
     ProgressMonitor progressMonitor;
     private TaskUpdateDatabase task;
+    private JFrame frameParent;
 
-    public MainWindow() {
+    public MainWindow(JFrame frameParent) {
+        this.frameParent = frameParent;
+        this.frameParent.setTitle("LinguaSubtitle 2");
+
         InitializeSettings();
         InitializeTableMain();
         InitializeTableStatistic();
@@ -133,7 +137,7 @@ public class MainWindow extends JFrame implements PropertyChangeListener {
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("MainWindow");
-        frame.setContentPane(new MainWindow().panel1);
+        frame.setContentPane(new MainWindow(frame).panel1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
@@ -160,7 +164,7 @@ public class MainWindow extends JFrame implements PropertyChangeListener {
         fileOpen.setFileFilter(new SubtitleFilter());
         int returnValue = fileOpen.showDialog(null, "Открыть");
         if (returnValue == JFileChooser.APPROVE_OPTION) {
-            this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            frameParent.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             File file = fileOpen.getSelectedFile();
             String path = file.getAbsolutePath();
             if (path != null) {
@@ -171,9 +175,10 @@ public class MainWindow extends JFrame implements PropertyChangeListener {
                     subtitle = new SrtSubtitle(path);
                 if (subtitle != null && loadTextPane()) {
                     loadTable();
+                    frameParent.setTitle("LinguaSubtitle 2 - " + path);
                 }
             }
-            this.setCursor(Cursor.getDefaultCursor());
+            frameParent.setCursor(Cursor.getDefaultCursor());
         }
     }
 
@@ -205,7 +210,7 @@ public class MainWindow extends JFrame implements PropertyChangeListener {
      */
     private void updateDatabase(boolean updateMeeting) {
         exportToSubtitleButton.setEnabled(false);
-        progressMonitor = new ProgressMonitor(this,
+        progressMonitor = new ProgressMonitor(frameParent,
                 "Обновляю базу данных...",
                 "", 0, 100);
         progressMonitor.setProgress(0);
