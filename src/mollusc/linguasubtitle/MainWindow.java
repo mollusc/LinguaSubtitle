@@ -8,6 +8,13 @@ import mollusc.linguasubtitle.subtitle.srt.SrtSubtitle;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.html.HTMLDocument;
+import javax.swing.text.html.HTMLEditorKit;
+import javax.swing.text.html.parser.ParserDelegator;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -25,7 +32,7 @@ import java.util.Map;
  */
 public class MainWindow implements PropertyChangeListener {
     private JPanel panel1;
-    private JTextPane textSubtitle;
+    //private JTextPane textSubtitle;
     private JTabbedPane tabbedPane1;
     public JTable tableMain;
     private JTable tableStatistic;
@@ -38,6 +45,9 @@ public class MainWindow implements PropertyChangeListener {
     private ColorSelectionButton colorButtonStudiedWords;
     private ColorSelectionButton colorButtonNameWords;
     private ColorSelectionButton colorButtonHardWords;
+    private JEditorPane textSubtitle;
+
+    // private JTextPane textSubtitle;
     private Subtitle subtitle;
     private ArrayList<String> hardWords;
     Map<String, String> settings;
@@ -374,8 +384,9 @@ public class MainWindow implements PropertyChangeListener {
         if (rowIndex != -1 && subtitle != null) {
             String word = tableMain.getModel().getValueAt(rowIndex, 3).toString();
             Stem stem = new Stem(word);
-            String formatedText = subtitle.markWord(stem.getStem());
-            textSubtitle.setText(formatedText);
+            textSubtitle.setText("");
+            Document document = textSubtitle.getDocument();
+            subtitle.markWord(stem.getStem(), document);
             textSubtitle.setCaretPosition(subtitle.getPositionStem(stem.getStem()));
         }
     }
@@ -494,10 +505,8 @@ public class MainWindow implements PropertyChangeListener {
      * @return true if it is success, otherwise false
      */
     private boolean loadTextPane() {
-        //textSubtitle.setContentType("text/html");
         if (subtitle != null) {
-            String formatedText = subtitle.hideHeader();
-            textSubtitle.setText(formatedText);
+            subtitle.hideHeader(textSubtitle.getDocument());
             return true;
         }
         return false;

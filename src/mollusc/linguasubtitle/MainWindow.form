@@ -27,12 +27,9 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="65288" class="javax.swing.JTextPane" binding="textSubtitle" default-binding="true">
+              <component id="eb49c" class="javax.swing.JTextPane" binding="textSubtitle">
                 <constraints/>
-                <properties>
-                  <contentType value="text/html"/>
-                  <editable value="false"/>
-                </properties>
+                <properties/>
               </component>
             </children>
           </scrollpane>

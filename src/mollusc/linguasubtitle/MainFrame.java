@@ -625,7 +625,7 @@ public class MainFrame extends javax.swing.JFrame implements PropertyChangeListe
      * @param rowNumber selected row
      */
     public void highlightWord(int rowNumber) {
-        textSubtitle.setContentType("text/html");
+        /*textSubtitle.setContentType("text/html");
         int rowIndex = tableMain.convertRowIndexToModel(rowNumber);
         if (rowIndex != -1 && subtitle != null) {
             String word = tableMain.getModel().getValueAt(rowIndex, 3).toString();
@@ -633,7 +633,7 @@ public class MainFrame extends javax.swing.JFrame implements PropertyChangeListe
             String formatedText = subtitle.markWord(stem.getStem());
             textSubtitle.setText(formatedText);
             textSubtitle.setCaretPosition(subtitle.getPositionStem(stem.getStem()));
-        }
+        }*/
     }
 
     /**
@@ -644,8 +644,8 @@ public class MainFrame extends javax.swing.JFrame implements PropertyChangeListe
     private boolean loadSubtitle() {
         textSubtitle.setContentType("text/html");
         if (subtitle != null) {
-            String formatedText = subtitle.hideHeader();
-            textSubtitle.setText(formatedText);
+           /* String formatedText = subtitle.hideHeader();
+            textSubtitle.setText(formatedText);*/
             return true;
         }
         return false;

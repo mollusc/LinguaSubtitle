@@ -2,6 +2,7 @@ package mollusc.linguasubtitle.subtitle;
 
 import mollusc.linguasubtitle.subtitle.parser.Stem;
 
+import javax.swing.text.Document;
 import java.io.*;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
@@ -101,14 +102,14 @@ public abstract class Subtitle {
      * @param stem
      * @return text with selected stem
      */
-    public abstract String markWord(String stem);
+    public abstract void markWord(String stem, Document document);
 
     /**
      * Hide headers of in the subtitle
      *
      * @return Text with hidden headers
      */
-    public abstract String hideHeader();
+    public abstract void hideHeader(Document document);
 
     /**
      * Get position of the stems in the subtitle.

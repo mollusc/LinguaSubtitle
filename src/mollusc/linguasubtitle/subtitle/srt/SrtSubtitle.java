@@ -3,7 +3,11 @@ package mollusc.linguasubtitle.subtitle.srt;
 import com.rits.cloning.Cloner;
 import mollusc.linguasubtitle.subtitle.Subtitle;
 import mollusc.linguasubtitle.subtitle.parser.Stem;
+import sun.security.ssl.Debug;
 
+import javax.swing.text.*;
+import java.awt.*;
+import java.io.Console;
 import java.util.*;
 
 /**
@@ -132,29 +136,21 @@ public class SrtSubtitle extends Subtitle {
         return result;
     }
 
+
     @Override
-    public String hideHeader() {
-        return hideHeader(speeches);
-    }
-
-    /**
-     * Hide headers of in the subtitle
-     *
-     * @return HTML text of the subtitle
-     */
-    private static String hideHeader(Map<Integer, Speech> speeches) {
-        String result = "";
-        for (Speech speech : speeches.values()) {
-            String text = speech.content.replace("\n", "<br>");
-
-            result += "<font color=\"#cccccc\">" + speech.sequenceNumber + "<br>"
-            + speech.timing + "</font><br>"
-            + text  + "<br><br>";
+    public void hideHeader(Document document) {
+        SimpleAttributeSet attr = new SimpleAttributeSet();
+        SimpleAttributeSet attrHide = new SimpleAttributeSet();
+        StyleConstants.setForeground(attrHide, Color.LIGHT_GRAY);
+        try {
+            for (Speech speech : speeches.values()) {
+                document.insertString(document.getLength(), speech.sequenceNumber + "\n" + speech.timing + "\n", attrHide);
+                document.insertString(document.getLength(),speech.content + "\n\n", attr);
+            }
+        } catch (BadLocationException e) {
+            e.printStackTrace();
         }
-        return result;
     }
-
-
 
     @Override
     public int getPositionStem(String stem) {
@@ -169,30 +165,45 @@ public class SrtSubtitle extends Subtitle {
                 lengthToWord += speech.timing.length() + 1;
 
                 if (indexSpeech == idSpeech) {
-                    lengthToWord += html2text(speech.content.substring(0, indexWords.get(0).end)).length();
+                    lengthToWord += speech.content.substring(0, indexWords.get(0).end).length();
                     return lengthToWord;
                 }
-                lengthToWord += html2text(speech.content).length() + 2;
+                lengthToWord += speech.content.length() + 2;
             }
         }
         return 0;
     }
 
     @Override
-    public String markWord(String stemString) {
-        Cloner cloner = new Cloner();
-        Map<Integer, Speech> cloneSpeeches = cloner.deepClone(speeches);
+    public void markWord(String stemString, Document document) {
         ArrayList<IndexWord> indexWords = index.get(stemString);
-        for (IndexWord indexWord : indexWords) {
-            Speech speech = cloneSpeeches.get(indexWord.indexSpeech);
-            String left = speech.content.substring(0, indexWord.start);
-            String middle = "<b><font color=\"#ff0000\">"
-                    + speech.content.substring(indexWord.start, indexWord.end)
-                    + "</font></b>";
-            String right = speech.content.substring(indexWord.end);
-            speech.content = left + middle + right;
+        SimpleAttributeSet attr = new SimpleAttributeSet();
+
+        SimpleAttributeSet attrHide = new SimpleAttributeSet();
+        attrHide.addAttribute(StyleConstants.CharacterConstants.Foreground, Color.lightGray);
+
+        SimpleAttributeSet attrMark = new SimpleAttributeSet();
+        attrMark.addAttribute(StyleConstants.CharacterConstants.Foreground,  Color.red);
+        attrMark.addAttribute(StyleConstants.CharacterConstants.Bold, Boolean.TRUE);
+
+        try {
+            for (Speech speech : speeches.values()) {
+                document.insertString(document.getLength(), speech.sequenceNumber + "\n" + speech.timing + "\n", attrHide);
+                int length = document.getLength();
+                document.insertString(length, speech.content + "\n\n", attr);
+                for (IndexWord indexWord : indexWords) {
+                    if(indexWord.indexSpeech == speech.sequenceNumber)
+                    {
+                        String word = speech.content.substring(indexWord.start, indexWord.end);
+
+                        document.remove(length + indexWord.start, indexWord.end - indexWord.start);
+                        document.insertString(length + indexWord.start, word, attrMark);
+                    }
+                }
+            }
+        } catch (BadLocationException e) {
+            e.printStackTrace();
         }
-        return hideHeader(cloneSpeeches);
     }
 
     @Override
