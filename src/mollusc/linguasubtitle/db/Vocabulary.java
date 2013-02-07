@@ -46,9 +46,9 @@ public class Vocabulary {
                     + ".db");
             statement = connection.createStatement();
             statement.setQueryTimeout(30);
-            statement
-                    .executeUpdate("CREATE  TABLE  IF NOT EXISTS Stems (Stem VARCHAR PRIMARY KEY  NOT NULL , Word VARCHAR NOT NULL , Remember INTEGER NOT NULL  DEFAULT 0, Meeting INTEGER NOT NULL  DEFAULT 0, Study INTEGER NOT NULL  DEFAULT 0, Translate VARCHAR)");
             correctVersion();
+            statement.executeUpdate("CREATE  TABLE  IF NOT EXISTS Stems (Stem VARCHAR PRIMARY KEY  NOT NULL , Word VARCHAR NOT NULL , Known INTEGER NOT NULL  DEFAULT 0, Meeting INTEGER NOT NULL  DEFAULT 0, Study INTEGER NOT NULL  DEFAULT 0, Translate VARCHAR)");
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS Settings(Parameter VARCHAR PRIMARY KEY ASC, Value VARCHAR)");
         } catch (SQLException e) {
             System.err.println(e.getMessage());
             return false;
@@ -70,35 +70,15 @@ public class Vocabulary {
     }
 
     /**
-     * Is stem exist?
-     *
-     * @param stem
-     * @return true if stem exist, otherwise false
-     */
-    public boolean isStemExist(String stem) {
-        try {
-            ResultSet rs = statement
-                    .executeQuery("SELECT Stem FROM Stems WHERE Stem='"
-                            + escapeCharacter(stem) + "'");
-            if (rs.next()) {
-                return true;
-            }
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
-        return false;
-    }
-
-    /**
      * Get hard words
      *
-     * @return
+     * @return List of hard words
      */
     public ArrayList<String> getHardWords() {
         try {
             ArrayList<String> stems = new ArrayList<String>();
             ResultSet rs = statement
-                    .executeQuery("SELECT Stem FROM Stems WHERE Remember=0 AND Study= 0 AND Meeting >10 ORDER BY Meeting DESC LIMIT 10");
+                    .executeQuery("SELECT Stem FROM Stems WHERE Known=0 AND Study= 0 AND Meeting >10 ORDER BY Meeting DESC LIMIT 10");
             while (rs.next()) {
                 String stem = rs.getString("Stem");
                 stems.add(stem);
@@ -112,17 +92,10 @@ public class Vocabulary {
 
     /**
      * Update values
-     *
-     * @param stem
-     * @param word
-     * @param translate
-     * @param isKnown
-     * @param isStudy
-     * @param updateMeeting
      */
     public void updateValues(String stem, String word, String translate, boolean isKnown, boolean isStudy, boolean updateMeeting) {
         try {
-            String query = "INSERT OR REPLACE INTO Stems (Stem, Word, Translate, Remember, Study, Meeting)  VALUES ("
+            String query = "INSERT OR REPLACE INTO Stems (Stem, Word, Translate, Known, Study, Meeting)  VALUES ("
                     + "'" + escapeCharacter(stem) + "',"
                     + "'" + escapeCharacter(word) + "',"
                     + "'" + escapeCharacter(translate) + "',"
@@ -140,6 +113,10 @@ public class Vocabulary {
         }
     }
 
+    /**
+     * Get data from the database
+     * @param stem is key for search
+     */
     public ItemVocabulary getItem(String stem) {
         try {
             ResultSet rs = statement
@@ -147,10 +124,10 @@ public class Vocabulary {
             if (rs.next()) {
                 String word = rs.getString("Word");
                 String translate = rs.getString("Translate");
-                boolean remember = "1".equals(rs.getString("Remember")) ? true : false;
+                boolean known = "1".equals(rs.getString("Known")) ? true : false;
                 boolean study = "1".equals(rs.getString("Study")) ? true : false;
                 int meeting = Integer.parseInt(rs.getString("Meeting"));
-                return new ItemVocabulary(stem, word, translate, remember, meeting, study);
+                return new ItemVocabulary(stem, word, translate, known, meeting, study);
             }
         } catch (SQLException e) {
             System.err.println(e.getMessage());
@@ -159,54 +136,39 @@ public class Vocabulary {
     }
 
     /**
-     * Update sittings
-     *
-     * @param hideKnownDialog
-     * @param colorTranslateWords
-     * @param colorUnknownWords
-     * @param colorKnownWords
-     * @param colorStudiedWords
-     * @param colorNameWords
-     * @param colorHardWord
+     * Update Settings
      */
-    public void updatSettings(boolean hideKnownDialog,
-                              String colorTranslateWords,
-                              String colorUnknownWords,
-                              String colorKnownWords,
-                              String colorStudiedWords,
-                              String colorNameWords,
-                              String colorHardWord) {
+    public void updateSettings(boolean hideKnownDialog,
+                               String colorTranslateWords,
+                               String colorUnknownWords,
+                               String colorKnownWords,
+                               String colorStudiedWords,
+                               String colorNameWords,
+                               String colorHardWord) {
         try {
-            statement
-                    .executeUpdate("CREATE TABLE IF NOT EXISTS Sittings(Parameter VARCHAR PRIMARY KEY ASC, Value VARCHAR)");
+            statement.executeUpdate("REPLACE INTO Settings VALUES ('hideKnownDialog','"
+                    + hideKnownDialog + "')");
 
-            statement
-                    .executeUpdate("REPLACE INTO Sittings VALUES ('hideKnownDialog','"
-                            + hideKnownDialog + "')");
+            statement.executeUpdate("REPLACE INTO Settings VALUES ('colorTranslateWords','"
+                    + colorTranslateWords + "')");
 
-            statement
-                    .executeUpdate("REPLACE INTO Sittings VALUES ('colorTranslateWords','"
-                            + colorTranslateWords + "')");
+            statement.executeUpdate("REPLACE INTO Settings VALUES ('colorUnknownWords','"
+                    + colorUnknownWords + "')");
 
-            statement
-                    .executeUpdate("REPLACE INTO Sittings VALUES ('colorUnknownWords','"
-                            + colorUnknownWords + "')");
+            statement.executeUpdate("REPLACE INTO Settings VALUES ('colorKnownWords','"
+                    + colorKnownWords + "')");
 
-            statement
-                    .executeUpdate("REPLACE INTO Sittings VALUES ('colorKnownWords','"
-                            + colorKnownWords + "')");
+            statement.executeUpdate("REPLACE INTO Settings VALUES ('colorStudiedWords','"
+                    + colorStudiedWords + "')");
 
-            statement
-                    .executeUpdate("REPLACE INTO Sittings VALUES ('colorStudiedWords','"
-                            + colorStudiedWords + "')");
+            statement.executeUpdate("REPLACE INTO Settings VALUES ('colorNameWords','"
+                    + colorNameWords + "')");
 
-            statement
-                    .executeUpdate("REPLACE INTO Sittings VALUES ('colorNameWords','"
-                            + colorNameWords + "')");
+            statement.executeUpdate("REPLACE INTO Settings VALUES ('colorHardWord','"
+                    + colorHardWord + "')");
 
-            statement
-                    .executeUpdate("REPLACE INTO Sittings VALUES ('colorHardWord','"
-                            + colorHardWord + "')");
+            statement.executeUpdate("REPLACE INTO Settings VALUES ('versionDB','"
+                    + versionDB + "')");
 
         } catch (SQLException e) {
             System.err.println(e.getMessage());
@@ -214,15 +176,19 @@ public class Vocabulary {
 
     }
 
+    /**
+     * Get settings from the database
+     * @return pairs parameter - value
+     */
     public Map<String, String> getSettings() {
         Map<String, String> result = new HashMap<String, String>();
         ResultSet rs;
         try {
-            rs = statement
-                    .executeQuery("SELECT Parameter, Value FROM Sittings");
-            while (rs.next()) {
+            rs = statement.executeQuery("SELECT Parameter, Value FROM Settings");
+
+            while (rs.next())
                 result.put(rs.getString("Parameter"), rs.getString("Value"));
-            }
+
             return result;
         } catch (SQLException e) {
             System.err.println(e.getMessage());
@@ -239,19 +205,32 @@ public class Vocabulary {
         return value ? 1 : 0;
     }
 
+    /**
+     * Correct version of the database
+     */
     private void correctVersion() {
-        Map<String, String> sittings = getSettings();
-        if (!sittings.containsKey("versionDB")) {
+        Map<String, String> settings = getSettings();
+        if (settings == null || !settings.containsKey("versionDB")) {
             // From version 0 to version 1
             try {
-                // Add parameter in the table Sittings
-                statement.executeUpdate("REPLACE INTO Sittings VALUES ('versionDB','" + versionDB + "')");
+                // Rename field of the table Stems
+                statement.executeUpdate("ALTER TABLE \"main\".\"Stems\" RENAME TO \"tmp_Stems\"");
+                statement.executeUpdate("CREATE TABLE \"main\".\"Stems\" (\"Stem\" VARCHAR PRIMARY KEY  NOT NULL ,\"Word\" VARCHAR NOT NULL ,\"Known\" INTEGER NOT NULL  DEFAULT (0) ,\"Meeting\" INTEGER NOT NULL  DEFAULT (0) ,\"Translate\" VARCHAR)");
+                statement.executeUpdate("INSERT INTO \"main\".\"Stems\" SELECT \"Stem\",\"Word\",\"Remember\",\"Meeting\",\"Translate\" FROM \"main\".\"tmp_Stems\"");
+                statement.executeUpdate("DROP TABLE \"main\".\"tmp_Stems\"");
+                statement.execute("VACUUM");
 
                 // Add column in the table Stems
                 statement.executeUpdate("ALTER TABLE Stems ADD COLUMN Study INTEGER NOT NULL  DEFAULT 0");
 
                 // Updata Study
                 statement.executeUpdate("UPDATE Stems SET Study=1 WHERE Translate=\"\"");
+
+                // Rename table from Sittings to Settings
+                statement.executeUpdate("ALTER TABLE Sittings RENAME TO Settings");
+
+                // Add parameter in the table Settings
+                statement.executeUpdate("REPLACE INTO Settings VALUES ('versionDB','" + versionDB + "')");
 
             } catch (SQLException e) {
                 System.err.println(e.getMessage());

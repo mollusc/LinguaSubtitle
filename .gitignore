@@ -27,4 +27,4 @@ nb-configuration.xml
 # Intellij IDEA specific
  .idea/workspace.xml
  .idea/tasks.xml
- out
+ out/

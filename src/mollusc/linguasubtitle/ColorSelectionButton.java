@@ -14,10 +14,6 @@ public class ColorSelectionButton extends JButton implements ActionListener {
 
     private Color color;
 
-    public ColorSelectionButton() {
-        this(Color.white);
-    }
-
     public ColorSelectionButton(Color c) {
         super();
         color = c;

@@ -4,15 +4,11 @@ package mollusc.linguasubtitle;
 import javax.swing.table.DefaultTableModel;
 
 /**
- * Created with IntelliJ IDEA.
  * User: mollusc <MolluscLab@gmail.com>
- * Date: 04.02.13
- * Time: 13:46
  */
 public class MainTableModel extends DefaultTableModel {
     Class[] types;
     boolean[] isEditable;
-    String[] columnNames;
 
     public MainTableModel() {
         super(

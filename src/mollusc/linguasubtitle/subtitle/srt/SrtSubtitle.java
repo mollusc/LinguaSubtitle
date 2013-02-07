@@ -3,11 +3,12 @@ package mollusc.linguasubtitle.subtitle.srt;
 import com.rits.cloning.Cloner;
 import mollusc.linguasubtitle.subtitle.Subtitle;
 import mollusc.linguasubtitle.subtitle.parser.Stem;
-import sun.security.ssl.Debug;
 
-import javax.swing.text.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 import java.awt.*;
-import java.io.Console;
 import java.util.*;
 
 /**
@@ -29,14 +30,14 @@ public class SrtSubtitle extends Subtitle {
 
     public SrtSubtitle(String path) {
         super(path);
-        initialSpeechs();
+        initialSpeeches();
         initialIndex();
     }
 
     /**
      * Speech initialization
      */
-    private void initialSpeechs() {
+    private void initialSpeeches() {
         speeches = new TreeMap<Integer, Speech>();
         String[] lines = content.split("\r\n");
         boolean headerSpeech = true;
@@ -76,7 +77,6 @@ public class SrtSubtitle extends Subtitle {
                 char ch = speech.content.charAt(j);
                 if (!isTag) {
                     if (!Character.isLetter(ch) && ch != '\'') {
-                       // if (text.length() > 2 && isWord(text)) {
                         if (text.length() > 2 && !isNumeric(text)) {
                             String stemString = Stem.stemmingWord(text);
                             if (!index.containsKey(stemString)) {
@@ -145,7 +145,7 @@ public class SrtSubtitle extends Subtitle {
         try {
             for (Speech speech : speeches.values()) {
                 document.insertString(document.getLength(), speech.sequenceNumber + "\n" + speech.timing + "\n", attrHide);
-                document.insertString(document.getLength(),speech.content + "\n\n", attr);
+                document.insertString(document.getLength(), speech.content + "\n\n", attr);
             }
         } catch (BadLocationException e) {
             e.printStackTrace();
@@ -183,7 +183,7 @@ public class SrtSubtitle extends Subtitle {
         attrHide.addAttribute(StyleConstants.CharacterConstants.Foreground, Color.lightGray);
 
         SimpleAttributeSet attrMark = new SimpleAttributeSet();
-        attrMark.addAttribute(StyleConstants.CharacterConstants.Foreground,  Color.red);
+        attrMark.addAttribute(StyleConstants.CharacterConstants.Foreground, Color.red);
         attrMark.addAttribute(StyleConstants.CharacterConstants.Bold, Boolean.TRUE);
 
         try {
@@ -192,8 +192,7 @@ public class SrtSubtitle extends Subtitle {
                 int length = document.getLength();
                 document.insertString(length, speech.content + "\n\n", attr);
                 for (IndexWord indexWord : indexWords) {
-                    if(indexWord.indexSpeech == speech.sequenceNumber)
-                    {
+                    if (indexWord.indexSpeech == speech.sequenceNumber) {
                         String word = speech.content.substring(indexWord.start, indexWord.end);
 
                         document.remove(length + indexWord.start, indexWord.end - indexWord.start);
@@ -242,7 +241,7 @@ public class SrtSubtitle extends Subtitle {
                 strTranslate = new StringBuilder(blankTranslate(speech.content));
 
             int start = html2text(left).length();
-            if(pairsStemTranslate.containsKey(stemString)){
+            if (pairsStemTranslate.containsKey(stemString)) {
                 String wordTranslationString = pairsStemTranslate.get(stemString);
                 String colorTranslate = pairStemTranslateColor.get(stemString);
                 InsertWordTranslation(strTranslate, wordTranslationString, start, colorTranslate);

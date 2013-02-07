@@ -8,13 +8,7 @@ import mollusc.linguasubtitle.subtitle.srt.SrtSubtitle;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.html.HTMLDocument;
-import javax.swing.text.html.HTMLEditorKit;
-import javax.swing.text.html.parser.ParserDelegator;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -32,8 +26,6 @@ import java.util.Map;
  */
 public class MainWindow implements PropertyChangeListener {
     private JPanel panel1;
-    //private JTextPane textSubtitle;
-    private JTabbedPane tabbedPane1;
     public JTable tableMain;
     private JTable tableStatistic;
     private JButton loadSubtitle;
@@ -46,8 +38,9 @@ public class MainWindow implements PropertyChangeListener {
     private ColorSelectionButton colorButtonNameWords;
     private ColorSelectionButton colorButtonHardWords;
     private JEditorPane textSubtitle;
+    private JTabbedPane tabbedPane1;
 
-    // private JTextPane textSubtitle;
+
     private Subtitle subtitle;
     private ArrayList<String> hardWords;
     Map<String, String> settings;
@@ -66,7 +59,7 @@ public class MainWindow implements PropertyChangeListener {
         // initialize loadSubtitle
         loadSubtitle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loadSubtitleActionPerformed(evt);
+                loadSubtitleActionPerformed();
             }
         });
     }
@@ -140,7 +133,7 @@ public class MainWindow implements PropertyChangeListener {
 
         exportToSubtitleButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exportToSubtitleButtonActionPerformed(evt);
+                exportToSubtitleButtonActionPerformed();
             }
         });
     }
@@ -169,7 +162,7 @@ public class MainWindow implements PropertyChangeListener {
     /**
      * Handle clicks on loadSubtitle button.
      */
-    private void loadSubtitleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadSubtitleActionPerformed
+    private void loadSubtitleActionPerformed() {
         JFileChooser fileOpen = new JFileChooser();
         fileOpen.setFileFilter(new SubtitleFilter());
         int returnValue = fileOpen.showDialog(null, "Открыть");
@@ -195,7 +188,7 @@ public class MainWindow implements PropertyChangeListener {
     /**
      * Handle clicks on exportToSubtitle button.
      */
-    private void exportToSubtitleButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    private void exportToSubtitleButtonActionPerformed() {
         JFileChooser fileOpen = new JFileChooserWithCheck();
         fileOpen.setFileFilter(new SubtitleFilter());
         fileOpen.setCurrentDirectory(new File(subtitle.getPathToSubtitle()));
@@ -237,7 +230,7 @@ public class MainWindow implements PropertyChangeListener {
     private void updateSettings() {
         Vocabulary db = new Vocabulary("Vocabulary");
         db.createConnection();
-        db.updatSettings(hideDialog.isSelected(),
+        db.updateSettings(hideDialog.isSelected(),
                 toHexString(colorButtonTranslateWords.getColor()),
                 toHexString(colorButtonUnknownWords.getColor()),
                 toHexString(colorButtonKnownWords.getColor()),
@@ -311,7 +304,7 @@ public class MainWindow implements PropertyChangeListener {
                 continue;
             }
 
-            if (hardWords.contains(stem.getStem()))
+            if (hardWords != null && hardWords.contains(stem.getStem()))
                 stems.put(stem.getStem(), toHexString(colorButtonHardWords.getColor()));
             else
                 stems.put(stem.getStem(), toHexString(colorButtonUnknownWords.getColor()));

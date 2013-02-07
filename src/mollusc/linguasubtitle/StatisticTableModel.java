@@ -3,16 +3,12 @@ package mollusc.linguasubtitle;
 import javax.swing.table.DefaultTableModel;
 
 /**
- * Created with IntelliJ IDEA.
+ * TableModel for statistic
  * User: mollusc <MolluscLab@gmail.com>
- * Date: 04.02.13
- * Time: 14:33
- * To change this template use File | Settings | File Templates.
  */
 public class StatisticTableModel extends DefaultTableModel {
     Class[] types;
     boolean[] isEditable;
-    String[] columnNames;
 
     public StatisticTableModel() {
         super(
