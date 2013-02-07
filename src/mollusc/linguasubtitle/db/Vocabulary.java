@@ -1,286 +1,240 @@
 package mollusc.linguasubtitle.db;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author mollusc <MolluscLab@gmail.com>
+ */
 public class Vocabulary {
 
-	/**
-	 * Name of the database
-	 */
-	private String nameDB;
+    /**
+     * Version of the database
+     */
+    private final int versionDB = 1;
+    /**
+     * Name of the database
+     */
+    private String nameDB;
+    /**
+     * Connection to the database
+     */
+    private Connection connection;
+    /**
+     * Statement
+     */
+    private Statement statement;
 
-	/**
-	 * Connection to the database
-	 */
-	private Connection connection;
+    public Vocabulary(String name) {
+        nameDB = name;
+    }
 
-	/**
-	 * Statement
-	 */
-	private Statement statement;
+    /**
+     * Create a database connection
+     */
+    public boolean createConnection() {
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            System.err.println(e.getMessage());
+        }
 
-	public Vocabulary(String name) {
-		nameDB = name;
-	}
+        try {
+            connection = DriverManager.getConnection("jdbc:sqlite:" + nameDB
+                    + ".db");
+            statement = connection.createStatement();
+            statement.setQueryTimeout(30);
+            correctVersion();
+            statement.executeUpdate("CREATE  TABLE  IF NOT EXISTS Stems (Stem VARCHAR PRIMARY KEY  NOT NULL , Word VARCHAR NOT NULL , Known INTEGER NOT NULL  DEFAULT 0, Meeting INTEGER NOT NULL  DEFAULT 0, Study INTEGER NOT NULL  DEFAULT 0, Translate VARCHAR)");
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS Settings(Parameter VARCHAR PRIMARY KEY ASC, Value VARCHAR)");
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
+        return true;
+    }
 
-	/**
-	 * Create a database connection
-	 */
-	public boolean createConnection() {
-		try {
-			Class.forName("org.sqlite.JDBC");
-		} catch (ClassNotFoundException e1) {
-			e1.printStackTrace();
-		}
+    /**
+     * Close a database connection
+     */
+    public void closeConnection() {
+        try {
+            if (connection != null) {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+    }
 
-		try {
-			connection = DriverManager.getConnection("jdbc:sqlite:" + nameDB
-					+ ".db");
-			statement = connection.createStatement();
-			statement.setQueryTimeout(30);
+    /**
+     * Get hard words
+     *
+     * @return List of hard words
+     */
+    public ArrayList<String> getHardWords() {
+        try {
+            ArrayList<String> stems = new ArrayList<String>();
+            ResultSet rs = statement
+                    .executeQuery("SELECT Stem FROM Stems WHERE Known=0 AND Study= 0 AND Meeting >10 ORDER BY Meeting DESC LIMIT 10");
+            while (rs.next()) {
+                String stem = rs.getString("Stem");
+                stems.add(stem);
+            }
+            return stems;
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
 
-			statement
-					.executeUpdate("CREATE TABLE IF NOT EXISTS Stems(Stem VARCHAR PRIMARY KEY ASC, Word VARCHAR, Remember INTEGER, Meeting INTEGER, Translate VARCHAR)");
-		} catch (SQLException e) {
-			System.err.println("Error: " + e.getMessage());
-			return false;
-		}
-		return true;
-	}
+    /**
+     * Update values
+     */
+    public void updateValues(String stem, String word, String translate, boolean isKnown, boolean isStudy, boolean updateMeeting) {
+        try {
+            String query = "INSERT OR REPLACE INTO Stems (Stem, Word, Translate, Known, Study, Meeting)  VALUES ("
+                    + "'" + escapeCharacter(stem) + "',"
+                    + "'" + escapeCharacter(word) + "',"
+                    + "'" + escapeCharacter(translate) + "',"
+                    + boolToInt(isKnown) + ","
+                    + boolToInt(isStudy) + ","
+                    + "COALESCE((SELECT Meeting FROM Stems WHERE";
+            if (updateMeeting) {
+                query += " Stem='" + escapeCharacter(stem) + "') + 1,1))";
+            } else {
+                query += " Stem='" + escapeCharacter(stem) + "'),1))";
+            }
+            statement.executeUpdate(query);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
 
-	/**
-	 * Close a database connection
-	 */
-	public void closeConnection() {
-		try {
-			if (connection != null)
-				connection.close();
-		} catch (SQLException e) {
-			// connection close failed.
-			System.err.println("Error: " + e.getMessage());
-		}
-	}
+    /**
+     * Get data from the database
+     * @param stem is key for search
+     */
+    public ItemVocabulary getItem(String stem) {
+        try {
+            ResultSet rs = statement
+                    .executeQuery("SELECT * FROM Stems WHERE Stem='" + escapeCharacter(stem) + "'");
+            if (rs.next()) {
+                String word = rs.getString("Word");
+                String translate = rs.getString("Translate");
+                boolean known = "1".equals(rs.getString("Known")) ? true : false;
+                boolean study = "1".equals(rs.getString("Study")) ? true : false;
+                int meeting = Integer.parseInt(rs.getString("Meeting"));
+                return new ItemVocabulary(stem, word, translate, known, meeting, study);
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
 
-	/**
-	 * Is stem exist?
-	 * 
-	 * @param stem
-	 * @return true if stem exist, otherwise false
-	 */
-	public boolean isStemExist(String stem) {
-		try {
-			ResultSet rs = statement
-					.executeQuery("SELECT Stem FROM Stems WHERE Stem='"
-							+ escapeCharacter(stem) + "'");
-			if (rs.next())
-				return true;
-		} catch (SQLException e) {
-			System.err.println("Error: " + e.getMessage());
-		}
-		return false;
-	}
+    /**
+     * Update Settings
+     */
+    public void updateSettings(boolean hideKnownDialog,
+                               String colorTranslateWords,
+                               String colorUnknownWords,
+                               String colorKnownWords,
+                               String colorStudiedWords,
+                               String colorNameWords,
+                               String colorHardWord) {
+        try {
+            statement.executeUpdate("REPLACE INTO Settings VALUES ('hideKnownDialog','"
+                    + hideKnownDialog + "')");
 
-	/**
-	 * Add steam to the table.
-	 * 
-	 * @param stem
-	 * @param remember
-	 *            true if user remember this word, otherwise false
-	 * @return true if stem add successfully, otherwise false
-	 */
-	public boolean addStem(String stem, String word, String translate,
-			boolean remember, boolean updateMeeting) {
-		try {
-			int val = remember ? 1 : 0;
-			if (updateMeeting)
-				statement.executeUpdate("INSERT INTO Stems VALUES('"
-						+ escapeCharacter(stem) + "','" + escapeCharacter(word)
-						+ "'," + val + ",1, '" + escapeCharacter(translate)
-						+ "')");
-			else
-				statement.executeUpdate("INSERT INTO Stems VALUES('"
-						+ escapeCharacter(stem) + "','" + escapeCharacter(word)
-						+ "'," + val + ",0, '" + escapeCharacter(translate)
-						+ "')");
-		} catch (SQLException e) {
-			System.err.println("Error: " + e.getMessage());
-			return false;
-		}
-		return true;
-	}
+            statement.executeUpdate("REPLACE INTO Settings VALUES ('colorTranslateWords','"
+                    + colorTranslateWords + "')");
 
-	/**
-	 * Update values of word, translate, remember, updateMeeting
-	 * 
-	 * @param stem
-	 * @param word
-	 * @param translate
-	 * @param remember
-	 * @param updateMeeting
-	 * @return
-	 */
-	private boolean updateStem(String stem, String word, String translate,
-			boolean remember, Boolean updateMeeting) {
-		try {
-			int val = remember ? 1 : 0;
-			if (updateMeeting)
-				statement.executeUpdate("UPDATE Stems SET Word='"
-						+ escapeCharacter(word) + "', Translate='"
-						+ escapeCharacter(translate) + "', Remember=" + val
-						+ ", Meeting=Meeting+1 WHERE Stem='"
-						+ escapeCharacter(stem) + "'");
-			else
-				statement.executeUpdate("UPDATE Stems SET Word='"
-						+ escapeCharacter(word) + "', Translate='"
-						+ escapeCharacter(translate) + "', Remember=" + val
-						+ " WHERE Stem='" + escapeCharacter(stem) + "'");
-		} catch (SQLException e) {
-			System.err.println("Error: " + e.getMessage());
-			return false;
-		}
-		return true;
-	}
+            statement.executeUpdate("REPLACE INTO Settings VALUES ('colorUnknownWords','"
+                    + colorUnknownWords + "')");
 
-	public void updateValues(String stem, String word, String translate,
-			boolean remember, boolean updateMeeting) {
-		if (isStemExist(stem))
-			updateStem(stem, word, translate, remember, updateMeeting);
-		else
-			addStem(stem, word, translate, remember, updateMeeting);
-	}
+            statement.executeUpdate("REPLACE INTO Settings VALUES ('colorKnownWords','"
+                    + colorKnownWords + "')");
 
-	/**
-	 * Get translation of the stem
-	 * 
-	 * @param stem
-	 * @return
-	 */
-	public String getTranslate(String stem) {
-		try {
-			ResultSet rs = statement
-					.executeQuery("SELECT Translate FROM Stems WHERE Translate IS NOT NULL AND Stem='"
-							+ escapeCharacter(stem) + "'");
-			while (rs.next()) {
-				return rs.getString("Translate");
-			}
-		} catch (SQLException e) {
-			System.err.println("Error: " + e.getMessage());
-		}
-		return null;
-	}
+            statement.executeUpdate("REPLACE INTO Settings VALUES ('colorStudiedWords','"
+                    + colorStudiedWords + "')");
 
-	/**
-	 * Is stem known?
-	 * @param stem
-	 * @return true if stem is known, otherwise false
-	 */
-	public boolean getRemember(String stem) {
-		try {
-			ResultSet rs = statement
-					.executeQuery("SELECT Remember FROM Stems WHERE Stem='"
-							+ escapeCharacter(stem) + "'");
-			while (rs.next()) {
-				String str = rs.getString("Remember");
-				return str.equals("1");
-			}
-		} catch (SQLException e) {
-			System.err.println("Error: " + e.getMessage());
-		}
-		return false;
-	}
+            statement.executeUpdate("REPLACE INTO Settings VALUES ('colorNameWords','"
+                    + colorNameWords + "')");
 
-	/**
-	 * Had stem met?
-	 * @param stem
-	 * @return
-	 */
-	public int getMeeting(String stem) {
-		try {
-			ResultSet rs = statement
-					.executeQuery("SELECT Meeting FROM Stems WHERE Stem='"
-							+ escapeCharacter(stem) + "'");
-			while (rs.next()) {
-				String str = rs.getString("Meeting");
-				return Integer.parseInt(str);
-			}
-		} catch (SQLException e) {
-			System.err.println("Error: " + e.getMessage());
-		}
-		return 0;
-	}
+            statement.executeUpdate("REPLACE INTO Settings VALUES ('colorHardWord','"
+                    + colorHardWord + "')");
 
-	public String getWord(String stem) {
-		try {
-			ResultSet rs = statement
-					.executeQuery("SELECT Word FROM Stems WHERE Stem='"
-							+ escapeCharacter(stem) + "'");
-			while (rs.next()) {
-				return rs.getString("Word");
-			}
-		} catch (SQLException e) {
-			// if the error message is "out of memory",
-			// it probably means no database file is found
-			System.err.println(e.getMessage());
-			return null;
-		}
-		return null;
-	}
+            statement.executeUpdate("REPLACE INTO Settings VALUES ('versionDB','"
+                    + versionDB + "')");
 
-	public void updateSittings(boolean hideKnownDialog,
-			String colorTranslateWords, String colorStudiedWords,
-			String colorFamiliarWords, String colorKnownWords) {
-		try {
-			statement
-					.executeUpdate("CREATE TABLE IF NOT EXISTS Sittings(Parameter VARCHAR PRIMARY KEY ASC, Value VARCHAR)");
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
 
-			statement
-					.executeUpdate("REPLACE INTO Sittings VALUES ('hideKnownDialog','"
-							+ hideKnownDialog + "')");
+    }
 
-			statement
-					.executeUpdate("REPLACE INTO Sittings VALUES ('colorTranslateWords','"
-							+ colorTranslateWords + "')");
+    /**
+     * Get settings from the database
+     * @return pairs parameter - value
+     */
+    public Map<String, String> getSettings() {
+        Map<String, String> result = new HashMap<String, String>();
+        ResultSet rs;
+        try {
+            rs = statement.executeQuery("SELECT Parameter, Value FROM Settings");
 
-			statement
-					.executeUpdate("REPLACE INTO Sittings VALUES ('colorStudiedWords','"
-							+ colorStudiedWords + "')");
+            while (rs.next())
+                result.put(rs.getString("Parameter"), rs.getString("Value"));
 
-			statement
-					.executeUpdate("REPLACE INTO Sittings VALUES ('colorFamiliarWords','"
-							+ colorFamiliarWords + "')");
+            return result;
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
 
-			statement
-					.executeUpdate("REPLACE INTO Sittings VALUES ('colorKnownWords','"
-							+ colorKnownWords + "')");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+    public static String escapeCharacter(String string) {
+        string = string.replace("'", "''");
+        return string;
+    }
 
-	}
+    public static int boolToInt(boolean value) {
+        return value ? 1 : 0;
+    }
 
-	public Map<String, String> getSittings() {
-		Map<String, String> result = new HashMap<String, String>();
-		ResultSet rs;
-		try {
-			rs = statement
-					.executeQuery("SELECT Parameter, Value FROM Sittings");
-			while (rs.next())
-				result.put(rs.getString("Parameter"), rs.getString("Value"));
-			return result;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+    /**
+     * Correct version of the database
+     */
+    private void correctVersion() {
+        Map<String, String> settings = getSettings();
+        if (settings == null || !settings.containsKey("versionDB")) {
+            // From version 0 to version 1
+            try {
+                // Rename field of the table Stems
+                statement.executeUpdate("ALTER TABLE \"main\".\"Stems\" RENAME TO \"tmp_Stems\"");
+                statement.executeUpdate("CREATE TABLE \"main\".\"Stems\" (\"Stem\" VARCHAR PRIMARY KEY  NOT NULL ,\"Word\" VARCHAR NOT NULL ,\"Known\" INTEGER NOT NULL  DEFAULT (0) ,\"Meeting\" INTEGER NOT NULL  DEFAULT (0) ,\"Translate\" VARCHAR)");
+                statement.executeUpdate("INSERT INTO \"main\".\"Stems\" SELECT \"Stem\",\"Word\",\"Remember\",\"Meeting\",\"Translate\" FROM \"main\".\"tmp_Stems\"");
+                statement.executeUpdate("DROP TABLE \"main\".\"tmp_Stems\"");
+                statement.execute("VACUUM");
 
-	public static String escapeCharacter(String string) {
-		string = string.replace("'", "''");
-		return string;
-	}
+                // Add column in the table Stems
+                statement.executeUpdate("ALTER TABLE Stems ADD COLUMN Study INTEGER NOT NULL  DEFAULT 0");
+
+                // Updata Study
+                statement.executeUpdate("UPDATE Stems SET Study=1 WHERE Translate=\"\"");
+
+                // Rename table from Sittings to Settings
+                statement.executeUpdate("ALTER TABLE Sittings RENAME TO Settings");
+
+                // Add parameter in the table Settings
+                statement.executeUpdate("REPLACE INTO Settings VALUES ('versionDB','" + versionDB + "')");
+
+            } catch (SQLException e) {
+                System.err.println(e.getMessage());
+            }
+        }
+    }
 }
