@@ -16,9 +16,15 @@ Vocabulary.db
 
 # NetBeans specific #
 nbproject/private/
+resources/
 build/
 nbbuild/
 dist/
 nbdist/
 nbactions.xml
 nb-configuration.xml
+
+# Intellij IDEA specific
+ .idea/workspace.xml
+ .idea/tasks.xml
+ out/
