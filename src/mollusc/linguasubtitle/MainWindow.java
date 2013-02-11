@@ -20,9 +20,6 @@ import java.util.Map;
 /**
  * Created with IntelliJ IDEA.
  * User: mollusc <MolluscLab@gmail.com>
- * Date: 04.02.13
- * Time: 13:24
- * To change this template use File | Settings | File Templates.
  */
 public class MainWindow implements PropertyChangeListener {
     private JPanel panel1;
@@ -196,6 +193,8 @@ public class MainWindow implements PropertyChangeListener {
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             File file = fileOpen.getSelectedFile();
             String pathGeneratedSubtitle = file.getAbsolutePath();
+            if (!(pathGeneratedSubtitle.length()>4 && pathGeneratedSubtitle.substring(pathGeneratedSubtitle.length()-4).toLowerCase().equals(".srt")))
+                pathGeneratedSubtitle += ".srt";
             subtitle.generateSubtitle(pathGeneratedSubtitle,
                     getStemTranslatePairs(),
                     getStemColorPairs(),
@@ -214,7 +213,7 @@ public class MainWindow implements PropertyChangeListener {
     private void updateDatabase(boolean updateMeeting) {
         exportToSubtitleButton.setEnabled(false);
         progressMonitor = new ProgressMonitor(frameParent,
-                "Обновляю базу данных...",
+                "Обновление базы данных...",
                 "", 0, 100);
         progressMonitor.setProgress(0);
 
@@ -499,6 +498,7 @@ public class MainWindow implements PropertyChangeListener {
      */
     private boolean loadTextPane() {
         if (subtitle != null) {
+            textSubtitle.setText("");
             subtitle.hideHeader(textSubtitle.getDocument());
             return true;
         }
