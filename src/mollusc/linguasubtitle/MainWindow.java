@@ -208,7 +208,7 @@ public class MainWindow implements PropertyChangeListener {
     /**
      * Updating records in the Database
      *
-     * @param updateMeeting Is it necessary to increment Meeting
+     * @param updateMeeting Is it necessary to increment Meeting?
      */
     private void updateDatabase(boolean updateMeeting) {
         exportToSubtitleButton.setEnabled(false);
