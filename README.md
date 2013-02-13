@@ -16,6 +16,7 @@
 
 ##Описание
 С подробной информацией о программе можно ознакомиться здесь: [http://sourceforge.net/p/linguasubtitle/wiki/Home/](http://sourceforge.net/p/linguasubtitle/wiki/Home/).
+
 Ссылка на проект : [http://sourceforge.net/projects/linguasubtitle/](http://sourceforge.net/projects/linguasubtitle/)
 
 Copyright (c) 2013 Mollusc Lab <MolluscLab@gmail.com>
