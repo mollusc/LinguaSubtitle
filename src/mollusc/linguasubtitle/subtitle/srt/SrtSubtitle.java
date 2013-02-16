@@ -40,6 +40,8 @@ public class SrtSubtitle extends Subtitle {
     private void initialSpeeches() {
         speeches = new TreeMap<Integer, Speech>();
         String[] lines = content.split("\r\n");
+        if(lines.length < 2)
+            lines = content.split("\n");
         boolean headerSpeech = true;
         int sequenceNumber = 0;
         String timing = new String();
