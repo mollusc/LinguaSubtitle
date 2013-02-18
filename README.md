@@ -1,6 +1,10 @@
 #LinguaSubtitle
 Программа предназначена для генерации субтитров на основе вашего словарного запаса
 
+![screenshot_small](https://dl.dropbox.com/u/78822592/LinguaSubtitle_2/screenshot_small.jpg)
+![vlc_screenshot_small](https://dl.dropbox.com/u/78822592/LinguaSubtitle_2/vlc-screenshot_small.jpg)
+
+
 ##Требования
 * Java 1.7 и более поздние версии.
 * Плеер с поддержкой тегов в субтитрах. Наиболее подходящий вариант плеер [VLC](http://sourceforge.net/projects/vlc/)
