@@ -15,8 +15,8 @@ public class JFileChooserWithCheck extends JFileChooser {
         File file = getSelectedFile();
         if (file.exists() && getDialogType() == SAVE_DIALOG) {
             int result = JOptionPane.showConfirmDialog(this,
-                    "Такой файл уже существует. Заменить?",
-                    "Уведомление",
+                    "File already exists. Overwrite?",
+                    "Message",
                     JOptionPane.YES_NO_CANCEL_OPTION);
             switch (result) {
                 case JOptionPane.YES_OPTION:

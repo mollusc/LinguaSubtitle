@@ -76,14 +76,14 @@ public class MainWindow implements PropertyChangeListener {
         tableMain.getColumnModel().getColumn(0).setMaxWidth(40);
         tableMain.getColumnModel().getColumn(1).setPreferredWidth(40);
         tableMain.getColumnModel().getColumn(1).setMaxWidth(40);
-        tableMain.getColumnModel().getColumn(2).setPreferredWidth(50);
-        tableMain.getColumnModel().getColumn(2).setMaxWidth(50);
+        tableMain.getColumnModel().getColumn(2).setPreferredWidth(60);
+        tableMain.getColumnModel().getColumn(2).setMaxWidth(60);
         tableMain.getColumnModel().getColumn(3).setPreferredWidth(100);
         tableMain.getColumnModel().getColumn(4).setPreferredWidth(100);
-        tableMain.getColumnModel().getColumn(5).setPreferredWidth(40);
-        tableMain.getColumnModel().getColumn(5).setMaxWidth(40);
+        tableMain.getColumnModel().getColumn(5).setPreferredWidth(50);
+        tableMain.getColumnModel().getColumn(5).setMaxWidth(80);
         tableMain.getColumnModel().getColumn(6).setPreferredWidth(50);
-        tableMain.getColumnModel().getColumn(6).setMaxWidth(150);
+        tableMain.getColumnModel().getColumn(6).setMaxWidth(80);
         tableMain.setRowHeight(20);
         tableMain.setDefaultEditor(Object.class, new CellEditor());
         tableMain.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -162,7 +162,7 @@ public class MainWindow implements PropertyChangeListener {
     private void loadSubtitleActionPerformed() {
         JFileChooser fileOpen = new JFileChooser();
         fileOpen.setFileFilter(new SubtitleFilter());
-        int returnValue = fileOpen.showDialog(null, "Открыть");
+        int returnValue = fileOpen.showDialog(null, "Open");
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             frameParent.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             File file = fileOpen.getSelectedFile();
@@ -213,7 +213,7 @@ public class MainWindow implements PropertyChangeListener {
     private void updateDatabase(boolean updateMeeting) {
         exportToSubtitleButton.setEnabled(false);
         progressMonitor = new ProgressMonitor(frameParent,
-                "Обновление базы данных...",
+                "Updating records in the Database...",
                 "", 0, 100);
         progressMonitor.setProgress(0);
 
@@ -248,7 +248,7 @@ public class MainWindow implements PropertyChangeListener {
             int progress = (Integer) evt.getNewValue();
             progressMonitor.setProgress(progress);
             String message =
-                    String.format("Выполненно %d%%.\n", progress);
+                    String.format("Completed %d%%.\n", progress);
             progressMonitor.setNote(message);
             if (progressMonitor.isCanceled() || task.isDone()) {
                 if (progressMonitor.isCanceled()) {

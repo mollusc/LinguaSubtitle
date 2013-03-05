@@ -133,7 +133,7 @@ public abstract class Subtitle {
      */
     protected static void saveSubtitle(String path, String content) {
         try {
-            OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(path, true), "windows-1251");
+            OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(path, true), "UTF8");
             writer.append(content);
             writer.close();
         } catch (Exception e) {

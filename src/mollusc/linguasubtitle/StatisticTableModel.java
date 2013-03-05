@@ -13,13 +13,13 @@ public class StatisticTableModel extends DefaultTableModel {
     public StatisticTableModel() {
         super(
                 new Object[][]{
-                        {"Общее количество слов", null, null},
-                        {"Количество неизвестных слов ", null, null},
-                        {"Количество известных слов", null, null},
-                        {"Количество изучаемых слов", null, null}
+                        {"Number of words", null, null},
+                        {"Number of unknown words", null, null},
+                        {"Number of known words", null, null},
+                        {"Number of studied words", null, null}
                 },
                 new String[]{
-                        "Параметр", "Уникальных", "Всего"
+                        "Parameter", "Unique", "Total"
                 }
         );
 

@@ -13,7 +13,7 @@ public class MainTableModel extends DefaultTableModel {
     public MainTableModel() {
         super(
                 new Object[][]{},
-                new String[]{"Имя", "Учу", "Знаю", "Слово", "Перевод", "Кол.", "Встречалось ранее"}
+                new String[]{"Name", "Study", "Known", "Word", "Translation", "Amount", "Met"}
         );
 
         this.types = new Class[]{
