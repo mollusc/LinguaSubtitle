@@ -13,10 +13,12 @@ import java.util.ArrayList;
 public class CellRender extends DefaultTableCellRenderer {
 
     private ArrayList<String> hardWords;
+    private String language;
 
-    public CellRender(ArrayList<String> hardWords) {
+    public CellRender(ArrayList<String> hardWords, String language) {
         setOpaque(true);
         this.hardWords = hardWords;
+        this.language = language;
     }
 
     @Override
@@ -29,7 +31,7 @@ public class CellRender extends DefaultTableCellRenderer {
         Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, indexRow, column);
         boolean isHard = false;
         if (hardWords != null) {
-            Stem stem = new Stem((String) table.getValueAt(row, 3));
+            Stem stem = new Stem((String) table.getValueAt(row, 3), language);
             if (hardWords.contains(stem.getStem()))
                 isHard = true;
         }

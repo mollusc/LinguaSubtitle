@@ -16,6 +16,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Vector;
 
 /**
  * Created with IntelliJ IDEA.
@@ -36,11 +37,14 @@ public class MainWindow implements PropertyChangeListener {
     private ColorSelectionButton colorButtonHardWords;
     private JEditorPane textSubtitle;
     private JTabbedPane tabbedPane1;
+    private JComboBox languageList;
+    public String language;
 
 
     private Subtitle subtitle;
     private ArrayList<String> hardWords;
     Map<String, String> settings;
+    private Map<String, String> languages;
     ProgressMonitor progressMonitor;
     private TaskUpdateDatabase task;
     private JFrame frameParent;
@@ -52,6 +56,7 @@ public class MainWindow implements PropertyChangeListener {
         InitializeSettings();
         InitializeTableMain();
         InitializeTableStatistic();
+        InitializeLanguageList();
 
         // initialize loadSubtitle
         loadSubtitle.addActionListener(new java.awt.event.ActionListener() {
@@ -91,6 +96,40 @@ public class MainWindow implements PropertyChangeListener {
                 tableMainMouseClicked(evt);
             }
         });
+    }
+
+    private void InitializeLanguageList()
+    {
+        language = null;
+        languages = new HashMap<String, String>();
+        //languages.put("Dansk", "danish");
+        //languages.put("Nederlands", "dutch");
+        //languages.put("Svenska", "swedish");
+        //languages.put("Suomi", "finnish");
+        //languages.put("Magyar nyelv", "hungarian");
+        //languages.put("Norsk", "norwegian");
+        //languages.put("Limba română", "romanian");
+        languages.put("English", "english");
+        languages.put("Français", "french");
+        languages.put("Deutsch", "german");
+        languages.put("Italiano", "italian");
+        languages.put("Português", "portuguese");
+        languages.put("Русский", "russian");
+        languages.put("Español", "spanish");
+        languages.put("Türkçe", "turkish");
+
+        for(String language : languages.keySet())
+            languageList.addItem(language);
+
+        if(settings != null && settings.containsKey("language") && languages.containsValue(settings.get("language"))){
+            for (String key : languages.keySet()){
+                String value = languages.get(key);
+                if (value.equals(settings.get("language")))
+                    languageList.setSelectedItem(key);
+            }
+        }
+        else
+            languageList.setSelectedItem("English");
     }
 
     private void InitializeSettings() {
@@ -160,6 +199,7 @@ public class MainWindow implements PropertyChangeListener {
      * Handle clicks on loadSubtitle button.
      */
     private void loadSubtitleActionPerformed() {
+        language = languages.get(languageList.getSelectedItem());
         JFileChooser fileOpen = new JFileChooser();
         fileOpen.setFileFilter(new SubtitleFilter());
         int returnValue = fileOpen.showDialog(null, "Open");
@@ -172,7 +212,7 @@ public class MainWindow implements PropertyChangeListener {
                 Filename fileName = new Filename(path, '/', '.');
                 String extension = fileName.extension().toLowerCase();
                 if (extension.equals("srt"))
-                    subtitle = new SrtSubtitle(path);
+                    subtitle = new SrtSubtitle(path, language);
                 if (subtitle != null && loadTextPane()) {
                     loadTable();
                     frameParent.setTitle("LinguaSubtitle 2 - " + path);
@@ -235,7 +275,8 @@ public class MainWindow implements PropertyChangeListener {
                 toHexString(colorButtonKnownWords.getColor()),
                 toHexString(colorButtonStudiedWords.getColor()),
                 toHexString(colorButtonNameWords.getColor()),
-                toHexString(colorButtonHardWords.getColor()));
+                toHexString(colorButtonHardWords.getColor()),
+                language);
         db.closeConnection();
     }
 
@@ -270,7 +311,7 @@ public class MainWindow implements PropertyChangeListener {
             boolean isKnown = (Boolean) tableMain.getModel().getValueAt(i, 2);
             if (!isName && !isStudy && !isKnown) {
                 String word = tableMain.getModel().getValueAt(i, 3).toString();
-                Stem stem = new Stem(word);
+                Stem stem = new Stem(word, language);
                 String translate = (String) tableMain.getModel().getValueAt(i, 4);
                 stems.put(stem.getStem(), translate);
             }
@@ -288,7 +329,7 @@ public class MainWindow implements PropertyChangeListener {
             boolean isStudy = (Boolean) tableMain.getModel().getValueAt(i, 1);
             boolean isKnown = (Boolean) tableMain.getModel().getValueAt(i, 2);
             String word = tableMain.getModel().getValueAt(i, 3).toString();
-            Stem stem = new Stem(word);
+            Stem stem = new Stem(word, language);
 
             if (isKnown)
                 continue;
@@ -322,7 +363,7 @@ public class MainWindow implements PropertyChangeListener {
             boolean isKnown = (Boolean) tableMain.getModel().getValueAt(i, 2);
             if (!isName && !isStudy && !isKnown) {
                 String word = tableMain.getModel().getValueAt(i, 3).toString();
-                Stem stem = new Stem(word);
+                Stem stem = new Stem(word, language);
                 stems.put(stem.getStem(), toHexString(colorButtonTranslateWords.getColor()));
             }
         }
@@ -375,7 +416,7 @@ public class MainWindow implements PropertyChangeListener {
         int rowIndex = tableMain.convertRowIndexToModel(rowNumber);
         if (rowIndex != -1 && subtitle != null) {
             String word = tableMain.getModel().getValueAt(rowIndex, 3).toString();
-            Stem stem = new Stem(word);
+            Stem stem = new Stem(word, language);
             textSubtitle.setText("");
             Document document = textSubtitle.getDocument();
             subtitle.markWord(stem.getStem(), document);
@@ -393,11 +434,11 @@ public class MainWindow implements PropertyChangeListener {
         Vocabulary db = new Vocabulary("Vocabulary");
         db.createConnection();
         hardWords = db.getHardWords();
-        tableMain.setDefaultRenderer(Object.class, new CellRender(hardWords));
-        tableMain.setDefaultRenderer(Integer.class, new CellRender(hardWords));
+        tableMain.setDefaultRenderer(Object.class, new CellRender(hardWords, language));
+        tableMain.setDefaultRenderer(Integer.class, new CellRender(hardWords, language));
         tableMain.setDefaultRenderer(Boolean.class, new CheckBoxRenderer());
         for (Stem key : stems.keySet()) {
-            ItemVocabulary itemDatabase = db.getItem(key.getStem());
+            ItemVocabulary itemDatabase = db.getItem(key.getStem(), language);
             boolean known = false;
             boolean study = false;
             int meeting = 0;
@@ -500,6 +541,7 @@ public class MainWindow implements PropertyChangeListener {
         if (subtitle != null) {
             textSubtitle.setText("");
             subtitle.hideHeader(textSubtitle.getDocument());
+
             return true;
         }
         return false;

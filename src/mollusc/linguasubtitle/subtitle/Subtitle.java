@@ -28,6 +28,11 @@ public abstract class Subtitle {
     protected String pathToSubtitle;
 
     /**
+     * Language of the subtitle
+     */
+    protected String language;
+
+    /**
      * Get path to the subtitle file
      *
      * @return
@@ -36,7 +41,8 @@ public abstract class Subtitle {
         return pathToSubtitle;
     }
 
-    public Subtitle(String path) {
+    public Subtitle(String path, String language) {
+        this.language = language;
         pathToSubtitle = path;
         try {
             FileInputStream stream = new FileInputStream(new File(pathToSubtitle));
@@ -118,7 +124,6 @@ public abstract class Subtitle {
     public static boolean isNumeric(String text) {
         try {
             Integer.parseInt(text);
-
         } catch (Exception nfe) {
             return false;
         }

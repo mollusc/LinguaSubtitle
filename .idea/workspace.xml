@@ -7,29 +7,42 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8dd78de9-0ec8-485a-8547-4681830d2cd6" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mollusc/linguasubtitle/JFileChooserWithCheck.java" afterPath="$PROJECT_DIR$/src/mollusc/linguasubtitle/JFileChooserWithCheck.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mollusc/linguasubtitle/MainTableModel.java" afterPath="$PROJECT_DIR$/src/mollusc/linguasubtitle/MainTableModel.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/artifacts/LinguaSubtitle_jar.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/tartarus/snowball/Among.java" afterPath="$PROJECT_DIR$/src/org/tartarus/snowball/Among.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mollusc/linguasubtitle/CellRender.java" afterPath="$PROJECT_DIR$/src/mollusc/linguasubtitle/CellRender.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mollusc/linguasubtitle/db/ItemVocabulary.java" afterPath="$PROJECT_DIR$/src/mollusc/linguasubtitle/db/ItemVocabulary.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mollusc/linguasubtitle/MainWindow.form" afterPath="$PROJECT_DIR$/src/mollusc/linguasubtitle/MainWindow.form" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mollusc/linguasubtitle/MainWindow.java" afterPath="$PROJECT_DIR$/src/mollusc/linguasubtitle/MainWindow.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mollusc/linguasubtitle/StatisticTableModel.java" afterPath="$PROJECT_DIR$/src/mollusc/linguasubtitle/StatisticTableModel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/tartarus/snowball/SnowballProgram.java" afterPath="$PROJECT_DIR$/src/org/tartarus/snowball/SnowballProgram.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/tartarus/snowball/SnowballStemmer.java" afterPath="$PROJECT_DIR$/src/org/tartarus/snowball/SnowballStemmer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/srt/SrtSubtitle.java" afterPath="$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/srt/SrtSubtitle.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/parser/Stem.java" afterPath="$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/parser/Stem.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/Subtitle.java" afterPath="$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/Subtitle.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mollusc/linguasubtitle/TaskUpdateDatabase.java" afterPath="$PROJECT_DIR$/src/mollusc/linguasubtitle/TaskUpdateDatabase.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mollusc/linguasubtitle/db/Vocabulary.java" afterPath="$PROJECT_DIR$/src/mollusc/linguasubtitle/db/Vocabulary.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/tartarus/snowball/ext/englishStemmer.java" afterPath="$PROJECT_DIR$/src/org/tartarus/snowball/ext/englishStemmer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="LinguaSubtitle.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1362465317377" ignored="false" />
-    <file path="/.gitignore" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1360070046069" ignored="false" />
+    <file path="/Dummy.txt" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1363780795638" ignored="false" />
+    <file path="/.gitignore" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1363779769151" ignored="false" />
     <file path="/StemModelTable.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1359970605786" ignored="false" />
-    <file path="/MainWindow.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1360583104425" ignored="false" />
+    <file path="/MainWindow.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1362570948305" ignored="false" />
     <file path="/MainTableModel.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1359973406657" ignored="false" />
-    <file path="/fragment.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1361025891710" ignored="false" />
+    <file path="/fragment.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1363607461864" ignored="false" />
     <file path="/SettingsTableModel.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1359974601583" ignored="false" />
     <file path="/CellEditor.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1359978835317" ignored="false" />
-    <file path="/TaskUpdateDatabase.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1359983316102" ignored="false" />
-    <file path="/SrtSubtitle.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1361026720266" ignored="false" />
-    <file path="/Subtitle.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1360145412984" ignored="false" />
-    <file path="/Vocabulary.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1360224972497" ignored="false" />
+    <file path="/TaskUpdateDatabase.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1362569353543" ignored="false" />
+    <file path="/SrtSubtitle.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1363606391582" ignored="false" />
+    <file path="/Subtitle.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1362488976126" ignored="false" />
+    <file path="/Vocabulary.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1362567403847" ignored="false" />
     <file path="/StatisticTableModel.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1360225330912" ignored="false" />
+    <file path="/Stem.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1362569171838" ignored="false" />
+    <file path="/ItemVocabulary.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1362566712697" ignored="false" />
+    <file path="/CellRender.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1362569483139" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,7 +58,7 @@
   </component>
   <component name="DebuggerManager">
     <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
-      <breakpoint url="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/srt/SrtSubtitle.java" line="67" class="mollusc.linguasubtitle.subtitle.srt.SrtSubtitle" package="mollusc.linguasubtitle.subtitle.srt">
+      <breakpoint url="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/parser/Stem.java" line="86" class="mollusc.linguasubtitle.subtitle.parser.Stem" package="mollusc.linguasubtitle.subtitle.parser">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -56,22 +69,8 @@
         <option name="CONDITION_ENABLED" value="true" />
         <option name="CLASS_FILTERS_ENABLED" value="false" />
         <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/srt/SrtSubtitle.java" line="33" class="mollusc.linguasubtitle.subtitle.srt.SrtSubtitle" package="mollusc.linguasubtitle.subtitle.srt">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
+        <option name="CONDITION" value="language == null&#13;&#13;JAVA" />
+        <option name="LOG_MESSAGE" value="&#13;&#13;JAVA" />
       </breakpoint>
       <breakpoint url="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/srt/SrtSubtitle.java" line="40" class="mollusc.linguasubtitle.subtitle.srt.SrtSubtitle" package="mollusc.linguasubtitle.subtitle.srt">
         <option name="ENABLED" value="true" />
@@ -87,7 +86,21 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/srt/SrtSubtitle.java" line="45" class="mollusc.linguasubtitle.subtitle.srt.SrtSubtitle" package="mollusc.linguasubtitle.subtitle.srt">
+      <breakpoint url="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/db/Vocabulary.java" line="221" class="mollusc.linguasubtitle.db.Vocabulary" package="mollusc.linguasubtitle.db">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/db/Vocabulary.java" line="248" class="mollusc.linguasubtitle.db.Vocabulary" package="mollusc.linguasubtitle.db">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -102,6 +115,7 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </line_breakpoints>
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -136,7 +150,6 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -146,10 +159,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="CellRender.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/CellRender.java">
+      <file leaf-file-name="MainWindow.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/MainWindow.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="13" selection-start="270" selection-end="270" vertical-scroll-proportion="0.0">
+            <state line="514" column="50" selection-start="20181" selection-end="20181" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Subtitle.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/Subtitle.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="36" column="6" selection-start="763" selection-end="763" vertical-scroll-proportion="0.02425107">
               <folding />
             </state>
           </provider>
@@ -158,34 +180,43 @@
       <file leaf-file-name="Stem.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/parser/Stem.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="71" column="36" selection-start="1308" selection-end="1308" vertical-scroll-proportion="0.0">
+            <state line="52" column="22" selection-start="877" selection-end="877" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="IndexWord.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/srt/IndexWord.java">
+      <file leaf-file-name="Vocabulary.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/db/Vocabulary.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="13" selection-start="140" selection-end="140" vertical-scroll-proportion="0.0">
+            <state line="237" column="72" selection-start="8827" selection-end="8827" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="IndexWordComparator.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/srt/IndexWordComparator.java">
+      <file leaf-file-name=".gitignore" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="13" selection-start="137" selection-end="137" vertical-scroll-proportion="0.0">
+            <state line="28" column="10" selection-start="292" selection-end="292" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Speech.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/srt/Speech.java">
+      <file leaf-file-name="Among.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/tartarus/snowball/Among.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="13" selection-start="152" selection-end="152" vertical-scroll-proportion="0.0">
+            <state line="22" column="5" selection-start="621" selection-end="621" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SubtitleFilter.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/SubtitleFilter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="10" column="0" selection-start="201" selection-end="201" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -194,41 +225,7 @@
       <file leaf-file-name="SrtSubtitle.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/srt/SrtSubtitle.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="185" column="0" selection-start="6521" selection-end="6521" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MainWindow.form" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/MainWindow.form">
-          <provider selected="true" editor-type-id="ui-designer">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="StatisticTableModel.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/StatisticTableModel.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="13" selection-start="167" selection-end="167" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MainTableModel.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/MainTableModel.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="30" selection-start="479" selection-end="479" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MainWindow.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/MainWindow.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="68" column="76" selection-start="2427" selection-end="2427" vertical-scroll-proportion="0.60366553">
+            <state line="80" column="82" selection-start="2522" selection-end="2522" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -251,6 +248,7 @@
     </option>
   </component>
   <component name="GitLogSettings">
+    <option name="myStructureFilterPaths" />
     <option name="myDateState">
       <MyDateState />
     </option>
@@ -258,24 +256,27 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/mollusc/linguasubtitle/SettingsTableModel.java" />
-        <option value="$PROJECT_DIR$/src/mollusc/linguasubtitle/CellEditor.java" />
-        <option value="$PROJECT_DIR$/src/mollusc/linguasubtitle/TaskUpdateDatabase.java" />
-        <option value="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
-        <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/src/mollusc/linguasubtitle/MainFrame.java" />
         <option value="$PROJECT_DIR$/src/mollusc/linguasubtitle/SubtitleFilter.java" />
         <option value="$PROJECT_DIR$/src/mollusc/linguasubtitle/ColorSelectionButton.java" />
-        <option value="$PROJECT_DIR$/src/mollusc/linguasubtitle/db/Vocabulary.java" />
-        <option value="$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/srt/SrtSubtitle.java" />
         <option value="$PROJECT_DIR$/src/mollusc/linguasubtitle/StatisticTableModel.java" />
         <option value="$PROJECT_DIR$/src/mollusc/linguasubtitle/MainTableModel.java" />
         <option value="$PROJECT_DIR$/src/mollusc/linguasubtitle/JFileChooserWithCheck.java" />
-        <option value="$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/Subtitle.java" />
         <option value="$PROJECT_DIR$/src/mollusc/linguasubtitle/MainWindow.form" />
+        <option value="$PROJECT_DIR$/src/org/tartarus/snowball/ext/frenchStemmer.java" />
+        <option value="$PROJECT_DIR$/src/mollusc/linguasubtitle/db/ItemVocabulary.java" />
+        <option value="$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/parser/Stem.java" />
+        <option value="$PROJECT_DIR$/src/mollusc/linguasubtitle/CellRender.java" />
+        <option value="$PROJECT_DIR$/src/mollusc/linguasubtitle/TaskUpdateDatabase.java" />
+        <option value="$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/srt/SrtSubtitle.java" />
         <option value="$PROJECT_DIR$/src/mollusc/linguasubtitle/MainWindow.java" />
+        <option value="$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/Subtitle.java" />
+        <option value="$PROJECT_DIR$/src/mollusc/linguasubtitle/db/Vocabulary.java" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
+  </component>
+  <component name="MavenProjectNavigator">
+    <treeState />
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
@@ -358,131 +359,35 @@
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="snowball" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ext" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LinguaSubtitle" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LinguaSubtitle" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="linguasubtitle" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MainWindow" />
-              <option name="myItemType" value="com.intellij.uiDesigner.projectView.FormNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LinguaSubtitle" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LinguaSubtitle" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="linguasubtitle" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LinguaSubtitle" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LinguaSubtitle" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="linguasubtitle" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="subtitle" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LinguaSubtitle" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LinguaSubtitle" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="linguasubtitle" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="subtitle" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="parser" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="GenerateAntBuildDialog.generateIdeaHomeProperty" value="false" />
-    <property name="project.structure.last.edited" value="Artifacts" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="290" />
-    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="288" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="288" />
     <property name="OverrideImplement.combined" value="false" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="290" />
+    <property name="project.structure.proportion" value="0.15" />
     <property name="options.splitter.main.proportions" value="0.3" />
-    <property name="GenerateAntBuildDialog.generateSingleFile" value="false" />
-    <property name="MemberChooser.sorted" value="false" />
-    <property name="recentsLimit" value="5" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="308" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="310" />
+    <property name="recentsLimit" value="5" />
+    <property name="MemberChooser.sorted" value="false" />
+    <property name="GenerateAntBuildDialog.generateSingleFile" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
     <property name="GenerateAntBuildDialog.inclineRuntiemClasspath" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/sqlite-jdbc-3.7.2.jar!/" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="293" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="928" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="971" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="306" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="291" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="921" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="964" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="304" />
     <property name="GenerateAntBuildDialog.outputFileNameProperty" value="linguasubtitle" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="300" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="298" />
     <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
@@ -490,19 +395,19 @@
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="options.splitter.details.proportions" value="0.2" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
     <property name="GoToFile.includeJavaFiles" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
-    <property name="options.lastSelected" value="reference.settingsdialog.IDE.editor.colors.Java" />
-    <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
+    <property name="options.lastSelected" value="MavenSettings" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="restartRequiresConfirmation" value="true" />
     <property name="GenerateAntBuildDialog.backupFiles" value="true" />
-    <property name="options.searchVisible" value="true" />
     <property name="dynamic.classpath" value="false" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RunManager" selected="Application.MainWindow">
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
@@ -517,6 +422,19 @@
       <option name="SHMEM_ADDRESS" value="javadebug" />
       <option name="HOST" value="localhost" />
       <option name="PORT" value="5005" />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
@@ -544,19 +462,6 @@
       <envs />
       <properties />
       <listeners />
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -712,29 +617,33 @@
       <created>1360664031308</created>
       <updated>1360664031308</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Translate interface to English.">
+      <created>1362479387999</created>
+      <updated>1362479387999</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.6028921" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32925472" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16862327" sideWeight="0.83092326" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16862327" sideWeight="0.8320356" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25141564" sideWeight="0.601921" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1724138" sideWeight="0.5864461" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33408833" sideWeight="0.49573106" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16907676" sideWeight="0.40981856" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25695217" sideWeight="0.601921" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1724138" sideWeight="0.5864461" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3114572" sideWeight="0.49573106" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1679644" sideWeight="0.40981856" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18249734" sideWeight="0.36484984" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18249734" sideWeight="0.5561735" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3335112" sideWeight="0.8320356" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18249734" sideWeight="0.62736374" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18249734" sideWeight="0.26807564" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.2580645" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" x="23" y="403" width="1874" height="233" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.7474972" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1512792" sideWeight="0.49573106" order="1" side_tool="false" content_ui="tabs" />
@@ -780,7 +689,7 @@
     <option name="MAXIMUM_HISTORY_ROWS" value="1000" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Set textSubtitle as uneditable." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add languages." />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -803,9 +712,15 @@
     <MESSAGE value="Add default constructor for ColorSelectionButton" />
     <MESSAGE value="Set default extensions if user don't set" />
     <MESSAGE value="Set textSubtitle as uneditable." />
+    <MESSAGE value="Translate interface to English." />
+    <MESSAGE value="Add languages." />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <breakpoints-dialog>
+        <breakpoints-dialog />
+      </breakpoints-dialog>
+    </breakpoint-manager>
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
@@ -814,110 +729,96 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/org/tartarus/snowball/SnowballStemmer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="22" selection-start="55" selection-end="55" vertical-scroll-proportion="0.0">
+        <state line="4" column="0" selection-start="85" selection-end="85" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/tartarus/snowball/SnowballProgram.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="0" selection-start="425" selection-end="425" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/CellRender.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="35" selection-start="518" selection-end="518" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/parser/Stem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="52" column="22" selection-start="877" selection-end="877" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/TaskUpdateDatabase.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="6" selection-start="259" selection-end="259" vertical-scroll-proportion="0.0">
+        <state line="35" column="88" selection-start="1299" selection-end="1299" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/sqlite-jdbc-3.7.2.jar!/org/sqlite/ExtendedCommand.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="58" selection-start="283" selection-end="283" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/sqlite-jdbc-3.7.2.jar!/org/sqlite/Stmt.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="15" selection-start="1240" selection-end="1240" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.7.0_11/src.zip!/javax/swing/JFileChooser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1616" column="0" selection-start="54073" selection-end="54073" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/MainWindow.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="514" column="50" selection-start="20181" selection-end="20181" vertical-scroll-proportion="0.0">
           <folding />
         </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.7.0_11/src.zip!/javax/swing/plaf/basic/BasicDirectoryModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="171" column="32" selection-start="4701" selection-end="4701" vertical-scroll-proportion="0.019428572" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/SubtitleFilter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="13" selection-start="141" selection-end="141" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/JFileChooserWithCheck.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="13" selection-start="261" selection-end="261" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/Filename.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="6" selection-start="1775" selection-end="1775" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/CellEditor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="13" selection-start="238" selection-end="238" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/CellRender.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="13" selection-start="270" selection-end="270" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/parser/Stem.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="36" selection-start="1308" selection-end="1308" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/srt/IndexWord.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="13" selection-start="140" selection-end="140" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/srt/IndexWordComparator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="13" selection-start="137" selection-end="137" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/srt/Speech.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="13" selection-start="152" selection-end="152" vertical-scroll-proportion="0.0">
+        <state line="10" column="0" selection-start="201" selection-end="201" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/srt/SrtSubtitle.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="185" column="0" selection-start="6521" selection-end="6521" vertical-scroll-proportion="0.0">
+        <state line="80" column="82" selection-start="2522" selection-end="2522" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/MainWindow.form">
-      <provider selected="true" editor-type-id="ui-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/StatisticTableModel.java">
+    <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/db/Vocabulary.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="13" selection-start="167" selection-end="167" vertical-scroll-proportion="0.0">
+        <state line="237" column="72" selection-start="8827" selection-end="8827" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/MainTableModel.java">
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="30" selection-start="479" selection-end="479" vertical-scroll-proportion="0.0">
+        <state line="28" column="10" selection-start="292" selection-end="292" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/MainWindow.java">
+    <entry file="file://$PROJECT_DIR$/src/org/tartarus/snowball/Among.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="68" column="76" selection-start="2427" selection-end="2427" vertical-scroll-proportion="0.60366553">
+        <state line="22" column="5" selection-start="621" selection-end="621" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/Subtitle.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="36" column="6" selection-start="763" selection-end="763" vertical-scroll-proportion="0.02425107">
           <folding />
         </state>
       </provider>

@@ -28,8 +28,8 @@ public class SrtSubtitle extends Subtitle {
      */
     private Map<String, ArrayList<IndexWord>> index;
 
-    public SrtSubtitle(String path) {
-        super(path);
+    public SrtSubtitle(String path, String language) {
+        super(path, language);
         initialSpeeches();
         initialIndex();
     }
@@ -39,9 +39,7 @@ public class SrtSubtitle extends Subtitle {
      */
     private void initialSpeeches() {
         speeches = new TreeMap<Integer, Speech>();
-        String[] lines = content.split("\r\n");
-        if(lines.length < 2)
-            lines = content.split("\n");
+        String[] lines = content.split("\\r?\\n");
         boolean headerSpeech = true;
         int sequenceNumber = 0;
         String timing = new String();
@@ -80,7 +78,7 @@ public class SrtSubtitle extends Subtitle {
                 if (!isTag) {
                     if (!Character.isLetter(ch) && ch != '\'') {
                         if (text.length() > 2 && !isNumeric(text)) {
-                            String stemString = Stem.stemmingWord(text);
+                            String stemString = Stem.stemmingWord(text, language);
                             if (!index.containsKey(stemString)) {
                                 index.put(stemString,
                                         new ArrayList<IndexWord>());
@@ -131,7 +129,7 @@ public class SrtSubtitle extends Subtitle {
                     currentWord = currentWord.toLowerCase();
             }
             if (!currentWord.isEmpty()) {
-                Stem stem = new Stem(stemString, currentWord);
+                Stem stem = new Stem(stemString, currentWord, language);
                 result.put(stem, indexWords.size());
             }
         }
@@ -233,7 +231,7 @@ public class SrtSubtitle extends Subtitle {
             Speech speech = cloneSpeeches.get(indexWord.indexSpeech);
 
             String word = speech.content.substring(indexWord.start, indexWord.end);
-            String stemString = Stem.stemmingWord(word.toLowerCase());
+            String stemString = Stem.stemmingWord(word.toLowerCase(), language);
             String left = speech.content.substring(0, indexWord.start);
 
             StringBuilder strTranslate;

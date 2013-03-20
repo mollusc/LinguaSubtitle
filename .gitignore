@@ -25,6 +25,10 @@ nbactions.xml
 nb-configuration.xml
 
 # Intellij IDEA specific
- .idea/workspace.xml
- .idea/tasks.xml
- out/
+.idea
+.classpath
+.project
+.settings/
+bin/
+target/
+out/

@@ -32,9 +32,10 @@ class TaskUpdateDatabase extends SwingWorker<Void, Void> {
             boolean isStudy = (Boolean) outer.tableMain.getModel().getValueAt(i, 1);
             boolean isKnown = (Boolean) outer.tableMain.getModel().getValueAt(i, 2);
             String word = outer.tableMain.getModel().getValueAt(i, 3).toString();
-            Stem stem = new Stem(word);
+            Stem stem = new Stem(word,  outer.language);
             String translation = outer.tableMain.getModel().getValueAt(i, 4).toString();
-            db.updateValues(stem.getStem(), word, translation, isKnown, isStudy, updateMeeting);
+            String language = outer.language;
+            db.updateValues(stem.getStem(), word, translation, language, isKnown, isStudy, updateMeeting);
             progress += 100f / outer.tableMain.getRowCount();
             setProgress((int) progress);
         }

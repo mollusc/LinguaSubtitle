@@ -1,6 +1,7 @@
 package mollusc.linguasubtitle.subtitle.parser;
 
-import org.tartarus.snowball.ext.englishStemmer;
+import org.tartarus.snowball.SnowballStemmer;
+import org.tartarus.snowball.ext.*;
 
 /**
  * Class for getting stem from a word
@@ -11,6 +12,7 @@ public class Stem implements Comparable<Stem> {
 
     private String stem;
     private String word;
+    private String language;
 
     /**
      * Get stem
@@ -40,13 +42,11 @@ public class Stem implements Comparable<Stem> {
     }
 
     /**
-     * Initialize stem
-     *
-     * @param word
+     * Get language
+     * @return
      */
-    public Stem(String word) {
-        this.word = word;
-        stem = stemmingWord(this.word.toLowerCase());
+    public String getLanguage() {
+        return language;
     }
 
     /**
@@ -54,22 +54,45 @@ public class Stem implements Comparable<Stem> {
      *
      * @param word
      */
-    public Stem(String stem, String word) {
+    public Stem(String word, String language) {
+        this.word = word;
+        this.language = language;
+        stem = stemmingWord(this.word.toLowerCase(), language);
+    }
+
+    /**
+     * Initialize stem
+     *
+     * @param word
+     */
+    public Stem(String stem, String word, String language) {
         this.word = word;
         this.stem = stem;
+        this.language = language;
     }
 
     /**
      * Get stem from the word
      *
      * @param word
+     * @param language - Language of the word. (danish, dutch,
+     *                 swedish, finnish, hungarian,
+     *                 norwegian, romanian, english,
+     *                 french, german, italian,
+     *                 portuguese, russian, spanish, turkish)
      * @return
      */
-    public static String stemmingWord(String word) {
-        englishStemmer stemmer = new englishStemmer();
-        stemmer.setCurrent(word);
-        stemmer.stem();
-        return stemmer.getCurrent();
+    public static String stemmingWord(String word, String language) {
+        try {
+            Class stemClass = Class.forName("org.tartarus.snowball.ext." + language + "Stemmer");
+            SnowballStemmer stemmer = (SnowballStemmer) stemClass.newInstance();
+            stemmer.setCurrent(word);
+            stemmer.stem();
+            return stemmer.getCurrent();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        return null;
     }
 
     @Override

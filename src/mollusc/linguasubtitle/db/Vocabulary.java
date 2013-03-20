@@ -13,7 +13,7 @@ public class Vocabulary {
     /**
      * Version of the database
      */
-    private final int versionDB = 1;
+    private final int versionDB = 2;
     /**
      * Name of the database
      */
@@ -42,13 +42,13 @@ public class Vocabulary {
         }
 
         try {
-            connection = DriverManager.getConnection("jdbc:sqlite:" + nameDB
-                    + ".db");
+            connection = DriverManager.getConnection("jdbc:sqlite:" + nameDB + ".db");
             statement = connection.createStatement();
             statement.setQueryTimeout(30);
             correctVersion();
-            statement.executeUpdate("CREATE  TABLE  IF NOT EXISTS Stems (Stem VARCHAR PRIMARY KEY  NOT NULL , Word VARCHAR NOT NULL , Known INTEGER NOT NULL  DEFAULT 0, Meeting INTEGER NOT NULL  DEFAULT 0, Study INTEGER NOT NULL  DEFAULT 0, Translate VARCHAR)");
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS Stems (Stem VARCHAR NOT NULL , Word VARCHAR NOT NULL, Translate VARCHAR, Language VARCHAR NOT NULL, Known INTEGER NOT NULL  DEFAULT 0, Meeting INTEGER NOT NULL  DEFAULT 0, Study INTEGER NOT NULL  DEFAULT 0, PRIMARY KEY(Stem, Language))");
             statement.executeUpdate("CREATE TABLE IF NOT EXISTS Settings(Parameter VARCHAR PRIMARY KEY ASC, Value VARCHAR)");
+            statement.executeUpdate("REPLACE INTO Settings VALUES ('versionDB','" + versionDB + "')");
         } catch (SQLException e) {
             System.err.println(e.getMessage());
             return false;
@@ -93,19 +93,20 @@ public class Vocabulary {
     /**
      * Update values
      */
-    public void updateValues(String stem, String word, String translate, boolean isKnown, boolean isStudy, boolean updateMeeting) {
+    public void updateValues(String stem, String word, String translate, String language, boolean isKnown, boolean isStudy, boolean updateMeeting) {
         try {
-            String query = "INSERT OR REPLACE INTO Stems (Stem, Word, Translate, Known, Study, Meeting)  VALUES ("
+            String query = "INSERT OR REPLACE INTO Stems (Stem, Word, Translate, Language, Known, Study, Meeting)  VALUES ("
                     + "'" + escapeCharacter(stem) + "',"
                     + "'" + escapeCharacter(word) + "',"
                     + "'" + escapeCharacter(translate) + "',"
+                    + "'" + escapeCharacter(language) + "',"
                     + boolToInt(isKnown) + ","
                     + boolToInt(isStudy) + ","
                     + "COALESCE((SELECT Meeting FROM Stems WHERE";
             if (updateMeeting) {
-                query += " Stem='" + escapeCharacter(stem) + "') + 1,1))";
+                query += " Stem='" + escapeCharacter(stem) + "' AND Language='" + escapeCharacter(language) + "') + 1,1))";
             } else {
-                query += " Stem='" + escapeCharacter(stem) + "'),1))";
+                query += " Stem='" + escapeCharacter(stem) + "' AND Language='" + escapeCharacter(language) + "'),1))";
             }
             statement.executeUpdate(query);
         } catch (Exception e) {
@@ -117,17 +118,17 @@ public class Vocabulary {
      * Get data from the database
      * @param stem is key for search
      */
-    public ItemVocabulary getItem(String stem) {
+    public ItemVocabulary getItem(String stem, String language) {
         try {
             ResultSet rs = statement
-                    .executeQuery("SELECT * FROM Stems WHERE Stem='" + escapeCharacter(stem) + "'");
+                    .executeQuery("SELECT * FROM Stems WHERE Stem='" + escapeCharacter(stem) + "' AND Language='"+language+"'");
             if (rs.next()) {
                 String word = rs.getString("Word");
                 String translate = rs.getString("Translate");
                 boolean known = "1".equals(rs.getString("Known")) ? true : false;
                 boolean study = "1".equals(rs.getString("Study")) ? true : false;
                 int meeting = Integer.parseInt(rs.getString("Meeting"));
-                return new ItemVocabulary(stem, word, translate, known, meeting, study);
+                return new ItemVocabulary(stem, word, translate, language, known, meeting, study);
             }
         } catch (SQLException e) {
             System.err.println(e.getMessage());
@@ -144,7 +145,8 @@ public class Vocabulary {
                                String colorKnownWords,
                                String colorStudiedWords,
                                String colorNameWords,
-                               String colorHardWord) {
+                               String colorHardWord,
+                               String language) {
         try {
             statement.executeUpdate("REPLACE INTO Settings VALUES ('hideKnownDialog','"
                     + hideKnownDialog + "')");
@@ -166,6 +168,9 @@ public class Vocabulary {
 
             statement.executeUpdate("REPLACE INTO Settings VALUES ('colorHardWord','"
                     + colorHardWord + "')");
+
+            statement.executeUpdate("REPLACE INTO Settings VALUES ('language','"
+                    + language + "')");
 
             statement.executeUpdate("REPLACE INTO Settings VALUES ('versionDB','"
                     + versionDB + "')");
@@ -214,23 +219,41 @@ public class Vocabulary {
             // From version 0 to version 1
             try {
                 // Rename field of the table Stems
-                statement.executeUpdate("ALTER TABLE \"main\".\"Stems\" RENAME TO \"tmp_Stems\"");
-                statement.executeUpdate("CREATE TABLE \"main\".\"Stems\" (\"Stem\" VARCHAR PRIMARY KEY  NOT NULL ,\"Word\" VARCHAR NOT NULL ,\"Known\" INTEGER NOT NULL  DEFAULT (0) ,\"Meeting\" INTEGER NOT NULL  DEFAULT (0) ,\"Translate\" VARCHAR)");
-                statement.executeUpdate("INSERT INTO \"main\".\"Stems\" SELECT \"Stem\",\"Word\",\"Remember\",\"Meeting\",\"Translate\" FROM \"main\".\"tmp_Stems\"");
-                statement.executeUpdate("DROP TABLE \"main\".\"tmp_Stems\"");
+                statement.executeUpdate("ALTER TABLE Stems RENAME TO tmp_Stems");
+                statement.executeUpdate("CREATE TABLE Stems (Stem VARCHAR PRIMARY KEY  NOT NULL ,Word VARCHAR NOT NULL ,Known INTEGER NOT NULL  DEFAULT (0) ,Meeting INTEGER NOT NULL  DEFAULT (0) ,Translate VARCHAR)");
+                statement.executeUpdate("INSERT INTO Stems SELECT Stem, Word, Remember, Meeting, Translate FROM tmp_Stems");
+                statement.executeUpdate("DROP TABLE tmp_Stems");
                 statement.execute("VACUUM");
 
                 // Add column in the table Stems
-                statement.executeUpdate("ALTER TABLE Stems ADD COLUMN Study INTEGER NOT NULL  DEFAULT 0");
+                statement.executeUpdate("ALTER TABLE Stems ADD COLUMN Study INTEGER NOT NULL DEFAULT 0");
 
-                // Updata Study
+                // Update Study
                 statement.executeUpdate("UPDATE Stems SET Study=1 WHERE Translate=\"\"");
 
                 // Rename table from Sittings to Settings
                 statement.executeUpdate("ALTER TABLE Sittings RENAME TO Settings");
 
                 // Add parameter in the table Settings
-                statement.executeUpdate("REPLACE INTO Settings VALUES ('versionDB','" + versionDB + "')");
+                statement.executeUpdate("REPLACE INTO Settings VALUES ('versionDB','1')");
+
+            } catch (SQLException e) {
+                System.err.println(e.getMessage());
+            }
+        }
+        settings = getSettings();
+        if(settings != null && settings.containsKey("versionDB") && settings.get("versionDB").equals("1"))
+        {
+            try {
+                // Rename field of the table Stems
+                statement.executeUpdate("ALTER TABLE Stems RENAME TO tmp_Stems");
+                statement.executeUpdate("CREATE TABLE Stems (Stem VARCHAR NOT NULL , Word VARCHAR NOT NULL, Translate VARCHAR, Language VARCHAR NOT NULL, Known INTEGER NOT NULL  DEFAULT 0, Meeting INTEGER NOT NULL  DEFAULT 0, Study INTEGER NOT NULL  DEFAULT 0, PRIMARY KEY(Stem, Language))");
+                statement.executeUpdate("INSERT INTO Stems SELECT Stem, Word, Translate, 'english', Known, Meeting, Study FROM tmp_Stems");
+                statement.executeUpdate("DROP TABLE tmp_Stems");
+                statement.execute("VACUUM");
+
+                // Add parameter in the table Settings
+                statement.executeUpdate("REPLACE INTO Settings VALUES ('versionDB','2')");
 
             } catch (SQLException e) {
                 System.err.println(e.getMessage());
