@@ -10,9 +10,14 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.Document;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,7 +43,9 @@ public class MainWindow implements PropertyChangeListener {
     private JEditorPane textSubtitle;
     private JTabbedPane tabbedPane1;
     private JComboBox languageList;
-    public String language;
+    private JLabel helpLink;
+	private JLabel siteLink;
+	public String language;
 
 
     private Subtitle subtitle;
@@ -57,6 +64,7 @@ public class MainWindow implements PropertyChangeListener {
         InitializeTableMain();
         InitializeTableStatistic();
         InitializeLanguageList();
+        InitializeLinks();
 
         // initialize loadSubtitle
         loadSubtitle.addActionListener(new java.awt.event.ActionListener() {
@@ -64,6 +72,28 @@ public class MainWindow implements PropertyChangeListener {
                 loadSubtitleActionPerformed();
             }
         });
+    }
+
+    private void InitializeLinks(){
+		helpLink.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		helpLink.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				try {
+					Desktop.getDesktop().browse(new URI("http://sourceforge.net/p/linguasubtitle/wiki/Home/"));
+				} catch (Exception ex) {}
+			}
+		});
+
+		siteLink.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		siteLink.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				try {
+					Desktop.getDesktop().browse(new URI("http://sourceforge.net/projects/linguasubtitle/"));
+				} catch (Exception ex) {}
+			}
+		});
     }
 
     private void InitializeTableStatistic() {
@@ -283,22 +313,22 @@ public class MainWindow implements PropertyChangeListener {
     /**
      * This method gets called when a bound property is changed
      */
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        if ("progress".equals(evt.getPropertyName())) {
-            int progress = (Integer) evt.getNewValue();
-            progressMonitor.setProgress(progress);
-            String message =
-                    String.format("Completed %d%%.\n", progress);
-            progressMonitor.setNote(message);
-            if (progressMonitor.isCanceled() || task.isDone()) {
-                if (progressMonitor.isCanceled()) {
-                    task.cancel(true);
-                }
-                exportToSubtitleButton.setEnabled(true);
-            }
-        }
-    }
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if ("progress".equals(evt.getPropertyName())) {
+			int progress = (Integer) evt.getNewValue();
+			progressMonitor.setProgress(progress);
+			String message =
+					String.format("Completed %d%%.\n", progress);
+			progressMonitor.setNote(message);
+			if (progressMonitor.isCanceled() || task.isDone()) {
+				if (progressMonitor.isCanceled()) {
+					task.cancel(true);
+				}
+				exportToSubtitleButton.setEnabled(true);
+			}
+		}
+	}
 
     /**
      * Get pairs of an unknown stem and a translation

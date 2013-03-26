@@ -25,7 +25,7 @@ nbactions.xml
 nb-configuration.xml
 
 # Intellij IDEA specific
-.idea
+.idea/
 .classpath
 .project
 .settings/

@@ -267,11 +267,16 @@ public class SrtSubtitle extends Subtitle {
             String strTranslate = mapTranslation.get(i);
             String strContent = speech.content;
 
-            String[] linesTranslate = strTranslate.split("\n");
+            String[] linesTranslate = new String[]{};
+            if(strTranslate != null)
+                linesTranslate = strTranslate.split("\n");
+
             String[] linesContant = strContent.split("\n");
             String content = "";
-            for (int j = 0; j < linesTranslate.length; j++) {
-                content += linesTranslate[j] + "\n" + linesContant[j] + "\n";
+            for (int j = 0; j < linesContant.length; j++) {
+                if(strTranslate != null)
+                    content += linesTranslate[j];
+                content += "\n" + linesContant[j] + "\n";
             }
 
             // Hack for vlc 
