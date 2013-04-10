@@ -10,18 +10,19 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.Document;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
-import java.io.IOException;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Vector;
 
 /**
  * Created with IntelliJ IDEA.
@@ -45,6 +46,13 @@ public class MainWindow implements PropertyChangeListener {
     private JComboBox languageList;
     private JLabel helpLink;
 	private JLabel siteLink;
+	private JCheckBox unknownWordsCheckBox;
+	private JCheckBox studyWordsCheckBox;
+	private JCheckBox knownWordsCheckBox;
+	private JCheckBox noBlankTranslationCheckBox;
+	private JTextField mentionedMoreThan;
+	private JButton exportFromDatabaseButton;
+	private JComboBox languageExport;
 	public String language;
 
 
@@ -59,22 +67,66 @@ public class MainWindow implements PropertyChangeListener {
     public MainWindow(JFrame frameParent) {
         this.frameParent = frameParent;
         this.frameParent.setTitle("LinguaSubtitle 2");
+		settings = getSettings();
 
-        InitializeSettings();
+        InitializeExportToSubtitle();
         InitializeTableMain();
         InitializeTableStatistic();
         InitializeLanguageList();
+		InitializeExportFromDatabase();
         InitializeLinks();
 
         // initialize loadSubtitle
-        loadSubtitle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        loadSubtitle.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 loadSubtitleActionPerformed();
             }
         });
-    }
 
-    private void InitializeLinks(){
+	}
+
+	private void InitializeExportFromDatabase()
+	{
+		// Default value
+		boolean isExportUnknownWords = true;
+		boolean isExportStudyWords = false;
+		boolean isExportKnownWords = false;
+		boolean isNoBlankTranslation = false;
+		String exportMoreThan = "10";
+		String exportLanguage = "English";
+
+		// Read value
+		if (settings != null)
+		{
+			if(settings.containsKey("isExportUnknownWords"))
+				isExportUnknownWords = settings.get("isExportUnknownWords").equals("1")?true:false;
+			if(settings.containsKey("isExportStudyWords"))
+				isExportStudyWords = settings.get("isExportStudyWords").equals("1")?true:false;
+			if(settings.containsKey("isExportKnownWords"))
+				isExportKnownWords = settings.get("isExportKnownWords").equals("1")?true:false;
+			if(settings.containsKey("isNoBlankTranslation"))
+				isNoBlankTranslation = settings.get("isNoBlankTranslation").equals("1")?true:false;
+			if(settings.containsKey("exportMoreThan") && tryParseInt(settings.get("exportMoreThan")))
+				exportMoreThan = settings.get("exportMoreThan");
+			if(settings.containsKey("exportLanguage") && languages.containsKey(settings.get("exportLanguage")))
+				exportLanguage = settings.get("exportLanguage");
+		}
+
+		//Set value
+		unknownWordsCheckBox.setSelected(isExportUnknownWords);
+		studyWordsCheckBox.setSelected(isExportStudyWords);
+		knownWordsCheckBox.setSelected(isExportKnownWords);
+		noBlankTranslationCheckBox.setSelected(isNoBlankTranslation);
+		mentionedMoreThan.setText(exportMoreThan);
+		languageExport.setSelectedItem(exportLanguage);
+		exportFromDatabaseButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				dumpDatabase();
+			}
+		});
+	}
+
+	private void InitializeLinks(){
 		helpLink.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		helpLink.addMouseListener(new MouseAdapter() {
 			@Override
@@ -121,8 +173,8 @@ public class MainWindow implements PropertyChangeListener {
         tableMain.getColumnModel().getColumn(6).setMaxWidth(80);
         tableMain.setRowHeight(20);
         tableMain.setDefaultEditor(Object.class, new CellEditor());
-        tableMain.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+        tableMain.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
                 tableMainMouseClicked(evt);
             }
         });
@@ -151,6 +203,9 @@ public class MainWindow implements PropertyChangeListener {
         for(String language : languages.keySet())
             languageList.addItem(language);
 
+		for(String language : languages.keySet())
+			languageExport.addItem(language);
+
         if(settings != null && settings.containsKey("language") && languages.containsValue(settings.get("language"))){
             for (String key : languages.keySet()){
                 String value = languages.get(key);
@@ -162,8 +217,7 @@ public class MainWindow implements PropertyChangeListener {
             languageList.setSelectedItem("English");
     }
 
-    private void InitializeSettings() {
-        settings = getSettings();
+    private void InitializeExportToSubtitle() {
         if (settings != null && settings.containsKey("colorKnownWords"))
             colorButtonKnownWords.setColor(Color.decode("#" + settings.get("colorKnownWords")));
         else
@@ -197,8 +251,8 @@ public class MainWindow implements PropertyChangeListener {
         if (settings != null && settings.containsKey("hideKnownDialog") && settings.get("hideKnownDialog").equals("false"))
             hideDialog.setSelected(false);
 
-        exportToSubtitleButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        exportToSubtitleButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 exportToSubtitleButtonActionPerformed();
             }
         });
@@ -215,7 +269,7 @@ public class MainWindow implements PropertyChangeListener {
     /**
      * Invoked when the mouse button has been clicked on tableMain
      */
-    private void tableMainMouseClicked(java.awt.event.MouseEvent evt) {
+    private void tableMainMouseClicked(MouseEvent evt) {
         Point point = evt.getPoint();
         int columnIndex = tableMain.columnAtPoint(point);
         int rowIndex = tableMain.rowAtPoint(point);
@@ -293,20 +347,81 @@ public class MainWindow implements PropertyChangeListener {
         task.execute();
     }
 
+	private void dumpDatabase() {
+		Vocabulary db = new Vocabulary("Vocabulary");
+		db.createConnection();
+		int meeting;
+		try{
+			meeting = Integer.parseInt(mentionedMoreThan.getText());
+		}
+		catch (Exception e)
+		{
+			JOptionPane.showMessageDialog(this.frameParent, "Error input data");
+			db.closeConnection();
+			return;
+		}
+
+
+		JFileChooser fileOpen = new JFileChooserWithCheck();
+		int returnValue = fileOpen.showSaveDialog(null);
+		String pathGeneratedSubtitle = null;
+		if (returnValue == JFileChooser.APPROVE_OPTION) {
+			File file = fileOpen.getSelectedFile();
+			pathGeneratedSubtitle = file.getAbsolutePath();
+
+		}
+		ArrayList<ItemVocabulary> result = db.getDump(
+				unknownWordsCheckBox.isSelected(),
+				knownWordsCheckBox.isSelected(),
+				studyWordsCheckBox.isSelected(),
+				noBlankTranslationCheckBox.isSelected(),
+				meeting,
+				languages.get(languageExport.getSelectedItem().toString()));
+		db.closeConnection();
+
+		saveDump(pathGeneratedSubtitle, result);
+		updateSettings();
+	}
+
+	protected static void saveDump(String path, ArrayList<ItemVocabulary> items) {
+		if(path != null && items != null){
+			try {
+				OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(path, false), "UTF8");
+				//writer.append("test");
+				for (ItemVocabulary item: items)
+					writer.write(item.word + "\t" + item.translate + "\n");
+				writer.close();
+			} catch (Exception e) {
+				System.err.println("Error: " + e.getMessage());
+			}
+		}
+	}
     /**
      * Save all settings in the Database
      */
     private void updateSettings() {
         Vocabulary db = new Vocabulary("Vocabulary");
+		String isExportUnknownWords = unknownWordsCheckBox.isSelected()?"1":"0";
+		String isExportStudyWords = studyWordsCheckBox.isSelected()?"1":"0";
+		String isExportKnownWords = knownWordsCheckBox.isSelected()?"1":"0";
+		String isNoBlankTranslation = noBlankTranslationCheckBox.isSelected()?"1":"0";
+
         db.createConnection();
-        db.updateSettings(hideDialog.isSelected(),
+        db.updateSettings(
+				hideDialog.isSelected(),
                 toHexString(colorButtonTranslateWords.getColor()),
                 toHexString(colorButtonUnknownWords.getColor()),
                 toHexString(colorButtonKnownWords.getColor()),
                 toHexString(colorButtonStudiedWords.getColor()),
                 toHexString(colorButtonNameWords.getColor()),
                 toHexString(colorButtonHardWords.getColor()),
-                language);
+                language,
+				isExportUnknownWords,
+				isExportStudyWords,
+				isExportKnownWords,
+				isNoBlankTranslation,
+				mentionedMoreThan.getText(),
+				languageExport.getSelectedItem().toString());
         db.closeConnection();
     }
 
@@ -577,4 +692,15 @@ public class MainWindow implements PropertyChangeListener {
         return false;
     }
 
+	boolean tryParseInt(String value)
+	{
+		try
+		{
+			Integer.parseInt(value);
+			return true;
+		} catch(NumberFormatException nfe)
+		{
+			return false;
+		}
+	}
 }

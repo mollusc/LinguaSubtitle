@@ -138,7 +138,7 @@ public abstract class Subtitle {
      */
     protected static void saveSubtitle(String path, String content) {
         try {
-            OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(path, true), "UTF8");
+            OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(path, false), "UTF8");
             writer.append(content);
             writer.close();
         } catch (Exception e) {

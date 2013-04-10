@@ -136,6 +136,52 @@ public class Vocabulary {
         return null;
     }
 
+	/**
+	 * Get data from the database
+	 * @param unknown is word unknown
+	 * @param known is word known
+	 * @param study is word studied
+	 * @param noBlankTranslation is no blank translation
+	 * @param maxMeeting maximum of meeting
+	 * @param language language of words
+	 * @return
+	 */
+	public ArrayList<ItemVocabulary> getDump(boolean unknown, boolean known, boolean study, boolean noBlankTranslation, int maxMeeting, String language){
+		ArrayList<ItemVocabulary> result = null;
+		try {
+			ResultSet rs = statement
+					.executeQuery("SELECT * FROM Stems WHERE Meeting>="+ maxMeeting +" AND Language='"+language+"' ORDER BY Meeting DESC");
+			result = new ArrayList<ItemVocabulary>();
+			while (rs.next()) {
+				boolean toAdd = false;
+				String rStem = rs.getString("Stem");
+				String rWord = rs.getString("Word");
+				String rTranslate = rs.getString("Translate");
+				boolean rKnown = "1".equals(rs.getString("Known")) ? true : false;
+				boolean rStudy = "1".equals(rs.getString("Study")) ? true : false;
+				int rMeeting = Integer.parseInt(rs.getString("Meeting"));
+
+				if(noBlankTranslation && (rTranslate==null || rTranslate.trim().equals("")))
+					continue;
+
+				if(unknown && rKnown == false && rStudy == false)
+					toAdd = true;
+
+				if(!toAdd && known && rKnown == true)
+					toAdd = true;
+
+				if(!toAdd && !known && study && rKnown == false && rStudy == true)
+					toAdd = true;
+
+				if(toAdd)
+					result.add(new ItemVocabulary(rStem, rWord, rTranslate, language, rKnown, rMeeting, rStudy));
+			}
+		} catch (SQLException e) {
+			System.err.println(e.getMessage());
+		}
+		return result;
+	}
+
     /**
      * Update Settings
      */
@@ -146,34 +192,29 @@ public class Vocabulary {
                                String colorStudiedWords,
                                String colorNameWords,
                                String colorHardWord,
-                               String language) {
+                               String language,
+							   String isExportUnknownWords,
+							   String isExportStudyWords,
+							   String isExportKnownWords,
+							   String isNoBlankTranslation,
+							   String exportMoreThan,
+							   String exportLanguage) {
         try {
-            statement.executeUpdate("REPLACE INTO Settings VALUES ('hideKnownDialog','"
-                    + hideKnownDialog + "')");
-
-            statement.executeUpdate("REPLACE INTO Settings VALUES ('colorTranslateWords','"
-                    + colorTranslateWords + "')");
-
-            statement.executeUpdate("REPLACE INTO Settings VALUES ('colorUnknownWords','"
-                    + colorUnknownWords + "')");
-
-            statement.executeUpdate("REPLACE INTO Settings VALUES ('colorKnownWords','"
-                    + colorKnownWords + "')");
-
-            statement.executeUpdate("REPLACE INTO Settings VALUES ('colorStudiedWords','"
-                    + colorStudiedWords + "')");
-
-            statement.executeUpdate("REPLACE INTO Settings VALUES ('colorNameWords','"
-                    + colorNameWords + "')");
-
-            statement.executeUpdate("REPLACE INTO Settings VALUES ('colorHardWord','"
-                    + colorHardWord + "')");
-
-            statement.executeUpdate("REPLACE INTO Settings VALUES ('language','"
-                    + language + "')");
-
-            statement.executeUpdate("REPLACE INTO Settings VALUES ('versionDB','"
-                    + versionDB + "')");
+            statement.executeUpdate("REPLACE INTO Settings VALUES ('hideKnownDialog','" + hideKnownDialog + "')");
+            statement.executeUpdate("REPLACE INTO Settings VALUES ('colorTranslateWords','" + colorTranslateWords + "')");
+            statement.executeUpdate("REPLACE INTO Settings VALUES ('colorUnknownWords','" + colorUnknownWords + "')");
+            statement.executeUpdate("REPLACE INTO Settings VALUES ('colorKnownWords','" + colorKnownWords + "')");
+            statement.executeUpdate("REPLACE INTO Settings VALUES ('colorStudiedWords','" + colorStudiedWords + "')");
+            statement.executeUpdate("REPLACE INTO Settings VALUES ('colorNameWords','" + colorNameWords + "')");
+            statement.executeUpdate("REPLACE INTO Settings VALUES ('colorHardWord','" + colorHardWord + "')");
+            statement.executeUpdate("REPLACE INTO Settings VALUES ('language','" + language + "')");
+			statement.executeUpdate("REPLACE INTO Settings VALUES ('isExportUnknownWords','" + isExportUnknownWords + "')");
+			statement.executeUpdate("REPLACE INTO Settings VALUES ('isExportStudyWords','" + isExportStudyWords + "')");
+			statement.executeUpdate("REPLACE INTO Settings VALUES ('isExportKnownWords','" + isExportKnownWords + "')");
+			statement.executeUpdate("REPLACE INTO Settings VALUES ('isNoBlankTranslation','" + isNoBlankTranslation + "')");
+			statement.executeUpdate("REPLACE INTO Settings VALUES ('exportMoreThan','" + exportMoreThan + "')");
+			statement.executeUpdate("REPLACE INTO Settings VALUES ('exportLanguage','" + exportLanguage + "')");
+            statement.executeUpdate("REPLACE INTO Settings VALUES ('versionDB','" + versionDB + "')");
 
         } catch (SQLException e) {
             System.err.println(e.getMessage());
