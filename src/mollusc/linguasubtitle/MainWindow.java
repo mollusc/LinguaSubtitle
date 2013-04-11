@@ -55,7 +55,6 @@ public class MainWindow implements PropertyChangeListener {
 	private JComboBox languageExport;
 	public String language;
 
-
     private Subtitle subtitle;
     private ArrayList<String> hardWords;
     Map<String, String> settings;

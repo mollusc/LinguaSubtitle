@@ -31,16 +31,19 @@ class TaskUpdateDatabase extends SwingWorker<Void, Void> {
 			float progress = 0f;
 			setProgress((int) progress);
 			for (int i = 0; i < outer.tableMain.getRowCount(); i++) {
-				boolean isStudy = (Boolean) outer.tableMain.getModel().getValueAt(i, 1);
-				boolean isKnown = (Boolean) outer.tableMain.getModel().getValueAt(i, 2);
-				String word = outer.tableMain.getModel().getValueAt(i, 3).toString();
-				Stem stem = new Stem(word, outer.language);
-				String translation = outer.tableMain.getModel().getValueAt(i, 4).toString();
-				String language = outer.language;
-				db.updateValues(stem.getStem(), word, translation, language, isKnown, isStudy, updateMeeting);
-				progress += 100f / outer.tableMain.getRowCount();
-				setProgress((int) progress);
-				System.out.println("\t" + word);
+				if (!outer.progressMonitor.isCanceled())
+				{
+					boolean isStudy = (Boolean) outer.tableMain.getModel().getValueAt(i, 1);
+					boolean isKnown = (Boolean) outer.tableMain.getModel().getValueAt(i, 2);
+					String word = outer.tableMain.getModel().getValueAt(i, 3).toString();
+					Stem stem = new Stem(word, outer.language);
+					String translation = outer.tableMain.getModel().getValueAt(i, 4).toString();
+					String language = outer.language;
+					db.updateValues(stem.getStem(), word, translation, language, isKnown, isStudy, updateMeeting);
+					progress += 100f / outer.tableMain.getRowCount();
+					setProgress((int) progress);
+					System.out.println("\t" + word);
+				}
 			}
 		} catch (Exception ignore) {
 		}
