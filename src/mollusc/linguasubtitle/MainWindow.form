@@ -330,7 +330,7 @@
                             </constraints>
                             <properties>
                               <font style="1"/>
-                              <text value="&lt;html&gt;Set monospaced font for subtitle in your&lt;br&gt;video player (Consolas, Courier New etc.)!&lt;/html&gt;"/>
+                              <text value="&lt;html&gt;Set monospaced font (Consolas, Courier New etc.) for subtitle in your&lt;br&gt;video player!&lt;/html&gt;"/>
                             </properties>
                           </component>
                         </children>
