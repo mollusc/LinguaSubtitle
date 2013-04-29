@@ -16,7 +16,8 @@ public class StatisticTableModel extends DefaultTableModel {
                         {"Number of words", null, null},
                         {"Number of unknown words", null, null},
                         {"Number of known words", null, null},
-                        {"Number of studied words", null, null}
+                        {"Number of studied words", null, null},
+						{"Number of new words", null, null}
                 },
                 new String[]{
                         "Parameter", "Unique", "Total"

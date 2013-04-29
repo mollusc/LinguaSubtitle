@@ -45,10 +45,10 @@ public class Vocabulary {
             connection = DriverManager.getConnection("jdbc:sqlite:" + nameDB + ".db");
             statement = connection.createStatement();
             statement.setQueryTimeout(30);
-            correctVersion();
+			correctVersion();
             statement.executeUpdate("CREATE TABLE IF NOT EXISTS Stems (Stem VARCHAR NOT NULL , Word VARCHAR NOT NULL, Translate VARCHAR, Language VARCHAR NOT NULL, Known INTEGER NOT NULL  DEFAULT 0, Meeting INTEGER NOT NULL  DEFAULT 0, Study INTEGER NOT NULL  DEFAULT 0, PRIMARY KEY(Stem, Language))");
             statement.executeUpdate("CREATE TABLE IF NOT EXISTS Settings(Parameter VARCHAR PRIMARY KEY ASC, Value VARCHAR)");
-            statement.executeUpdate("REPLACE INTO Settings VALUES ('versionDB','" + versionDB + "')");
+			SetVersionDB();
         } catch (SQLException e) {
             System.err.println(e.getMessage());
             return false;
@@ -282,6 +282,7 @@ public class Vocabulary {
                 System.err.println(e.getMessage());
             }
         }
+
         settings = getSettings();
         if(settings != null && settings.containsKey("versionDB") && settings.get("versionDB").equals("1"))
         {
@@ -300,5 +301,19 @@ public class Vocabulary {
                 System.err.println(e.getMessage());
             }
         }
-    }
+	}
+
+	private void SetVersionDB() {
+		Map<String, String> settings;
+		settings = getSettings();
+		if(settings != null &&
+				(!settings.containsKey("versionDB") ||
+					((settings.containsKey("versionDB") && !settings.get("versionDB").equals( String.valueOf(versionDB)))))){
+			try {
+				statement.executeUpdate("REPLACE INTO Settings VALUES ('versionDB','" + versionDB + "')");
+			} catch (SQLException e) {
+				System.err.println(e.getMessage());
+			}
+		}
+	}
 }

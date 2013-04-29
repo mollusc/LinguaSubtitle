@@ -637,12 +637,22 @@ public class MainWindow implements PropertyChangeListener {
         int studyWords = 0;
         int studyUnique = 0;
 
+		int newWords = 0;
+		int newUnique = 0;
+
         for (int i = 0; i < totalUnique; i++) {
             boolean isName = (Boolean) tableMain.getModel().getValueAt(i, 0);
             boolean isStudy = (Boolean) tableMain.getModel().getValueAt(i, 1);
             boolean isKnown = (Boolean) tableMain.getModel().getValueAt(i, 2);
             int count = (Integer) tableMain.getModel().getValueAt(i, 5);
+			int mentioned = (Integer) tableMain.getModel().getValueAt(i, 6);
             totalWords += count;
+
+			if(mentioned == 0)
+			{
+				newUnique++;
+				newWords += count;
+			}
 
             if (isKnown) {
                 knownUnique++;
@@ -673,7 +683,10 @@ public class MainWindow implements PropertyChangeListener {
         tableStatistic.setValueAt(String.valueOf(knownWords) + " (" + String.format("%.1f", 100f * (float) knownWords / (float) totalWords) + "%)", 2, 2);
 
         tableStatistic.setValueAt(String.valueOf(studyUnique) + " (" + String.format("%.1f", 100f * (float) studyUnique / (float) totalUnique) + "%)", 3, 1);
-        tableStatistic.setValueAt(String.valueOf(studyWords) + " (" + String.format("%.1f", 100f * (float) studyWords / (float) totalWords) + "%)", 3, 2);
+		tableStatistic.setValueAt(String.valueOf(studyWords) + " (" + String.format("%.1f", 100f * (float) studyWords / (float) totalWords) + "%)", 3, 2);
+
+		tableStatistic.setValueAt(String.valueOf(newUnique) + " (" + String.format("%.1f", 100f * (float) newUnique / (float) totalUnique) + "%)", 4, 1);
+		tableStatistic.setValueAt(String.valueOf(newWords) + " (" + String.format("%.1f", 100f * (float) newWords / (float) totalWords) + "%)", 4, 2);
     }
 
     /**

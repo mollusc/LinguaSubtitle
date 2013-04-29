@@ -42,7 +42,6 @@ class TaskUpdateDatabase extends SwingWorker<Void, Void> {
 					db.updateValues(stem.getStem(), word, translation, language, isKnown, isStudy, updateMeeting);
 					progress += 100f / outer.tableMain.getRowCount();
 					setProgress((int) progress);
-					System.out.println("\t" + word);
 				}
 			}
 		} catch (Exception ignore) {
