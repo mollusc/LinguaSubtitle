@@ -6,7 +6,7 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8dd78de9-0ec8-485a-8547-4681830d2cd6" name="Default" comment="Edit Main Form">
+    <list default="true" id="8dd78de9-0ec8-485a-8547-4681830d2cd6" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/LinguaSubtitle_jar.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/LinguaSubtitle_jar.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/srt/SrtSubtitle.java" afterPath="$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/srt/SrtSubtitle.java" />
@@ -14,16 +14,16 @@
     </list>
     <ignored path="LinguaSubtitle.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1369809516465" ignored="false" />
+    <file path="/Dummy.txt" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1369809757299" ignored="false" />
     <file path="/.gitignore" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1363779769151" ignored="false" />
     <file path="/StemModelTable.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1359970605786" ignored="false" />
     <file path="/MainWindow.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1365662584971" ignored="false" />
     <file path="/MainTableModel.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1359973406657" ignored="false" />
-    <file path="/fragment.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1367237926363" ignored="false" />
+    <file path="/fragment.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1369810090394" ignored="false" />
     <file path="/SettingsTableModel.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1359974601583" ignored="false" />
     <file path="/CellEditor.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1359978835317" ignored="false" />
     <file path="/TaskUpdateDatabase.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1365661255325" ignored="false" />
-    <file path="/SrtSubtitle.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1369806635658" ignored="false" />
+    <file path="/SrtSubtitle.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1369810797532" ignored="false" />
     <file path="/Subtitle.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1365597996290" ignored="false" />
     <file path="/Vocabulary.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1367237933998" ignored="false" />
     <file path="/StatisticTableModel.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1360225330912" ignored="false" />
@@ -156,20 +156,6 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/srt/SrtSubtitle.java" line="41" class="mollusc.linguasubtitle.subtitle.srt.SrtSubtitle" package="mollusc.linguasubtitle.subtitle.srt">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
     </line_breakpoints>
     <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
@@ -247,7 +233,7 @@
       <file leaf-file-name="SrtSubtitle.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/srt/SrtSubtitle.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="7" selection-start="832" selection-end="832" vertical-scroll-proportion="0.20092736">
+            <state line="52" column="0" selection-start="1405" selection-end="1405" vertical-scroll-proportion="0.7044199">
               <folding />
             </state>
           </provider>
@@ -949,7 +935,11 @@
       <created>1367238883093</created>
       <updated>1367238883093</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="Fix error in a dialog with all known words">
+      <created>1369809762864</created>
+      <updated>1369809762864</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -980,16 +970,16 @@
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16862327" sideWeight="0.83280087" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25139043" sideWeight="0.57257205" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25139043" sideWeight="0.57257205" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25139043" sideWeight="0.42369264" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3107658" sideWeight="0.49573106" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16648169" sideWeight="0.3906083" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16573972" sideWeight="0.3906083" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32925472" sideWeight="0.49786553" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18249734" sideWeight="0.31813127" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18249734" sideWeight="0.3548387" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.15635005" sideWeight="0.67074525" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18249734" sideWeight="0.42269188" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18249734" sideWeight="0.47163516" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.2580645" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" x="23" y="403" width="1874" height="233" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24546425" sideWeight="0.527192" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1037,7 +1027,7 @@
     <option name="MAXIMUM_HISTORY_ROWS" value="1000" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Edit Main Form" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix error in a dialog with all known words" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1067,6 +1057,7 @@
     <MESSAGE value="Add other stemmers. Add check is progressMonitor canceled" />
     <MESSAGE value="Fixed usless update database" />
     <MESSAGE value="Edit Main Form" />
+    <MESSAGE value="Fix error in a dialog with all known words" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1175,7 +1166,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/srt/SrtSubtitle.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="7" selection-start="832" selection-end="832" vertical-scroll-proportion="0.20092736">
+        <state line="52" column="0" selection-start="1405" selection-end="1405" vertical-scroll-proportion="0.7044199">
           <folding />
         </state>
       </provider>

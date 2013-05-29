@@ -1,6 +1,7 @@
 package mollusc.linguasubtitle.subtitle.srt;
 
 import com.rits.cloning.Cloner;
+import com.sun.deploy.util.ArrayUtil;
 import mollusc.linguasubtitle.subtitle.Subtitle;
 import mollusc.linguasubtitle.subtitle.parser.Stem;
 
@@ -39,6 +40,7 @@ public class SrtSubtitle extends Subtitle {
      */
     private void initialSpeeches() {
         speeches = new TreeMap<Integer, Speech>();
+		content +='\u00A0';
         String[] lines = content.split("\\r?\\n");
         boolean headerSpeech = true;
         int sequenceNumber = 0;
