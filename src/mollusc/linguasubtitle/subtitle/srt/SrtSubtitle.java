@@ -276,6 +276,8 @@ public class SrtSubtitle extends Subtitle {
             for (int j = 0; j < linesContant.length; j++) {
                 if(strTranslate != null)
                     content += linesTranslate[j];
+				else
+					content += '\u00A0';
                 content += "\n" + linesContant[j] + "\n";
             }
 

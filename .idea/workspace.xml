@@ -6,15 +6,15 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8dd78de9-0ec8-485a-8547-4681830d2cd6" name="Default" comment="">
+    <list default="true" id="8dd78de9-0ec8-485a-8547-4681830d2cd6" name="Default" comment="Edit Main Form">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/LinguaSubtitle_jar.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/LinguaSubtitle_jar.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mollusc/linguasubtitle/MainWindow.form" afterPath="$PROJECT_DIR$/src/mollusc/linguasubtitle/MainWindow.form" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/srt/SrtSubtitle.java" afterPath="$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/srt/SrtSubtitle.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="LinguaSubtitle.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1367238766121" ignored="false" />
+    <file path="/Dummy.txt" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1369809516465" ignored="false" />
     <file path="/.gitignore" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1363779769151" ignored="false" />
     <file path="/StemModelTable.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1359970605786" ignored="false" />
     <file path="/MainWindow.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1365662584971" ignored="false" />
@@ -23,7 +23,7 @@
     <file path="/SettingsTableModel.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1359974601583" ignored="false" />
     <file path="/CellEditor.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1359978835317" ignored="false" />
     <file path="/TaskUpdateDatabase.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1365661255325" ignored="false" />
-    <file path="/SrtSubtitle.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1364198846821" ignored="false" />
+    <file path="/SrtSubtitle.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1369806635658" ignored="false" />
     <file path="/Subtitle.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1365597996290" ignored="false" />
     <file path="/Vocabulary.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1367237933998" ignored="false" />
     <file path="/StatisticTableModel.java" changelist="8dd78de9-0ec8-485a-8547-4681830d2cd6" time="1360225330912" ignored="false" />
@@ -85,7 +85,6 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint url="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/parser/Stem.java" line="86" class="mollusc.linguasubtitle.subtitle.parser.Stem" package="mollusc.linguasubtitle.subtitle.parser">
         <option name="ENABLED" value="true" />
@@ -100,20 +99,6 @@
         <option name="INSTANCE_FILTERS_ENABLED" value="false" />
         <option name="CONDITION" value="language == null&#13;&#13;JAVA" />
         <option name="LOG_MESSAGE" value="&#13;&#13;JAVA" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/db/Vocabulary.java" line="290" class="mollusc.linguasubtitle.db.Vocabulary" package="mollusc.linguasubtitle.db">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
       </breakpoint>
       <breakpoint url="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/MainWindow.java" line="439" class="mollusc.linguasubtitle.MainWindow" package="mollusc.linguasubtitle">
         <option name="ENABLED" value="true" />
@@ -171,7 +156,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/db/Vocabulary.java" line="312" class="mollusc.linguasubtitle.db.Vocabulary" package="mollusc.linguasubtitle.db">
+      <breakpoint url="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/srt/SrtSubtitle.java" line="41" class="mollusc.linguasubtitle.subtitle.srt.SrtSubtitle" package="mollusc.linguasubtitle.subtitle.srt">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -186,6 +171,7 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </line_breakpoints>
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -207,7 +193,7 @@
       <file leaf-file-name="Vocabulary.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/db/Vocabulary.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="290" column="68" selection-start="11460" selection-end="11460" vertical-scroll-proportion="0.0">
+            <state line="290" column="0" selection-start="11392" selection-end="11392" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -258,28 +244,28 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SrtSubtitle.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="SrtSubtitle.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/srt/SrtSubtitle.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="289" column="14" selection-start="11180" selection-end="11180" vertical-scroll-proportion="0.0">
+            <state line="36" column="7" selection-start="832" selection-end="832" vertical-scroll-proportion="0.20092736">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SQLiteConfig.class" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/lib/sqlite-jdbc-3.7.2.jar!/org/sqlite/SQLiteConfig.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="11" selection-start="364" selection-end="364" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MainWindow.form" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="MainWindow.form" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/MainWindow.form">
           <provider selected="true" editor-type-id="ui-designer">
             <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LinguaSubtitle.iml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/LinguaSubtitle.iml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
           </provider>
         </entry>
       </file>
@@ -316,7 +302,6 @@
         <option value="$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/parser/Stem.java" />
         <option value="$PROJECT_DIR$/src/mollusc/linguasubtitle/CellRender.java" />
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/srt/SrtSubtitle.java" />
         <option value="$PROJECT_DIR$/src/mollusc/linguasubtitle/MainTableModel.java" />
         <option value="$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/Subtitle.java" />
         <option value="$PROJECT_DIR$/src/mollusc/linguasubtitle/StatisticTableModel.java" />
@@ -324,6 +309,7 @@
         <option value="$PROJECT_DIR$/src/mollusc/linguasubtitle/TaskUpdateDatabase.java" />
         <option value="$PROJECT_DIR$/src/mollusc/linguasubtitle/db/Vocabulary.java" />
         <option value="$PROJECT_DIR$/src/mollusc/linguasubtitle/MainWindow.form" />
+        <option value="$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/srt/SrtSubtitle.java" />
       </list>
     </option>
   </component>
@@ -562,7 +548,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -594,6 +579,28 @@
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="snowball" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LinguaSubtitle" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LinguaSubtitle" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="linguasubtitle" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -613,8 +620,8 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="MainWindow" />
-              <option name="myItemType" value="com.intellij.uiDesigner.projectView.FormNode" />
+              <option name="myItemId" value="subtitle" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -632,12 +639,35 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="linguasubtitle" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="subtitle" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="srt" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LinguaSubtitle" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LinguaSubtitle" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -915,7 +945,11 @@
       <created>1367238298982</created>
       <updated>1367238298982</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Edit Main Form">
+      <created>1367238883093</created>
+      <updated>1367238883093</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -942,25 +976,25 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24546425" sideWeight="0.8035516" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32925472" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16862327" sideWeight="0.74304783" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16862327" sideWeight="0.83280087" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25139043" sideWeight="0.57257205" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25139043" sideWeight="0.57257205" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25139043" sideWeight="0.42369264" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3107658" sideWeight="0.49573106" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16648169" sideWeight="0.3906083" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32925472" sideWeight="0.49786553" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24546425" sideWeight="0.18867925" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18249734" sideWeight="0.31813127" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.15635005" sideWeight="0.67074525" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.18249734" sideWeight="0.32519424" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18249734" sideWeight="0.42269188" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.2580645" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" x="23" y="403" width="1874" height="233" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24546425" sideWeight="0.527192" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1512792" sideWeight="0.49573106" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16685206" sideWeight="0.3906083" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -1003,7 +1037,7 @@
     <option name="MAXIMUM_HISTORY_ROWS" value="1000" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed usless update database" />
+    <option name="LAST_COMMIT_MESSAGE" value="Edit Main Form" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1032,6 +1066,7 @@
     <MESSAGE value="Add export to file from Database." />
     <MESSAGE value="Add other stemmers. Add check is progressMonitor canceled" />
     <MESSAGE value="Fixed usless update database" />
+    <MESSAGE value="Edit Main Form" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1045,13 +1080,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$PROJECT_DIR$/lib/sqlite-jdbc-3.7.2.jar!/org/sqlite/SQLiteConfig.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="11" selection-start="364" selection-end="364" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$PROJECT_DIR$/lib/sqlite-jdbc-3.7.2.jar!/org/sqlite/Conn.class">
       <provider selected="true" editor-type-id="text-editor">
         <state line="78" column="16" selection-start="3287" selection-end="3287" vertical-scroll-proportion="0.33225283" />
@@ -1091,13 +1119,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/srt/SrtSubtitle.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="289" column="14" selection-start="11180" selection-end="11180" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/Subtitle.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="132" column="7" selection-start="3563" selection-end="3563" vertical-scroll-proportion="0.0">
@@ -1133,16 +1154,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/db/Vocabulary.java">
+    <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/MainWindow.form">
+      <provider selected="true" editor-type-id="ui-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LinguaSubtitle.iml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="290" column="68" selection-start="11460" selection-end="11460" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/MainWindow.form">
-      <provider selected="true" editor-type-id="ui-designer">
-        <state />
+    <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/db/Vocabulary.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="290" column="0" selection-start="11392" selection-end="11392" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mollusc/linguasubtitle/subtitle/srt/SrtSubtitle.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="36" column="7" selection-start="832" selection-end="832" vertical-scroll-proportion="0.20092736">
+          <folding />
+        </state>
       </provider>
     </entry>
   </component>
