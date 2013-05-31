@@ -4,12 +4,14 @@ import com.rits.cloning.Cloner;
 import com.sun.deploy.util.ArrayUtil;
 import mollusc.linguasubtitle.subtitle.Subtitle;
 import mollusc.linguasubtitle.subtitle.parser.Stem;
+import sun.security.ssl.Debug;
 
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import java.awt.*;
+import java.io.Console;
 import java.util.*;
 
 /**
@@ -56,7 +58,6 @@ public class SrtSubtitle extends Subtitle {
                 continue;
             }
             if (line.isEmpty() && !text.isEmpty()) {
-                text = text.substring(0, text.length() - 1);
                 speeches.put(sequenceNumber, new Speech(sequenceNumber, timing, text));
                 text = "";
                 headerSpeech = true;
@@ -81,12 +82,9 @@ public class SrtSubtitle extends Subtitle {
                     if (!Character.isLetter(ch) && ch != '\'') {
                         if (text.length() > 2 && !isNumeric(text)) {
                             String stemString = Stem.stemmingWord(text, language);
-                            if (!index.containsKey(stemString)) {
-                                index.put(stemString,
-                                        new ArrayList<IndexWord>());
-                            }
-                            IndexWord indexWord = new IndexWord(
-                                    speech.sequenceNumber, j - text.length(), j);
+                            if (!index.containsKey(stemString))
+                                index.put(stemString, new ArrayList<IndexWord>());
+                            IndexWord indexWord = new IndexWord(speech.sequenceNumber, j - text.length(), j);
                             index.get(stemString).add(indexWord);
                         }
                         text = new String();
@@ -116,7 +114,8 @@ public class SrtSubtitle extends Subtitle {
             String currentWord = new String();
             for (IndexWord indexWord : indexWords) {
                 Speech speech = speeches.get(indexWord.indexSpeech);
-                String word = speech.content.substring(indexWord.start,
+				System.out.println(stemString);
+				String word = speech.content.substring(indexWord.start,
                         indexWord.end);
 
                 if (currentWord.isEmpty()) {
@@ -147,7 +146,7 @@ public class SrtSubtitle extends Subtitle {
         try {
             for (Speech speech : speeches.values()) {
                 document.insertString(document.getLength(), speech.sequenceNumber + "\n" + speech.timing + "\n", attrHide);
-                document.insertString(document.getLength(), speech.content + "\n\n", attr);
+                document.insertString(document.getLength(), speech.content + "\n", attr);
             }
         } catch (BadLocationException e) {
             e.printStackTrace();
@@ -170,7 +169,7 @@ public class SrtSubtitle extends Subtitle {
                     lengthToWord += speech.content.substring(0, indexWords.get(0).end).length();
                     return lengthToWord;
                 }
-                lengthToWord += speech.content.length() + 2;
+                lengthToWord += speech.content.length() + 1;
             }
         }
         return 0;
@@ -192,7 +191,7 @@ public class SrtSubtitle extends Subtitle {
             for (Speech speech : speeches.values()) {
                 document.insertString(document.getLength(), speech.sequenceNumber + "\n" + speech.timing + "\n", attrHide);
                 int length = document.getLength();
-                document.insertString(length, speech.content + "\n\n", attr);
+                document.insertString(length, speech.content + "\n", attr);
                 for (IndexWord indexWord : indexWords) {
                     if (indexWord.indexSpeech == speech.sequenceNumber) {
                         String word = speech.content.substring(indexWord.start, indexWord.end);
