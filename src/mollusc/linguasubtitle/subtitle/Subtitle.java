@@ -103,7 +103,9 @@ public abstract class Subtitle {
                                           Map<String, String> stemsColors,
                                           Map<String, String> translateColors,
                                           String knownColor,
-                                          boolean hideKnownSpeech);
+                                          boolean hideKnownSpeech,
+										  boolean isAutomaticDuration,
+										  int millisecondsPerCharacter);
 
     /**
      * Delete all html tags

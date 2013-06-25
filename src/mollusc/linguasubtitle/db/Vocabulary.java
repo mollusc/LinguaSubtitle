@@ -13,7 +13,7 @@ public class Vocabulary {
     /**
      * Version of the database
      */
-    private final int versionDB = 2;
+    private final int versionDB = 3;
     /**
      * Name of the database
      */
@@ -185,36 +185,12 @@ public class Vocabulary {
     /**
      * Update Settings
      */
-    public void updateSettings(boolean hideKnownDialog,
-                               String colorTranslateWords,
-                               String colorUnknownWords,
-                               String colorKnownWords,
-                               String colorStudiedWords,
-                               String colorNameWords,
-                               String colorHardWord,
-                               String language,
-							   String isExportUnknownWords,
-							   String isExportStudyWords,
-							   String isExportKnownWords,
-							   String isNoBlankTranslation,
-							   String exportMoreThan,
-							   String exportLanguage) {
+    public void updateSettings(Map<String, String> settings) {
         try {
-            statement.executeUpdate("REPLACE INTO Settings VALUES ('hideKnownDialog','" + hideKnownDialog + "')");
-            statement.executeUpdate("REPLACE INTO Settings VALUES ('colorTranslateWords','" + colorTranslateWords + "')");
-            statement.executeUpdate("REPLACE INTO Settings VALUES ('colorUnknownWords','" + colorUnknownWords + "')");
-            statement.executeUpdate("REPLACE INTO Settings VALUES ('colorKnownWords','" + colorKnownWords + "')");
-            statement.executeUpdate("REPLACE INTO Settings VALUES ('colorStudiedWords','" + colorStudiedWords + "')");
-            statement.executeUpdate("REPLACE INTO Settings VALUES ('colorNameWords','" + colorNameWords + "')");
-            statement.executeUpdate("REPLACE INTO Settings VALUES ('colorHardWord','" + colorHardWord + "')");
-            statement.executeUpdate("REPLACE INTO Settings VALUES ('language','" + language + "')");
-			statement.executeUpdate("REPLACE INTO Settings VALUES ('isExportUnknownWords','" + isExportUnknownWords + "')");
-			statement.executeUpdate("REPLACE INTO Settings VALUES ('isExportStudyWords','" + isExportStudyWords + "')");
-			statement.executeUpdate("REPLACE INTO Settings VALUES ('isExportKnownWords','" + isExportKnownWords + "')");
-			statement.executeUpdate("REPLACE INTO Settings VALUES ('isNoBlankTranslation','" + isNoBlankTranslation + "')");
-			statement.executeUpdate("REPLACE INTO Settings VALUES ('exportMoreThan','" + exportMoreThan + "')");
-			statement.executeUpdate("REPLACE INTO Settings VALUES ('exportLanguage','" + exportLanguage + "')");
-            statement.executeUpdate("REPLACE INTO Settings VALUES ('versionDB','" + versionDB + "')");
+			for (String Key : settings.keySet()){
+				statement.executeUpdate("REPLACE INTO Settings VALUES ('" + Key +"','" + settings.get(Key) + "')");
+			}
+			statement.executeUpdate("REPLACE INTO Settings VALUES ('versionDB','" + versionDB + "')");
 
         } catch (SQLException e) {
             System.err.println(e.getMessage());
@@ -301,6 +277,20 @@ public class Vocabulary {
                 System.err.println(e.getMessage());
             }
         }
+
+		settings = getSettings();
+		if(settings != null && settings.containsKey("versionDB") && settings.get("versionDB").equals("2"))
+		{
+			try {
+				statement.executeUpdate("UPDATE Settings SET Value = '1' WHERE  Parameter = 'hideKnownDialog' AND Value = 'true'");
+				statement.executeUpdate("UPDATE Settings SET Value = '0' WHERE  Parameter = 'hideKnownDialog' AND Value = 'false'");
+				statement.executeUpdate("REPLACE INTO Settings VALUES ('versionDB','3')");
+			} catch (SQLException e) {
+				System.err.println(e.getMessage());
+			}
+
+		}
+
 	}
 
 	private void SetVersionDB() {

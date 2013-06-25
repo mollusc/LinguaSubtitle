@@ -32,33 +32,21 @@ public class MainWindow implements PropertyChangeListener {
     private JPanel panel1;
     public JTable tableMain;
     private JTable tableStatistic;
-    private JButton loadSubtitle;
-    private JCheckBox hideDialog;
     public JButton exportToSubtitleButton;
-    private ColorSelectionButton colorButtonTranslateWords;
-    private ColorSelectionButton colorButtonUnknownWords;
-    private ColorSelectionButton colorButtonKnownWords;
-    private ColorSelectionButton colorButtonStudiedWords;
-    private ColorSelectionButton colorButtonNameWords;
-    private ColorSelectionButton colorButtonHardWords;
     private JEditorPane textSubtitle;
-    private JTabbedPane tabbedPane1;
     private JComboBox languageList;
     private JLabel helpLink;
 	private JLabel siteLink;
-	private JCheckBox unknownWordsCheckBox;
-	private JCheckBox studyWordsCheckBox;
-	private JCheckBox knownWordsCheckBox;
-	private JCheckBox noBlankTranslationCheckBox;
-	private JTextField mentionedMoreThan;
 	private JButton exportFromDatabaseButton;
-	private JComboBox languageExport;
+	private JTabbedPane tabbedPane;
+	private JButton preferenceToSubtitleButton;
+	private JButton preferenceFromDatabaseButton;
+	private JButton openSubtitle;
 	public String language;
-
     private Subtitle subtitle;
     private ArrayList<String> hardWords;
     Map<String, String> settings;
-    private Map<String, String> languages;
+    public Map<String, String> languages;
     ProgressMonitor progressMonitor;
     private TaskUpdateDatabase task;
     private JFrame frameParent;
@@ -75,52 +63,34 @@ public class MainWindow implements PropertyChangeListener {
 		InitializeExportFromDatabase();
         InitializeLinks();
 
-        // initialize loadSubtitle
-        loadSubtitle.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                loadSubtitleActionPerformed();
-            }
-        });
-
+		openSubtitle.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				loadSubtitleActionPerformed();
+			}
+		});
 	}
 
 	private void InitializeExportFromDatabase()
 	{
-		// Default value
-		boolean isExportUnknownWords = true;
-		boolean isExportStudyWords = false;
-		boolean isExportKnownWords = false;
-		boolean isNoBlankTranslation = false;
-		String exportMoreThan = "10";
-		String exportLanguage = "English";
-
-		// Read value
-		if (settings != null)
-		{
-			if(settings.containsKey("isExportUnknownWords"))
-				isExportUnknownWords = settings.get("isExportUnknownWords").equals("1")?true:false;
-			if(settings.containsKey("isExportStudyWords"))
-				isExportStudyWords = settings.get("isExportStudyWords").equals("1")?true:false;
-			if(settings.containsKey("isExportKnownWords"))
-				isExportKnownWords = settings.get("isExportKnownWords").equals("1")?true:false;
-			if(settings.containsKey("isNoBlankTranslation"))
-				isNoBlankTranslation = settings.get("isNoBlankTranslation").equals("1")?true:false;
-			if(settings.containsKey("exportMoreThan") && tryParseInt(settings.get("exportMoreThan")))
-				exportMoreThan = settings.get("exportMoreThan");
-			if(settings.containsKey("exportLanguage") && languages.containsKey(settings.get("exportLanguage")))
-				exportLanguage = settings.get("exportLanguage");
-		}
-
-		//Set value
-		unknownWordsCheckBox.setSelected(isExportUnknownWords);
-		studyWordsCheckBox.setSelected(isExportStudyWords);
-		knownWordsCheckBox.setSelected(isExportKnownWords);
-		noBlankTranslationCheckBox.setSelected(isNoBlankTranslation);
-		mentionedMoreThan.setText(exportMoreThan);
-		languageExport.setSelectedItem(exportLanguage);
 		exportFromDatabaseButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				dumpDatabase();
+			}
+		});
+		preferenceFromDatabaseButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				OpenPreference(1);
+			}
+		});
+	}
+
+	private void InitializeExportToSubtitle() {
+		exportToSubtitleButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {exportToSubtitleButtonActionPerformed();}
+		});
+		preferenceToSubtitleButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				OpenPreference(0);
 			}
 		});
 	}
@@ -132,7 +102,8 @@ public class MainWindow implements PropertyChangeListener {
 			public void mouseClicked(MouseEvent e) {
 				try {
 					Desktop.getDesktop().browse(new URI("http://sourceforge.net/p/linguasubtitle/wiki/Home/"));
-				} catch (Exception ex) {}
+				} catch (Exception ex) {
+				}
 			}
 		});
 
@@ -179,17 +150,9 @@ public class MainWindow implements PropertyChangeListener {
         });
     }
 
-    private void InitializeLanguageList()
-    {
+    private void InitializeLanguageList() {
         language = null;
         languages = new HashMap<String, String>();
-        //languages.put("Dansk", "danish");
-        //languages.put("Nederlands", "dutch");
-        //languages.put("Svenska", "swedish");
-        //languages.put("Suomi", "finnish");
-        //languages.put("Magyar nyelv", "hungarian");
-        //languages.put("Norsk", "norwegian");
-        //languages.put("Limba română", "romanian");
         languages.put("English", "english");
         languages.put("Français", "french");
         languages.put("Deutsch", "german");
@@ -202,9 +165,6 @@ public class MainWindow implements PropertyChangeListener {
         for(String language : languages.keySet())
             languageList.addItem(language);
 
-		for(String language : languages.keySet())
-			languageExport.addItem(language);
-
         if(settings != null && settings.containsKey("language") && languages.containsValue(settings.get("language"))){
             for (String key : languages.keySet()){
                 String value = languages.get(key);
@@ -216,48 +176,14 @@ public class MainWindow implements PropertyChangeListener {
             languageList.setSelectedItem("English");
     }
 
-    private void InitializeExportToSubtitle() {
-        if (settings != null && settings.containsKey("colorKnownWords"))
-            colorButtonKnownWords.setColor(Color.decode("#" + settings.get("colorKnownWords")));
-        else
-            colorButtonKnownWords.setColor(Color.decode("#999999"));
+	private void OpenPreference(int index) {
+		Preferences preferencesDialog = new Preferences(this.settings,this.languages);
+		preferencesDialog.activateTab(index);
+		preferencesDialog.setVisible(true);
+		preferencesDialog.pack();
+	}
 
-        if (settings != null && settings.containsKey("colorUnknownWords"))
-            colorButtonUnknownWords.setColor(Color.decode("#" + settings.get("colorUnknownWords")));
-        else
-            colorButtonUnknownWords.setColor(Color.decode("#ffffff"));
-
-        if (settings != null && settings.containsKey("colorTranslateWords"))
-            colorButtonTranslateWords.setColor(Color.decode("#" + settings.get("colorTranslateWords")));
-        else
-            colorButtonTranslateWords.setColor(Color.decode("#ccffcc"));
-
-        if (settings != null && settings.containsKey("colorHardWord"))
-            colorButtonHardWords.setColor(Color.decode("#" + settings.get("colorHardWord")));
-        else
-            colorButtonHardWords.setColor(Color.decode("#ffcccc"));
-
-        if (settings != null && settings.containsKey("colorNameWords"))
-            colorButtonNameWords.setColor(Color.decode("#" + settings.get("colorNameWords")));
-        else
-            colorButtonNameWords.setColor(Color.decode("#ccccff"));
-
-        if (settings != null && settings.containsKey("colorStudiedWords"))
-            colorButtonStudiedWords.setColor(Color.decode("#" + settings.get("colorStudiedWords")));
-        else
-            colorButtonStudiedWords.setColor(Color.decode("#ffff33"));
-
-        if (settings != null && settings.containsKey("hideKnownDialog") && settings.get("hideKnownDialog").equals("false"))
-            hideDialog.setSelected(false);
-
-        exportToSubtitleButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                exportToSubtitleButtonActionPerformed();
-            }
-        });
-    }
-
-    public static void main(String[] args) {
+	public static void main(String[] args) {
         JFrame frame = new JFrame("MainWindow");
         frame.setContentPane(new MainWindow(frame).panel1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -318,12 +244,17 @@ public class MainWindow implements PropertyChangeListener {
             String pathGeneratedSubtitle = file.getAbsolutePath();
             if (!(pathGeneratedSubtitle.length()>4 && pathGeneratedSubtitle.substring(pathGeneratedSubtitle.length()-4).toLowerCase().equals(".srt")))
                 pathGeneratedSubtitle += ".srt";
+			int millisecondsPerCharacter = 100;
+			if(settings.containsKey("millisecondsPerCharacter") && tryParseInt(settings.get("millisecondsPerCharacter")))
+				millisecondsPerCharacter = Integer.parseInt(settings.get("millisecondsPerCharacter"));
             subtitle.generateSubtitle(pathGeneratedSubtitle,
                     getStemTranslatePairs(),
                     getStemColorPairs(),
                     getColorsTranslate(),
-                    toHexString(colorButtonKnownWords.getColor()),
-                    hideDialog.isSelected());
+                   	settings.get("colorKnownWords"),
+					settings.get("hideKnownDialog").equals("1")?true:false,
+					settings.get("automaticDurations").equals("1")?true:false,
+					millisecondsPerCharacter);
             updateDatabase(true);
         }
     }
@@ -350,15 +281,9 @@ public class MainWindow implements PropertyChangeListener {
 		Vocabulary db = new Vocabulary("Vocabulary");
 		db.createConnection();
 		int meeting;
-		try{
-			meeting = Integer.parseInt(mentionedMoreThan.getText());
-		}
-		catch (Exception e)
-		{
-			JOptionPane.showMessageDialog(this.frameParent, "Error input data");
-			db.closeConnection();
-			return;
-		}
+		if(settings.containsKey("exportMoreThan") && tryParseInt(settings.get("exportMoreThan")))
+			meeting = Integer.parseInt(settings.get("exportMoreThan"));
+		else return;
 
 
 		JFileChooser fileOpen = new JFileChooserWithCheck();
@@ -370,12 +295,12 @@ public class MainWindow implements PropertyChangeListener {
 
 		}
 		ArrayList<ItemVocabulary> result = db.getDump(
-				unknownWordsCheckBox.isSelected(),
-				knownWordsCheckBox.isSelected(),
-				studyWordsCheckBox.isSelected(),
-				noBlankTranslationCheckBox.isSelected(),
+				settings.get("isExportUnknownWords").equals("1")?true:false,
+				settings.get("isExportKnownWords").equals("1")?true:false,
+				settings.get("isExportStudyWords").equals("1")?true:false,
+				settings.get("isNoBlankTranslation").equals("1")?true:false,
 				meeting,
-				languages.get(languageExport.getSelectedItem().toString()));
+				languages.get(settings.get("exportLanguage")));
 		db.closeConnection();
 
 		saveDump(pathGeneratedSubtitle, result);
@@ -386,7 +311,6 @@ public class MainWindow implements PropertyChangeListener {
 		if(path != null && items != null){
 			try {
 				OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(path, false), "UTF8");
-				//writer.append("test");
 				for (ItemVocabulary item: items)
 					writer.write(item.word + "\t" + item.translate + "\n");
 				writer.close();
@@ -395,32 +319,15 @@ public class MainWindow implements PropertyChangeListener {
 			}
 		}
 	}
+
     /**
      * Save all settings in the Database
      */
     private void updateSettings() {
         Vocabulary db = new Vocabulary("Vocabulary");
-		String isExportUnknownWords = unknownWordsCheckBox.isSelected()?"1":"0";
-		String isExportStudyWords = studyWordsCheckBox.isSelected()?"1":"0";
-		String isExportKnownWords = knownWordsCheckBox.isSelected()?"1":"0";
-		String isNoBlankTranslation = noBlankTranslationCheckBox.isSelected()?"1":"0";
-
+		settings.put("language", language);
         db.createConnection();
-        db.updateSettings(
-				hideDialog.isSelected(),
-                toHexString(colorButtonTranslateWords.getColor()),
-                toHexString(colorButtonUnknownWords.getColor()),
-                toHexString(colorButtonKnownWords.getColor()),
-                toHexString(colorButtonStudiedWords.getColor()),
-                toHexString(colorButtonNameWords.getColor()),
-                toHexString(colorButtonHardWords.getColor()),
-                language,
-				isExportUnknownWords,
-				isExportStudyWords,
-				isExportKnownWords,
-				isNoBlankTranslation,
-				mentionedMoreThan.getText(),
-				languageExport.getSelectedItem().toString());
+        db.updateSettings(settings);
         db.closeConnection();
     }
 
@@ -475,23 +382,22 @@ public class MainWindow implements PropertyChangeListener {
             String word = tableMain.getModel().getValueAt(i, 3).toString();
             Stem stem = new Stem(word, language);
 
-            if (isKnown)
-                continue;
+            if (isKnown) continue;
 
             if (isStudy) {
-                stems.put(stem.getStem(), toHexString(colorButtonStudiedWords.getColor()));
+                stems.put(stem.getStem(), settings.get("colorStudiedWords"));
                 continue;
             }
 
             if (isName) {
-                stems.put(stem.getStem(), toHexString(colorButtonNameWords.getColor()));
+                stems.put(stem.getStem(), settings.get("colorNameWords"));
                 continue;
             }
 
             if (hardWords != null && hardWords.contains(stem.getStem()))
-                stems.put(stem.getStem(), toHexString(colorButtonHardWords.getColor()));
+                stems.put(stem.getStem(), settings.get("colorHardWord"));
             else
-                stems.put(stem.getStem(), toHexString(colorButtonUnknownWords.getColor()));
+                stems.put(stem.getStem(), settings.get("colorUnknownWords"));
         }
         return stems;
     }
@@ -508,37 +414,13 @@ public class MainWindow implements PropertyChangeListener {
             if (!isName && !isStudy && !isKnown) {
                 String word = tableMain.getModel().getValueAt(i, 3).toString();
                 Stem stem = new Stem(word, language);
-                stems.put(stem.getStem(), toHexString(colorButtonTranslateWords.getColor()));
+                stems.put(stem.getStem(), settings.get("colorTranslateWords"));
             }
         }
         return stems;
     }
 
-    /**
-     * Convert a color to a hex string
-     */
-    public static String toHexString(Color c) {
-        StringBuilder sb = new StringBuilder('#');
-
-        if (c.getRed() < 16) {
-            sb.append('0');
-        }
-        sb.append(Integer.toHexString(c.getRed()));
-
-        if (c.getGreen() < 16) {
-            sb.append('0');
-        }
-        sb.append(Integer.toHexString(c.getGreen()));
-
-        if (c.getBlue() < 16) {
-            sb.append('0');
-        }
-        sb.append(Integer.toHexString(c.getBlue()));
-
-        return sb.toString();
-    }
-
-    /**
+	/**
      * Get settings from the database
      *
      * @return pairs a parameter name and value
@@ -704,7 +586,7 @@ public class MainWindow implements PropertyChangeListener {
         return false;
     }
 
-	boolean tryParseInt(String value)
+	static boolean tryParseInt(String value)
 	{
 		try
 		{

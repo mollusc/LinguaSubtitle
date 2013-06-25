@@ -114,7 +114,6 @@ public class SrtSubtitle extends Subtitle {
             String currentWord = new String();
             for (IndexWord indexWord : indexWords) {
                 Speech speech = speeches.get(indexWord.indexSpeech);
-				System.out.println(stemString);
 				String word = speech.content.substring(indexWord.start,
                         indexWord.end);
 
@@ -212,7 +211,9 @@ public class SrtSubtitle extends Subtitle {
                                  Map<String, String> pairStemColor,
                                  Map<String, String> pairStemTranslateColor,
                                  String knownColor,
-                                 boolean hideKnownDialog) {
+                                 boolean hideKnownDialog,
+								 boolean isAutomaticDuration,
+								 int millisecondsPerCharacter) {
 
         String result = new String();
         Cloner cloner = new Cloner();
@@ -256,6 +257,8 @@ public class SrtSubtitle extends Subtitle {
         }
 
         // Generate text of the subtitle
+		if (isAutomaticDuration)
+			AutomaticDuration(cloneSpeeches, millisecondsPerCharacter, modifiedSpeech);
         int indexSpeech = 1;
         for (Integer i : cloneSpeeches.keySet()) {
             if (hideKnownDialog && !modifiedSpeech.contains(i)) {
@@ -325,4 +328,55 @@ public class SrtSubtitle extends Subtitle {
             strTranslate.insert(start, "<font color=\"" + colorTranslate + "\">");
         }
     }
+
+	static private void AutomaticDuration(Map<Integer, Speech> speeches, int millisecondsPerCharacter,  HashSet<Integer> modifiedSpeech)
+	{
+		Speech prevSpeech = null;
+		for (Integer key : speeches.keySet()) {
+			if(!modifiedSpeech.contains(key))
+				continue;
+			Speech value = speeches.get(key);
+			if(prevSpeech == null)
+			{
+				prevSpeech = value;
+				continue;
+			}
+
+			int currentDuration = prevSpeech.endTimeInMilliseconds - prevSpeech.startTimeInMilliseconds;
+			int newDuration = html2text(prevSpeech.content).length() * millisecondsPerCharacter;
+
+			if(newDuration > currentDuration)
+			{
+				int newEndTime = prevSpeech.startTimeInMilliseconds + newDuration;
+				if(newEndTime > value.startTimeInMilliseconds)
+					newEndTime = value.startTimeInMilliseconds - 1; // 1 is pause between subtitles
+				prevSpeech.SetTimestamp(prevSpeech.startTimeInMilliseconds, newEndTime);
+			}
+			prevSpeech = value;
+		}
+	}
+
+	/*static private void AutomaticDuration(Map<Integer, Speech> speeches, int millisecondsPerCharacter)
+	{
+		Speech prevSpeech = null;
+		for (Speech value : speeches.values()) {
+			if(prevSpeech == null)
+			{
+				prevSpeech = value;
+				continue;
+			}
+
+			int currentDuration = prevSpeech.endTimeInMilliseconds - prevSpeech.startTimeInMilliseconds;
+			int newDuration = html2text(prevSpeech.content).length() * millisecondsPerCharacter;
+
+			if(newDuration > currentDuration)
+			{
+				int newEndTime = prevSpeech.startTimeInMilliseconds + newDuration;
+				if(newEndTime > value.startTimeInMilliseconds)
+					newEndTime = value.startTimeInMilliseconds - 100; // 100 is pause between subtitles
+				prevSpeech.SetTimestamp(prevSpeech.startTimeInMilliseconds, newEndTime);
+			}
+			prevSpeech = value;
+		}
+	}*/
 }
