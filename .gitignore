@@ -32,3 +32,6 @@ nb-configuration.xml
 bin/
 target/
 out/
+workspace.xml
+*.iws
+tasks.xml
