@@ -16,7 +16,7 @@
         </constraints>
         <properties>
           <continuousLayout value="false"/>
-          <dividerLocation value="270"/>
+          <dividerLocation value="206"/>
         </properties>
         <border type="none"/>
         <children>
@@ -126,7 +126,7 @@
                               </grid>
                             </constraints>
                             <properties>
-                              <icon value="mollusc/linguasubtitle/img/open.png"/>
+                              <icon value="open.png"/>
                               <text value="Open subtitle"/>
                             </properties>
                           </component>
@@ -181,13 +181,14 @@
                       <component id="ad08" class="javax.swing.JButton" binding="exportToSubtitleButton" default-binding="true">
                         <constraints>
                           <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="150" height="30"/>
                             <preferred-size width="150" height="30"/>
                             <maximum-size width="150" height="30"/>
                           </grid>
                         </constraints>
                         <properties>
                           <horizontalTextPosition value="11"/>
-                          <icon value="mollusc/linguasubtitle/img/export.png"/>
+                          <icon value="export.png"/>
                           <text value="Export subtitle"/>
                         </properties>
                       </component>
@@ -222,7 +223,7 @@
                         </constraints>
                         <properties>
                           <hideActionText value="false"/>
-                          <icon value="mollusc/linguasubtitle/img/preference.png"/>
+                          <icon value="preference.png"/>
                           <text value=""/>
                         </properties>
                       </component>
@@ -256,12 +257,14 @@
                       <component id="f6e38" class="javax.swing.JButton" binding="exportFromDatabaseButton">
                         <constraints>
                           <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="150" height="30"/>
                             <preferred-size width="150" height="30"/>
                             <maximum-size width="150" height="30"/>
                           </grid>
                         </constraints>
                         <properties>
-                          <icon value="mollusc/linguasubtitle/img/export.png"/>
+                          <hideActionText value="true"/>
+                          <icon value="export.png"/>
                           <text value="Export"/>
                         </properties>
                       </component>
@@ -276,7 +279,7 @@
                         <properties>
                           <hideActionText value="false"/>
                           <horizontalAlignment value="0"/>
-                          <icon value="mollusc/linguasubtitle/img/preference.png"/>
+                          <icon value="preference.png"/>
                           <text value=""/>
                         </properties>
                       </component>
