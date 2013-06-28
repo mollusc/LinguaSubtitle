@@ -1,17 +1,14 @@
 package mollusc.linguasubtitle.subtitle.srt;
 
 import com.rits.cloning.Cloner;
-import com.sun.deploy.util.ArrayUtil;
 import mollusc.linguasubtitle.subtitle.Subtitle;
 import mollusc.linguasubtitle.subtitle.parser.Stem;
-import sun.security.ssl.Debug;
 
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import java.awt.*;
-import java.io.Console;
 import java.util.*;
 
 /**
@@ -46,8 +43,8 @@ public class SrtSubtitle extends Subtitle {
         String[] lines = content.split("\\r?\\n");
         boolean headerSpeech = true;
         int sequenceNumber = 0;
-        String timing = new String();
-        String text = new String();
+        String timing = "";
+        String text = "";
         for (int i = 0; i < lines.length; i++) {
             String line = lines[i];
             if (headerSpeech && isNumeric(line)) {
@@ -63,7 +60,8 @@ public class SrtSubtitle extends Subtitle {
                 headerSpeech = true;
                 continue;
             }
-            text += line + "\n";
+			if(!headerSpeech)
+            	text += line + "\n";
         }
     }
 
@@ -74,7 +72,7 @@ public class SrtSubtitle extends Subtitle {
         index = new HashMap<String, ArrayList<IndexWord>>();
         for (Integer indexSpeech : speeches.keySet()) {
             boolean isTag = false;
-            String text = new String();
+            String text = "";
             Speech speech = speeches.get(indexSpeech);
             for (int j = 0; j < speech.content.length(); j++) {
                 char ch = speech.content.charAt(j);
@@ -87,7 +85,7 @@ public class SrtSubtitle extends Subtitle {
                             IndexWord indexWord = new IndexWord(speech.sequenceNumber, j - text.length(), j);
                             index.get(stemString).add(indexWord);
                         }
-                        text = new String();
+                        text = "";
                     } else {
                         text += Character.toLowerCase(ch);
                     }
@@ -111,7 +109,7 @@ public class SrtSubtitle extends Subtitle {
         Map<Stem, Integer> result = new HashMap<Stem, Integer>();
         for (String stemString : index.keySet()) {
             ArrayList<IndexWord> indexWords = index.get(stemString);
-            String currentWord = new String();
+            String currentWord = "";
             for (IndexWord indexWord : indexWords) {
                 Speech speech = speeches.get(indexWord.indexSpeech);
 				String word = speech.content.substring(indexWord.start,
@@ -215,9 +213,10 @@ public class SrtSubtitle extends Subtitle {
 								 boolean isAutomaticDuration,
 								 int millisecondsPerCharacter) {
 
-        String result = new String();
-        Cloner cloner = new Cloner();
-        Map<Integer, Speech> cloneSpeeches = cloner.deepClone(speeches);
+        String result = "";
+        Cloner cloner;
+		cloner = new Cloner();
+		Map<Integer, Speech> cloneSpeeches = cloner.deepClone(speeches);
         Map<Integer, String> mapTranslation = new HashMap<Integer, String>();
         ArrayList<IndexWord> indices = new ArrayList<IndexWord>();
 
@@ -258,7 +257,7 @@ public class SrtSubtitle extends Subtitle {
 
         // Generate text of the subtitle
 		if (isAutomaticDuration)
-			AutomaticDuration(cloneSpeeches, millisecondsPerCharacter, modifiedSpeech);
+			AutomaticDuration(cloneSpeeches, millisecondsPerCharacter, modifiedSpeech, hideKnownDialog);
         int indexSpeech = 1;
         for (Integer i : cloneSpeeches.keySet()) {
             if (hideKnownDialog && !modifiedSpeech.contains(i)) {
@@ -297,7 +296,7 @@ public class SrtSubtitle extends Subtitle {
     }
 
     private String blankTranslate(String content) {
-        String strTranslate = new String();
+        String strTranslate = "";
         content = html2text(content);
         for (int i = 0; i < content.length(); i++) {
             if (content.charAt(i) == '\n')
@@ -329,11 +328,11 @@ public class SrtSubtitle extends Subtitle {
         }
     }
 
-	static private void AutomaticDuration(Map<Integer, Speech> speeches, int millisecondsPerCharacter,  HashSet<Integer> modifiedSpeech)
+	static private void AutomaticDuration(Map<Integer, Speech> speeches, int millisecondsPerCharacter,  HashSet<Integer> modifiedSpeech, boolean hideKnownDialog)
 	{
 		Speech prevSpeech = null;
 		for (Integer key : speeches.keySet()) {
-			if(!modifiedSpeech.contains(key))
+			if(!modifiedSpeech.contains(key) || !hideKnownDialog)
 				continue;
 			Speech value = speeches.get(key);
 			if(prevSpeech == null)
@@ -355,28 +354,4 @@ public class SrtSubtitle extends Subtitle {
 			prevSpeech = value;
 		}
 	}
-
-	/*static private void AutomaticDuration(Map<Integer, Speech> speeches, int millisecondsPerCharacter)
-	{
-		Speech prevSpeech = null;
-		for (Speech value : speeches.values()) {
-			if(prevSpeech == null)
-			{
-				prevSpeech = value;
-				continue;
-			}
-
-			int currentDuration = prevSpeech.endTimeInMilliseconds - prevSpeech.startTimeInMilliseconds;
-			int newDuration = html2text(prevSpeech.content).length() * millisecondsPerCharacter;
-
-			if(newDuration > currentDuration)
-			{
-				int newEndTime = prevSpeech.startTimeInMilliseconds + newDuration;
-				if(newEndTime > value.startTimeInMilliseconds)
-					newEndTime = value.startTimeInMilliseconds - 100; // 100 is pause between subtitles
-				prevSpeech.SetTimestamp(prevSpeech.startTimeInMilliseconds, newEndTime);
-			}
-			prevSpeech = value;
-		}
-	}*/
 }

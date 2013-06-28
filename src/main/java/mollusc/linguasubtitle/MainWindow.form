@@ -35,7 +35,7 @@
               </component>
             </children>
           </scrollpane>
-          <tabbedpane id="c6615" binding="tabbedPane">
+          <tabbedpane id="c6615">
             <constraints>
               <splitpane position="right"/>
             </constraints>

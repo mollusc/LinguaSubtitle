@@ -28,17 +28,17 @@ import java.util.Map;
  * Created with IntelliJ IDEA.
  * User: mollusc <MolluscLab@gmail.com>
  */
+@SuppressWarnings("ALL")
 public class MainWindow implements PropertyChangeListener {
     private JPanel panel1;
     public JTable tableMain;
     private JTable tableStatistic;
     public JButton exportToSubtitleButton;
     private JEditorPane textSubtitle;
-    private JComboBox languageList;
+    private JComboBox<String> languageList;
     private JLabel helpLink;
 	private JLabel siteLink;
 	private JButton exportFromDatabaseButton;
-	private JTabbedPane tabbedPane;
 	private JButton preferenceToSubtitleButton;
 	private JButton preferenceFromDatabaseButton;
 	private JButton openSubtitle;
@@ -56,12 +56,12 @@ public class MainWindow implements PropertyChangeListener {
         this.frameParent.setTitle("LinguaSubtitle 2");
 		settings = getSettings();
 
-        InitializeExportToSubtitle();
-        InitializeTableMain();
-        InitializeTableStatistic();
-        InitializeLanguageList();
-		InitializeExportFromDatabase();
-        InitializeLinks();
+        initializeExportToSubtitle();
+        initializeTableMain();
+        initializeTableStatistic();
+        initializeLanguageList();
+		initializeExportFromDatabase();
+        initializeLinks();
 
 		openSubtitle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
@@ -70,7 +70,7 @@ public class MainWindow implements PropertyChangeListener {
 		});
 	}
 
-	private void InitializeExportFromDatabase()
+	private void initializeExportFromDatabase()
 	{
 		exportFromDatabaseButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
@@ -79,30 +79,30 @@ public class MainWindow implements PropertyChangeListener {
 		});
 		preferenceFromDatabaseButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				OpenPreference(1);
+				openPreference(1);
 			}
 		});
 	}
 
-	private void InitializeExportToSubtitle() {
+	private void initializeExportToSubtitle() {
 		exportToSubtitleButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {exportToSubtitleButtonActionPerformed();}
 		});
 		preferenceToSubtitleButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				OpenPreference(0);
+				openPreference(0);
 			}
 		});
 	}
 
-	private void InitializeLinks(){
+	private void initializeLinks(){
 		helpLink.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		helpLink.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try {
 					Desktop.getDesktop().browse(new URI("http://sourceforge.net/p/linguasubtitle/wiki/Home/"));
-				} catch (Exception ex) {
+				} catch (Exception ignored) {
 				}
 			}
 		});
@@ -113,13 +113,12 @@ public class MainWindow implements PropertyChangeListener {
 			public void mouseClicked(MouseEvent e) {
 				try {
 					Desktop.getDesktop().browse(new URI("http://sourceforge.net/projects/linguasubtitle/"));
-				} catch (Exception ex) {}
+				} catch (Exception ignored) {}
 			}
 		});
     }
 
-    private void InitializeTableStatistic() {
-        // initialize tableStatistic
+    private void initializeTableStatistic() {
         tableStatistic.setModel(new StatisticTableModel());
         tableStatistic.getColumnModel().getColumn(1).setPreferredWidth(100);
         tableStatistic.getColumnModel().getColumn(1).setMaxWidth(150);
@@ -127,7 +126,7 @@ public class MainWindow implements PropertyChangeListener {
         tableStatistic.getColumnModel().getColumn(2).setMaxWidth(150);
     }
 
-    private void InitializeTableMain() {
+    private void initializeTableMain() {
         tableMain.setModel(new MainTableModel());
         tableMain.getColumnModel().getColumn(0).setPreferredWidth(40);
         tableMain.getColumnModel().getColumn(0).setMaxWidth(40);
@@ -150,7 +149,7 @@ public class MainWindow implements PropertyChangeListener {
         });
     }
 
-    private void InitializeLanguageList() {
+    private void initializeLanguageList() {
         language = null;
         languages = new HashMap<String, String>();
         languages.put("English", "english");
@@ -176,7 +175,7 @@ public class MainWindow implements PropertyChangeListener {
             languageList.setSelectedItem("English");
     }
 
-	private void OpenPreference(int index) {
+	private void openPreference(int index) {
 		Preferences preferencesDialog = new Preferences(this.settings,this.languages);
 		preferencesDialog.activateTab(index);
 		preferencesDialog.setVisible(true);
@@ -186,7 +185,7 @@ public class MainWindow implements PropertyChangeListener {
 	public static void main(String[] args) {
         JFrame frame = new JFrame("MainWindow");
         frame.setContentPane(new MainWindow(frame).panel1);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
     }
@@ -211,6 +210,8 @@ public class MainWindow implements PropertyChangeListener {
         language = languages.get(languageList.getSelectedItem());
         JFileChooser fileOpen = new JFileChooser();
         fileOpen.setFileFilter(new SubtitleFilter());
+		if(subtitle != null && new File(subtitle.getPathToSubtitle()).exists())
+			fileOpen.setCurrentDirectory(new File(subtitle.getPathToSubtitle()));
         int returnValue = fileOpen.showDialog(null, "Open");
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             frameParent.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -252,8 +253,8 @@ public class MainWindow implements PropertyChangeListener {
                     getStemColorPairs(),
                     getColorsTranslate(),
                    	settings.get("colorKnownWords"),
-					settings.get("hideKnownDialog").equals("1")?true:false,
-					settings.get("automaticDurations").equals("1")?true:false,
+					settings.get("hideKnownDialog").equals("1"),
+					settings.get("automaticDurations").equals("1"),
 					millisecondsPerCharacter);
             updateDatabase(true);
         }
@@ -283,7 +284,14 @@ public class MainWindow implements PropertyChangeListener {
 		int meeting;
 		if(settings.containsKey("exportMoreThan") && tryParseInt(settings.get("exportMoreThan")))
 			meeting = Integer.parseInt(settings.get("exportMoreThan"));
-		else return;
+		else
+		{
+			JOptionPane.showMessageDialog(this.frameParent,
+					"Wrong parameter.",
+					"Error",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
 
 
 		JFileChooser fileOpen = new JFileChooserWithCheck();
@@ -294,11 +302,12 @@ public class MainWindow implements PropertyChangeListener {
 			pathGeneratedSubtitle = file.getAbsolutePath();
 
 		}
-		ArrayList<ItemVocabulary> result = db.getDump(
-				settings.get("isExportUnknownWords").equals("1")?true:false,
-				settings.get("isExportKnownWords").equals("1")?true:false,
-				settings.get("isExportStudyWords").equals("1")?true:false,
-				settings.get("isNoBlankTranslation").equals("1")?true:false,
+		ArrayList<ItemVocabulary> result;
+		result = db.getDump(
+				settings.get("isExportUnknownWords").equals("1"),
+				settings.get("isExportKnownWords").equals("1"),
+				settings.get("isExportStudyWords").equals("1"),
+				settings.get("isNoBlankTranslation").equals("1"),
 				meeting,
 				languages.get(settings.get("exportLanguage")));
 		db.closeConnection();
@@ -494,7 +503,7 @@ public class MainWindow implements PropertyChangeListener {
      */
     private void tableDefaultSort() {
         DefaultRowSorter sorter = ((DefaultRowSorter) tableMain.getRowSorter());
-        ArrayList list = new ArrayList();
+        ArrayList<RowSorter.SortKey> list = new ArrayList<RowSorter.SortKey>();
         list.add(new RowSorter.SortKey(2, SortOrder.ASCENDING));
         list.add(new RowSorter.SortKey(5, SortOrder.DESCENDING));
         list.add(new RowSorter.SortKey(6, SortOrder.ASCENDING));
@@ -548,11 +557,10 @@ public class MainWindow implements PropertyChangeListener {
                 continue;
             }
 
-            if (!isName && !isStudy && !isKnown) {
+            if (!isName) {
                 unknownUnique++;
                 unknownWords += count;
-                continue;
-            }
+			}
         }
 
         tableStatistic.setValueAt(totalUnique, 0, 1);
