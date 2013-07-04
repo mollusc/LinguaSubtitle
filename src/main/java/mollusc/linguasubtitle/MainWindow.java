@@ -54,6 +54,17 @@ public class MainWindow implements PropertyChangeListener {
     public MainWindow(JFrame frameParent) {
         this.frameParent = frameParent;
         this.frameParent.setTitle("LinguaSubtitle 2");
+		language = null;
+		languages = new HashMap<String, String>();
+		languages.put("English", "english");
+		languages.put("Français", "french");
+		languages.put("Deutsch", "german");
+		languages.put("Italiano", "italian");
+		languages.put("Português", "portuguese");
+		languages.put("Русский", "russian");
+		languages.put("Español", "spanish");
+		languages.put("Türkçe", "turkish");
+
 		settings = getSettings();
 
         initializeExportToSubtitle();
@@ -65,7 +76,7 @@ public class MainWindow implements PropertyChangeListener {
 
 		openSubtitle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				loadSubtitleActionPerformed();
+				openSubtitleActionPerformed();
 			}
 		});
 	}
@@ -150,17 +161,6 @@ public class MainWindow implements PropertyChangeListener {
     }
 
     private void initializeLanguageList() {
-        language = null;
-        languages = new HashMap<String, String>();
-        languages.put("English", "english");
-        languages.put("Français", "french");
-        languages.put("Deutsch", "german");
-        languages.put("Italiano", "italian");
-        languages.put("Português", "portuguese");
-        languages.put("Русский", "russian");
-        languages.put("Español", "spanish");
-        languages.put("Türkçe", "turkish");
-
         for(String language : languages.keySet())
             languageList.addItem(language);
 
@@ -204,9 +204,9 @@ public class MainWindow implements PropertyChangeListener {
     }
 
     /**
-     * Handle clicks on loadSubtitle button.
+     * Handle clicks on openSubtitle button.
      */
-    private void loadSubtitleActionPerformed() {
+    private void openSubtitleActionPerformed() {
         language = languages.get(languageList.getSelectedItem());
         JFileChooser fileOpen = new JFileChooser();
         fileOpen.setFileFilter(new SubtitleFilter());
@@ -243,8 +243,6 @@ public class MainWindow implements PropertyChangeListener {
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             File file = fileOpen.getSelectedFile();
             String pathGeneratedSubtitle = file.getAbsolutePath();
-            if (!(pathGeneratedSubtitle.length()>4 && pathGeneratedSubtitle.substring(pathGeneratedSubtitle.length()-4).toLowerCase().equals(".srt")))
-                pathGeneratedSubtitle += ".srt";
 			int millisecondsPerCharacter = 100;
 			if(settings.containsKey("millisecondsPerCharacter") && tryParseInt(settings.get("millisecondsPerCharacter")))
 				millisecondsPerCharacter = Integer.parseInt(settings.get("millisecondsPerCharacter"));
@@ -433,6 +431,10 @@ public class MainWindow implements PropertyChangeListener {
         db.createConnection();
         Map<String, String> result = db.getSettings();
         db.closeConnection();
+		// Set default value for settings if it isn't set
+		Preferences defaultSettings = new Preferences(result,this.languages);
+		defaultSettings.UpdateSettings();
+
         return result;
     }
 

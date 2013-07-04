@@ -12,7 +12,13 @@ public class JFileChooserWithCheck extends JFileChooser {
 
     @Override
     public void approveSelection() {
-        File file = getSelectedFile();
+
+		String pathSubtitle =  getSelectedFile().getAbsolutePath();
+		String ext = ((SubtitleFilter)getFileFilter()).ext;
+		if(!(pathSubtitle.length()>ext.length() && pathSubtitle.substring(pathSubtitle.length()-ext.length()).toLowerCase().equals(ext)))
+			setSelectedFile(new File(pathSubtitle + ext));
+
+		File file =getSelectedFile();
         if (file.exists() && getDialogType() == SAVE_DIALOG) {
             int result = JOptionPane.showConfirmDialog(this,
                     "File already exists. Overwrite?",

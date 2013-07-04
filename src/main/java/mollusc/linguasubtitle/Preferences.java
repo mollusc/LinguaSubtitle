@@ -115,6 +115,12 @@ public class Preferences extends JDialog {
 			return;
 		}
 
+		UpdateSettings();
+
+		dispose();
+	}
+
+	public void UpdateSettings() {
 		settings.put("hideKnownDialog", hideDialog.isSelected()?"1":"0");
 		settings.put("colorTranslateWords", toHexString(colorButtonTranslateWords.getColor()));
 		settings.put("colorUnknownWords", toHexString(colorButtonUnknownWords.getColor()));
@@ -130,8 +136,6 @@ public class Preferences extends JDialog {
 		settings.put("isNoBlankTranslation", noBlankTranslationCheckBox.isSelected()?"1":"0");
 		settings.put("exportMoreThan", mentionedMoreThan.getText());
 		settings.put("exportLanguage", languageExport.getSelectedItem().toString());
-
-		dispose();
 	}
 
 	private void onCancel() {
