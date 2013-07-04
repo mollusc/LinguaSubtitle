@@ -332,7 +332,7 @@ public class SrtSubtitle extends Subtitle {
 	{
 		Speech prevSpeech = null;
 		for (Integer key : speeches.keySet()) {
-			if(!modifiedSpeech.contains(key) || !hideKnownDialog)
+			if(!modifiedSpeech.contains(key) && hideKnownDialog)
 				continue;
 			Speech value = speeches.get(key);
 			if(prevSpeech == null)
