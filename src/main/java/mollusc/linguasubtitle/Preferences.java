@@ -37,10 +37,11 @@ public class Preferences extends JDialog {
 		this.settings = settings;
 		this.languages = languages;
 
+		initializeLanguageList();
 		initializeExportToSubtitle();
 		initializeExportFromDatabase();
 		changeEnableMillisecondsPerCharacter();
-		initializeLanguageList();
+
 
 		this.setTitle("Preferences");
 		this.setSize(600, 400);
@@ -104,6 +105,16 @@ public class Preferences extends JDialog {
 	}
 
 	private void onOK() {
+
+		if(!MainWindow.tryParseInt(mentionedMoreThan.getText()) || !MainWindow.tryParseInt(millisecondsPerCharacter.getText()) )
+		{
+			JOptionPane.showMessageDialog(this,
+					"Wrong value of parameter.",
+					"Error",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
 		settings.put("hideKnownDialog", hideDialog.isSelected()?"1":"0");
 		settings.put("colorTranslateWords", toHexString(colorButtonTranslateWords.getColor()));
 		settings.put("colorUnknownWords", toHexString(colorButtonUnknownWords.getColor()));

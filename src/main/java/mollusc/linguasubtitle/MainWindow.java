@@ -285,13 +285,7 @@ public class MainWindow implements PropertyChangeListener {
 		if(settings.containsKey("exportMoreThan") && tryParseInt(settings.get("exportMoreThan")))
 			meeting = Integer.parseInt(settings.get("exportMoreThan"));
 		else
-		{
-			JOptionPane.showMessageDialog(this.frameParent,
-					"Wrong parameter.",
-					"Error",
-					JOptionPane.ERROR_MESSAGE);
 			return;
-		}
 
 
 		JFileChooser fileOpen = new JFileChooserWithCheck();
