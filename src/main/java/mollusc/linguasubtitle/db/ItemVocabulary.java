@@ -10,21 +10,17 @@ package mollusc.linguasubtitle.db;
  * @author mollusc <MolluscLab@gmail.com>
  */
 public class ItemVocabulary {
-    public String stem;
-    public String word;
-    public String translate;
-    public String language;
-    public boolean known;
-    public int meeting;
-    public boolean study;
+	public final String word;
+	public final String translate;
+	public final boolean known;
+	public final int meeting;
+	public final boolean study;
 
-    public ItemVocabulary(String stem, String word, String translate, String language, boolean known, int meeting, boolean study) {
-        this.stem = stem;
-        this.word = word;
-        this.translate = translate;
-        this.language = language;
-        this.known = known;
-        this.meeting = meeting;
-        this.study = study;
-    }
+	public ItemVocabulary(String word, String translate, boolean known, int meeting, boolean study) {
+		this.word = word;
+		this.translate = translate;
+		this.known = known;
+		this.meeting = meeting;
+		this.study = study;
+	}
 }

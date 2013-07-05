@@ -12,49 +12,49 @@ import java.awt.event.ActionListener;
  */
 public class ColorSelectionButton extends JButton implements ActionListener {
 
-    private Color color;
+	private Color color;
 
-    public ColorSelectionButton() {
-        this(Color.white);
-    }
+	public ColorSelectionButton() {
+		this(Color.white);
+	}
 
-    public ColorSelectionButton(Color c) {
-        super();
-        color = c;
-        addActionListener(this);
-    }
+	public ColorSelectionButton(Color c) {
+		super();
+		color = c;
+		addActionListener(this);
+	}
 
-    public Color getColor() {
-        return color;
-    }
+	public Color getColor() {
+		return color;
+	}
 
-    public void setColor(Color color) {
-        this.color = color;
-        repaint();
-        fireStateChanged();
-    }
+	public void setColor(Color color) {
+		this.color = color;
+		repaint();
+		fireStateChanged();
+	}
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
 
-        Insets ins = new Insets(5, 5, 5, 5);
+		Insets ins = new Insets(5, 5, 5, 5);
 
-        g.setColor(color);
-        g.fillRect(
-                ins.left,
-                ins.top,
-                getWidth() - ins.left - ins.right,
-                getHeight() - ins.top - ins.bottom);
-    }
+		g.setColor(color);
+		g.fillRect(
+				ins.left,
+				ins.top,
+				getWidth() - ins.left - ins.right,
+				getHeight() - ins.top - ins.bottom);
+	}
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        Color c = JColorChooser.showDialog(
-                this,
-                "Choose a color...",
-                color);
-        if (c != null)
-            setColor(c);
-    }
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Color c = JColorChooser.showDialog(
+				this,
+				"Choose a color...",
+				color);
+		if (c != null)
+			setColor(c);
+	}
 }

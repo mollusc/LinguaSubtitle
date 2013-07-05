@@ -5,25 +5,25 @@ package mollusc.linguasubtitle.subtitle.srt;
  *
  * @author mollusc <MolluscLab@gmail.com>
  */
-public class IndexWord {
-    /**
-     * Index of speech in the subtitle
-     */
-    public int indexSpeech;
+class IndexWord {
+	/**
+	 * Index of speech in the subtitle
+	 */
+	public final int indexSpeech;
 
-    /**
-     * Index of first character of the word
-     */
-    public int start;
+	/**
+	 * Index of first character of the word
+	 */
+	public final int start;
 
-    /**
-     * Index of last character of the word
-     */
-    public int end;
+	/**
+	 * Index of last character of the word
+	 */
+	public final int end;
 
-    public IndexWord(int indexSpeech, int startWord, int lengthWord) {
-        this.indexSpeech = indexSpeech;
-        this.start = startWord;
-        this.end = lengthWord;
-    }
+	public IndexWord(int indexSpeech, int startWord, int lengthWord) {
+		this.indexSpeech = indexSpeech;
+		this.start = startWord;
+		this.end = lengthWord;
+	}
 }
