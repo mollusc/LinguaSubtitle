@@ -243,7 +243,7 @@ public class MainWindow implements PropertyChangeListener {
 	 * Handle clicks on exportToSubtitle button.
 	 */
 	private void exportToSubtitleButtonActionPerformed() {
-		JFileChooser fileOpen = new JFileChooserWithCheck();
+		JFileChooser fileOpen = new JFileChooserWithCheck(true);
 		fileOpen.setFileFilter(new SubtitleFilter());
 		fileOpen.setCurrentDirectory(new File(subtitle.getPathToSubtitle()));
 		int returnValue = fileOpen.showSaveDialog(null);
@@ -291,7 +291,7 @@ public class MainWindow implements PropertyChangeListener {
 		else
 			return;
 
-		JFileChooser fileOpen = new JFileChooserWithCheck();
+		JFileChooser fileOpen = new JFileChooserWithCheck(false);
 		int returnValue = fileOpen.showSaveDialog(null);
 		String pathGeneratedSubtitle = null;
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
@@ -306,7 +306,7 @@ public class MainWindow implements PropertyChangeListener {
 				settings.get("isExportStudyWords").equals("1"),
 				settings.get("isNoBlankTranslation").equals("1"),
 				meeting,
-				languages.get(settings.get("exportLanguage")));
+				settings.get("exportLanguage"));
 		db.closeConnection();
 
 		saveDump(pathGeneratedSubtitle, result);

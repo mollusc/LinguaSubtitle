@@ -9,14 +9,22 @@ import java.io.File;
  * @author mollusc <MolluscLab@gmail.com>
  */
 class JFileChooserWithCheck extends JFileChooser {
+	boolean isSubtitle;
+	public JFileChooserWithCheck(boolean isSubtitle)
+	{
+		this.isSubtitle = isSubtitle;
+	}
 
 	@Override
 	public void approveSelection() {
 
 		String pathSubtitle = getSelectedFile().getAbsolutePath();
-		String ext = ((SubtitleFilter) getFileFilter()).ext;
-		if (!(pathSubtitle.length() > ext.length() && pathSubtitle.substring(pathSubtitle.length() - ext.length()).toLowerCase().equals(ext)))
-			setSelectedFile(new File(pathSubtitle + ext));
+		if(isSubtitle)
+		{
+			String ext = ((SubtitleFilter) getFileFilter()).ext;
+			if (!(pathSubtitle.length() > ext.length() && pathSubtitle.substring(pathSubtitle.length() - ext.length()).toLowerCase().equals(ext)))
+				setSelectedFile(new File(pathSubtitle + ext));
+		}
 
 		File file = getSelectedFile();
 		if (file.exists() && getDialogType() == SAVE_DIALOG) {

@@ -212,7 +212,7 @@ public class Preferences extends JDialog {
 		settings.put("exportKnownWords", knownWordsCheckBox.isSelected() ? "1" : "0");
 		settings.put("noBlankTranslation", noBlankTranslationCheckBox.isSelected() ? "1" : "0");
 		settings.put("exportMoreThan", exportMoreThanTextField.getText());
-		settings.put("exportLanguage", languagesComboBox.getSelectedItem().toString());
+		settings.put("exportLanguage", languages.get(languagesComboBox.getSelectedItem().toString()));
 	}
 
 	private void changeEnableMillisecondsPerCharacter() {
@@ -233,7 +233,7 @@ public class Preferences extends JDialog {
 	 * Convert a color to a hex string
 	 */
 	private static String toHexString(Color c) {
-		StringBuilder sb = new StringBuilder("#");
+		StringBuilder sb = new StringBuilder();
 
 		if (c.getRed() < 16) {
 			sb.append('0');
