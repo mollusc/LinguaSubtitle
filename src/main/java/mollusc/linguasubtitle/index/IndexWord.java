@@ -1,11 +1,20 @@
-package mollusc.linguasubtitle.subtitle.srt;
+package mollusc.linguasubtitle.index;
 
 /**
  * Container for index data
  *
  * @author mollusc <MolluscLab@gmail.com>
  */
-class IndexWord {
+public class IndexWord {
+	/**
+	 * word
+	 */
+	public final String word;
+	/**
+	 * Stem of the word
+	 */
+	public final String stem;
+
 	/**
 	 * Index of speech in the subtitle
 	 */
@@ -21,7 +30,9 @@ class IndexWord {
 	 */
 	public final int end;
 
-	public IndexWord(int indexSpeech, int startWord, int lengthWord) {
+	public IndexWord(String word, String stem, int indexSpeech, int startWord, int lengthWord) {
+		this.word = word;
+		this.stem = stem;
 		this.indexSpeech = indexSpeech;
 		this.start = startWord;
 		this.end = lengthWord;

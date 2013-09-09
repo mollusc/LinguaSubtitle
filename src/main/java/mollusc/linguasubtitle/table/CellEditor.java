@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package mollusc.linguasubtitle;
+package mollusc.linguasubtitle.table;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,7 +10,7 @@ import java.awt.*;
 /**
  * @author mollusc <MolluscLab@gmail.com>
  */
-class CellEditor extends DefaultCellEditor {
+public class CellEditor extends DefaultCellEditor {
 
 	public CellEditor() {
 		super(new JTextField());

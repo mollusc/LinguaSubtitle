@@ -1,55 +1,71 @@
 package mollusc.linguasubtitle.subtitle;
 
-import mollusc.linguasubtitle.subtitle.parser.Stem;
+import mollusc.linguasubtitle.Filename;
 
-import javax.swing.text.Document;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
- * @author mollusc <MolluscLab@gmail.com>
+ * Created with IntelliJ IDEA.
+ * User: mollusc <MolluscLab@gmail.com>
+ * Date: 05.09.13
  */
-public abstract class Subtitle {
+public class Subtitle implements Iterable<Speech>{
 
+	//<editor-fold desc="Private Field">
 	/**
-	 * Content of the subtitle file
+	 * Subtitle speeches
 	 */
-	protected String content;
+	private ArrayList<Speech> speeches;
+	//</editor-fold>
 
-	/**
-	 * Path to the subtitle file
-	 */
-	private final String pathToSubtitle;
+	//<editor-fold desc="Constructor">
+	public Subtitle(String path)
+	{
+		initialiseFromFile(path);
+	}
+	//</editor-fold>
 
-	/**
-	 * Language of the subtitle
-	 */
-	protected final String language;
-
-	/**
-	 * Get path to the subtitle file
-	 *
-	 * @return path to subtitle file
-	 */
-	public String getPathToSubtitle() {
-		return pathToSubtitle;
+	//<editor-fold desc="Public Methods">
+	@Override
+	public Iterator<Speech> iterator() {
+		return speeches.iterator();
 	}
 
-	protected Subtitle(String path, String language) {
-		this.language = language;
-		pathToSubtitle = path;
+	/**
+	 * Get speech by index
+	 * @param index index of speech
+	 * @return
+	 */
+	public Speech getSpeech(int index)
+	{
+		if(index >= 0 && index< speeches.size())
+			return speeches.get(index);
+		return null;
+	}
+	//</editor-fold>
+
+	//<editor-fold desc="Private Methods">
+	/**
+	 * Initialise file from the file subtitles
+	 * @param path path to the file subtitles
+	 */
+	private void initialiseFromFile(String path) {
 		try {
-			FileInputStream stream = new FileInputStream(new File(pathToSubtitle));
+			Filename fileName = new Filename(path);
+			String extension = fileName.extension().toLowerCase();
+			FileInputStream stream = new FileInputStream(new File(path));
 			try {
 				FileChannel fc = stream.getChannel();
 				MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
-				content = Charset.defaultCharset().decode(bb).toString();
+				String content = Charset.defaultCharset().decode(bb).toString();
+				if (extension.toLowerCase() == "srt")
+					setSpeechesFromSrt (content);
 			} finally {
 				stream.close();
 			}
@@ -58,84 +74,52 @@ public abstract class Subtitle {
 		}
 	}
 
-	/**
-	 * Get the list of stems
-	 *
-	 * @return Keys is a stem object, Value is quantity of the stem in the
-	 *         subtitle
-	 */
-	public abstract Map<Stem, Integer> getListStems();
 
 	/**
-	 * Mark the stem in the subtitle
+	 * Set speeches from the SubRip (srt) subtitles
 	 */
-	public abstract void markWord(String stem, Document document);
+	private void setSpeechesFromSrt(String content) {
+		speeches = new ArrayList<Speech>();
+		content += '\u00A0';
+		String[] lines = content.split("\\r?\\n");
+		boolean headerSpeech = true;
+		String timing = "";
+		String text = "";
+		for (int i = 0; i < lines.length; i++) {
+			String line = lines[i];
+			if (headerSpeech && tryParseInt(line)) {
+				i++;
+				timing = lines[i];
+				headerSpeech = false;
+				continue;
+			}
+			if (line.isEmpty() && !text.isEmpty()) {
+				speeches.add(new Speech(timing, text));
 
-	/**
-	 * Hide headers of in the subtitle
-	 */
-	public abstract void hideHeader(Document document);
-
-	/**
-	 * Get position of the stems in the subtitle.
-	 */
-	public abstract int getPositionStem(String stem);
-
-	/**
-	 * Generate subtitle
-	 *
-	 * @param pathToSave      - path for saving of the subtitle
-	 * @param stemsTranslate  - translation for stems
-	 * @param stemsColors     - colors for stems
-	 * @param knownColor      - color for known words
-	 * @param hideKnownSpeech - Will known speech hide?
-	 */
-	public abstract void generateSubtitle(String pathToSave,
-										  Map<String, String> stemsTranslate,
-										  Map<String, String> stemsColors,
-										  Map<String, String> translateColors,
-										  String knownColor,
-										  boolean hideKnownSpeech,
-										  boolean isAutomaticDuration,
-										  int millisecondsPerCharacter);
-
-	/**
-	 * Delete all html tags
-	 *
-	 * @param html string of html text
-	 * @return string without html tags
-	 */
-	protected static String html2text(String html) {
-		return html.replaceAll("<.*?>", "");
+				text = "";
+				headerSpeech = true;
+				continue;
+			}
+			if (!headerSpeech)
+				text += line + "\n";
+		}
 	}
 
 	/**
-	 * Check, the text is a numeric?
+	 * Check, the text is an integer?
 	 *
-	 * @param text - the text for check
-	 * @return true, if the text is a numeric, otherwise - false
+	 * @param value - the text for check
+	 * @return true, if the value is a integer, otherwise - false
 	 */
-	protected static boolean isNumeric(String text) {
-		try {
-			Integer.parseInt(text);
-		} catch (Exception nfe) {
+	private static boolean tryParseInt(String value) {
+		try
+		{
+			Integer.parseInt(value);
+			return true;
+		} catch(NumberFormatException nfe)
+		{
 			return false;
 		}
-		return true;
 	}
-
-	/**
-	 * Save content
-	 *
-	 * @param path    - path to save
-	 */
-	protected static void saveSubtitle(String path, String content) {
-		try {
-			OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(path, false), "UTF8");
-			writer.append(content);
-			writer.close();
-		} catch (Exception e) {
-			System.err.println("Error: " + e.getMessage());
-		}
-	}
+	//</editor-fold>
 }

@@ -1,4 +1,4 @@
-package mollusc.linguasubtitle.subtitle.parser;
+package mollusc.linguasubtitle.stemming;
 
 import org.tartarus.snowball.SnowballStemmer;
 
@@ -7,7 +7,7 @@ import org.tartarus.snowball.SnowballStemmer;
  *
  * @author mollusc <MolluscLab@gmail.com>
  */
-public class Stem implements Comparable<Stem> {
+public class Stemator implements Comparable<Stemator> {
 
 	private final String stem;
 	private final String word;
@@ -29,18 +29,11 @@ public class Stem implements Comparable<Stem> {
 	/**
 	 * Initialize stem
 	 */
-	public Stem(String word, String language) {
+	public Stemator(String word, String language) {
 		this.word = word;
 		stem = stemmingWord(this.word.toLowerCase(), language);
 	}
 
-	/**
-	 * Initialize stem
-	 */
-	/*public Stem(String stem, String word) {
-		this.word = word;
-		this.stem = stem;
-	}*/
 
 	/**
 	 * Get stem from the word
@@ -69,8 +62,8 @@ public class Stem implements Comparable<Stem> {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj instanceof Stem)
-			return this.getStem().equals(((Stem) obj).getStem());
+		if (obj instanceof Stemator)
+			return this.getStem().equals(((Stemator) obj).getStem());
 		return obj instanceof String && this.getStem().equals(obj);
 	}
 
@@ -80,7 +73,7 @@ public class Stem implements Comparable<Stem> {
 	}
 
 	@Override
-	public int compareTo(Stem stem) {
-		return stem.getStem().compareTo(this.getStem());
+	public int compareTo(Stemator stemator) {
+		return stemator.getStem().compareTo(this.getStem());
 	}
 }

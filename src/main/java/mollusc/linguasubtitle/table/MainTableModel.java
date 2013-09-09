@@ -1,4 +1,4 @@
-package mollusc.linguasubtitle;
+package mollusc.linguasubtitle.table;
 
 
 import javax.swing.table.DefaultTableModel;
@@ -6,7 +6,7 @@ import javax.swing.table.DefaultTableModel;
 /**
  * User: mollusc <MolluscLab@gmail.com>
  */
-class MainTableModel extends DefaultTableModel {
+public class MainTableModel extends DefaultTableModel {
 	private final Class[] types;
 	private final boolean[] isEditable;
 

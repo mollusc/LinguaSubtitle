@@ -1,4 +1,4 @@
-package mollusc.linguasubtitle;
+package mollusc.linguasubtitle.filechooser;
 
 import java.io.File;
 
@@ -7,7 +7,7 @@ import java.io.File;
  *
  * @author mollusc <MolluscLab@gmail.com>
  */
-class SubtitleFilter extends javax.swing.filechooser.FileFilter {
+public class SubtitleFilter extends javax.swing.filechooser.FileFilter {
 
 	final String ext;
 	private final String description;
@@ -16,7 +16,7 @@ class SubtitleFilter extends javax.swing.filechooser.FileFilter {
 		return description;
 	}
 
-	SubtitleFilter() {
+	public SubtitleFilter() {
 		this.ext = ".srt";
 		description = "Subtitles SRT";
 	}

@@ -1,4 +1,4 @@
-package mollusc.linguasubtitle;
+package mollusc.linguasubtitle.table;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -6,7 +6,7 @@ import javax.swing.table.DefaultTableModel;
  * TableModel for statistic
  * User: mollusc <MolluscLab@gmail.com>
  */
-class StatisticTableModel extends DefaultTableModel {
+public class StatisticTableModel extends DefaultTableModel {
 	private final Class[] types;
 	private final boolean[] isEditable;
 

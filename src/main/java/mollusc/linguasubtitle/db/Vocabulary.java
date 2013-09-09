@@ -46,7 +46,7 @@ public class Vocabulary {
 			statement = connection.createStatement();
 			statement.setQueryTimeout(30);
 			correctVersion();
-			statement.executeUpdate("CREATE TABLE IF NOT EXISTS Stems (Stem VARCHAR NOT NULL , Word VARCHAR NOT NULL, Translate VARCHAR, Language VARCHAR NOT NULL, Known INTEGER NOT NULL  DEFAULT 0, Meeting INTEGER NOT NULL  DEFAULT 0, Study INTEGER NOT NULL  DEFAULT 0, PRIMARY KEY(Stem, Language))");
+			statement.executeUpdate("CREATE TABLE IF NOT EXISTS Stems (Stemator VARCHAR NOT NULL , Word VARCHAR NOT NULL, Translate VARCHAR, Language VARCHAR NOT NULL, Known INTEGER NOT NULL  DEFAULT 0, Meeting INTEGER NOT NULL  DEFAULT 0, Study INTEGER NOT NULL  DEFAULT 0, PRIMARY KEY(Stemator, Language))");
 			statement.executeUpdate("CREATE TABLE IF NOT EXISTS Settings(Parameter VARCHAR PRIMARY KEY ASC, Value VARCHAR)");
 			SetVersionDB();
 		} catch (SQLException e) {
@@ -76,9 +76,9 @@ public class Vocabulary {
 		try {
 			ArrayList<String> stems = new ArrayList<String>();
 			ResultSet rs = statement
-					.executeQuery("SELECT Stem FROM Stems WHERE Known=0 AND Study= 0 AND Meeting >10 ORDER BY Meeting DESC LIMIT 10");
+					.executeQuery("SELECT Stemator FROM Stems WHERE Known=0 AND Study= 0 AND Meeting >10 ORDER BY Meeting DESC LIMIT 10");
 			while (rs.next()) {
-				String stem = rs.getString("Stem");
+				String stem = rs.getString("Stemator");
 				stems.add(stem);
 			}
 			return stems;
@@ -93,7 +93,7 @@ public class Vocabulary {
 	 */
 	public void updateValues(String stem, String word, String translate, String language, boolean isKnown, boolean isStudy, boolean updateMeeting) {
 		try {
-			String query = "INSERT OR REPLACE INTO Stems (Stem, Word, Translate, Language, Known, Study, Meeting)  VALUES ("
+			String query = "INSERT OR REPLACE INTO Stems (Stemator, Word, Translate, Language, Known, Study, Meeting)  VALUES ("
 					+ "'" + escapeCharacter(stem) + "',"
 					+ "'" + escapeCharacter(word) + "',"
 					+ "'" + escapeCharacter(translate) + "',"
@@ -102,9 +102,9 @@ public class Vocabulary {
 					+ boolToInt(isStudy) + ","
 					+ "COALESCE((SELECT Meeting FROM Stems WHERE";
 			if (updateMeeting) {
-				query += " Stem='" + escapeCharacter(stem) + "' AND Language='" + escapeCharacter(language) + "') + 1,1))";
+				query += " Stemator='" + escapeCharacter(stem) + "' AND Language='" + escapeCharacter(language) + "') + 1,1))";
 			} else {
-				query += " Stem='" + escapeCharacter(stem) + "' AND Language='" + escapeCharacter(language) + "'),1))";
+				query += " Stemator='" + escapeCharacter(stem) + "' AND Language='" + escapeCharacter(language) + "'),1))";
 			}
 			statement.executeUpdate(query);
 		} catch (Exception e) {
@@ -120,7 +120,7 @@ public class Vocabulary {
 	public ItemVocabulary getItem(String stem, String language) {
 		try {
 			ResultSet rs = statement
-					.executeQuery("SELECT * FROM Stems WHERE Stem='" + escapeCharacter(stem) + "' AND Language='" + language + "'");
+					.executeQuery("SELECT * FROM Stems WHERE Stemator='" + escapeCharacter(stem) + "' AND Language='" + language + "'");
 			if (rs.next()) {
 				String word = rs.getString("Word");
 				String translate = rs.getString("Translate");
@@ -236,8 +236,8 @@ public class Vocabulary {
 			try {
 				// Rename field of the table Stems
 				statement.executeUpdate("ALTER TABLE Stems RENAME TO tmp_Stems");
-				statement.executeUpdate("CREATE TABLE Stems (Stem VARCHAR PRIMARY KEY  NOT NULL ,Word VARCHAR NOT NULL ,Known INTEGER NOT NULL  DEFAULT (0) ,Meeting INTEGER NOT NULL  DEFAULT (0) ,Translate VARCHAR)");
-				statement.executeUpdate("INSERT INTO Stems SELECT Stem, Word, Remember, Meeting, Translate FROM tmp_Stems");
+				statement.executeUpdate("CREATE TABLE Stems (Stemator VARCHAR PRIMARY KEY  NOT NULL ,Word VARCHAR NOT NULL ,Known INTEGER NOT NULL  DEFAULT (0) ,Meeting INTEGER NOT NULL  DEFAULT (0) ,Translate VARCHAR)");
+				statement.executeUpdate("INSERT INTO Stems SELECT Stemator, Word, Remember, Meeting, Translate FROM tmp_Stems");
 				statement.executeUpdate("DROP TABLE tmp_Stems");
 				statement.execute("VACUUM");
 
@@ -263,8 +263,8 @@ public class Vocabulary {
 			try {
 				// Rename field of the table Stems
 				statement.executeUpdate("ALTER TABLE Stems RENAME TO tmp_Stems");
-				statement.executeUpdate("CREATE TABLE Stems (Stem VARCHAR NOT NULL , Word VARCHAR NOT NULL, Translate VARCHAR, Language VARCHAR NOT NULL, Known INTEGER NOT NULL  DEFAULT 0, Meeting INTEGER NOT NULL  DEFAULT 0, Study INTEGER NOT NULL  DEFAULT 0, PRIMARY KEY(Stem, Language))");
-				statement.executeUpdate("INSERT INTO Stems SELECT Stem, Word, Translate, 'english', Known, Meeting, Study FROM tmp_Stems");
+				statement.executeUpdate("CREATE TABLE Stems (Stemator VARCHAR NOT NULL , Word VARCHAR NOT NULL, Translate VARCHAR, Language VARCHAR NOT NULL, Known INTEGER NOT NULL  DEFAULT 0, Meeting INTEGER NOT NULL  DEFAULT 0, Study INTEGER NOT NULL  DEFAULT 0, PRIMARY KEY(Stemator, Language))");
+				statement.executeUpdate("INSERT INTO Stems SELECT Stemator, Word, Translate, 'english', Known, Meeting, Study FROM tmp_Stems");
 				statement.executeUpdate("DROP TABLE tmp_Stems");
 				statement.execute("VACUUM");
 

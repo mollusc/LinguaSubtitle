@@ -2,9 +2,16 @@ package mollusc.linguasubtitle;
 
 import mollusc.linguasubtitle.db.ItemVocabulary;
 import mollusc.linguasubtitle.db.Vocabulary;
+import mollusc.linguasubtitle.filechooser.JFileChooserWithCheck;
+import mollusc.linguasubtitle.filechooser.SubtitleFilter;
+import mollusc.linguasubtitle.index.Indexer;
+import mollusc.linguasubtitle.stemming.Stemator;
 import mollusc.linguasubtitle.subtitle.Subtitle;
-import mollusc.linguasubtitle.subtitle.parser.Stem;
-import mollusc.linguasubtitle.subtitle.srt.SrtSubtitle;
+import mollusc.linguasubtitle.subtitle.format.Render;
+import mollusc.linguasubtitle.subtitle.format.SubRipRender;
+import mollusc.linguasubtitle.subtitle.format.WordStyle;
+import mollusc.linguasubtitle.table.*;
+import mollusc.linguasubtitle.table.CellEditor;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -43,7 +50,11 @@ public class MainWindow implements PropertyChangeListener {
 	private JButton openSubtitleButton;
 
 	public String language;
+	private String currentPathToSubtitle;
+	private SubtitleViewer subtitleViewer;
 	private Subtitle subtitle;
+	private Indexer index;
+
 	private ArrayList<String> hardWords;
 	private final Map<String, String> settings;
 	private Map<String, String> languages;
@@ -79,6 +90,8 @@ public class MainWindow implements PropertyChangeListener {
 		frame.setVisible(true);
 	}
 
+
+	//<editor-fold desc="Initialization parameters">
 	private void initializeLanguages() {
 		language = null;
 		languages = new HashMap<String, String>();
@@ -104,7 +117,6 @@ public class MainWindow implements PropertyChangeListener {
 			}
 		});
 	}
-
 	private void initializeExportToSubtitle() {
 		exportToSubtitleButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
@@ -175,6 +187,7 @@ public class MainWindow implements PropertyChangeListener {
 			}
 		});
 
+
 		siteLinkLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		siteLinkLabel.addMouseListener(new MouseAdapter() {
 			@Override
@@ -186,6 +199,8 @@ public class MainWindow implements PropertyChangeListener {
 			}
 		});
 	}
+
+	//</editor-fold>
 
 	/**
 	 * Handle clicks on open Preference button.
@@ -217,22 +232,23 @@ public class MainWindow implements PropertyChangeListener {
 		language = languages.get(languagesComboBox.getSelectedItem());
 		JFileChooser fileOpen = new JFileChooser();
 		fileOpen.setFileFilter(new SubtitleFilter());
-		if (subtitle != null && new File(subtitle.getPathToSubtitle()).exists())
-			fileOpen.setCurrentDirectory(new File(subtitle.getPathToSubtitle()));
+		if (subtitleViewer != null && new File(currentPathToSubtitle).exists())
+			fileOpen.setCurrentDirectory(new File(currentPathToSubtitle));
 		int returnValue = fileOpen.showDialog(null, "Open");
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			frameParent.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			File file = fileOpen.getSelectedFile();
 			String path = file.getAbsolutePath();
 			if (path != null) {
-				subtitle = null;
-				Filename fileName = new Filename(path);
-				String extension = fileName.extension().toLowerCase();
-				if (extension.equals("srt"))
-					subtitle = new SrtSubtitle(path, language);
-				if (subtitle != null && loadTextPane()) {
+				currentPathToSubtitle = path;
+				subtitleViewer = null;
+				Filename fileName = new Filename(currentPathToSubtitle);
+				subtitle = new Subtitle(currentPathToSubtitle);
+				index = new Indexer(subtitle, language);
+				subtitleViewer = new SubtitleViewer(subtitle, index);
+				if (subtitleViewer != null && loadTextPane()) {
 					loadTable();
-					frameParent.setTitle("LinguaSubtitle 2 - " + path);
+					frameParent.setTitle("LinguaSubtitle 2 - " + fileName.filename());
 				}
 			}
 			frameParent.setCursor(Cursor.getDefaultCursor());
@@ -245,22 +261,24 @@ public class MainWindow implements PropertyChangeListener {
 	private void exportToSubtitleButtonActionPerformed() {
 		JFileChooser fileOpen = new JFileChooserWithCheck(true);
 		fileOpen.setFileFilter(new SubtitleFilter());
-		fileOpen.setCurrentDirectory(new File(subtitle.getPathToSubtitle()));
+		fileOpen.setCurrentDirectory(new File(currentPathToSubtitle));
 		int returnValue = fileOpen.showSaveDialog(null);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File file = fileOpen.getSelectedFile();
 			String pathGeneratedSubtitle = file.getAbsolutePath();
+
 			int millisecondsPerCharacter = 100;
 			if (settings.containsKey("millisecondsPerCharacter") && tryParseInt(settings.get("millisecondsPerCharacter")))
 				millisecondsPerCharacter = Integer.parseInt(settings.get("millisecondsPerCharacter"));
-			subtitle.generateSubtitle(pathGeneratedSubtitle,
-					getStemTranslatePairs(),
-					getStemColorPairs(),
-					getColorsTranslate(),
-					settings.get("colorKnownWords"),
-					settings.get("hideKnownDialog").equals("1"),
-					settings.get("automaticDurations").equals("1"),
-					millisecondsPerCharacter);
+
+			WordStyle style = getWordStyle();
+			Render render = null;
+			Filename fileName = new Filename(pathGeneratedSubtitle);
+			if (fileName.extension().toLowerCase().equals("srt"))
+				render = new SubRipRender(subtitle, style, index, settings.get("colorKnownWords"),millisecondsPerCharacter,
+						settings.get("hideKnownDialog").equals("1"), settings.get("automaticDurations").equals("1"));
+			if(render != null)
+				render.save(pathGeneratedSubtitle);
 			updateDatabase();
 		}
 	}
@@ -357,74 +375,29 @@ public class MainWindow implements PropertyChangeListener {
 		}
 	}
 
-	/**
-	 * Get pairs of an unknown stem and a translation
-	 */
-	private Map<String, String> getStemTranslatePairs() {
-		Map<String, String> stems = new HashMap<String, String>();
-		for (int i = 0; i < mainTable.getRowCount(); i++) {
-			boolean isName = (Boolean) mainTable.getModel().getValueAt(i, 0);
-			boolean isStudy = (Boolean) mainTable.getModel().getValueAt(i, 1);
-			boolean isKnown = (Boolean) mainTable.getModel().getValueAt(i, 2);
-			if (!isName && !isStudy && !isKnown) {
-				String word = mainTable.getModel().getValueAt(i, 3).toString();
-				Stem stem = new Stem(word, language);
-				String translate = (String) mainTable.getModel().getValueAt(i, 4);
-				stems.put(stem.getStem(), translate);
-			}
-		}
-		return stems;
-	}
 
-	/**
-	 * Get pairs of an stem and a color
-	 */
-	private Map<String, String> getStemColorPairs() {
-		Map<String, String> stems = new HashMap<String, String>();
+	private WordStyle getWordStyle()
+	{
+		ArrayList<WordInfo> wordInfos = new ArrayList<WordInfo>();
 		for (int i = 0; i < mainTable.getRowCount(); i++) {
 			boolean isName = (Boolean) mainTable.getModel().getValueAt(i, 0);
 			boolean isStudy = (Boolean) mainTable.getModel().getValueAt(i, 1);
 			boolean isKnown = (Boolean) mainTable.getModel().getValueAt(i, 2);
 			String word = mainTable.getModel().getValueAt(i, 3).toString();
-			Stem stem = new Stem(word, language);
-
-			if (isKnown) continue;
-
-			if (isStudy) {
-				stems.put(stem.getStem(), settings.get("colorStudiedWords"));
-				continue;
-			}
-
-			if (isName) {
-				stems.put(stem.getStem(), settings.get("colorNameWords"));
-				continue;
-			}
-
-			if (hardWords != null && hardWords.contains(stem.getStem()))
-				stems.put(stem.getStem(), settings.get("colorHardWord"));
-			else
-				stems.put(stem.getStem(), settings.get("colorUnknownWords"));
+			Stemator stemator = new Stemator(word, language);
+			String translate = (String) mainTable.getModel().getValueAt(i, 4);
+			wordInfos.add(new WordInfo(word, stemator.getStem(), translate, isKnown, isStudy, isName));
 		}
-		return stems;
+		return new WordStyle(wordInfos,
+				hardWords,
+				settings.get("colorStudiedWords"),
+				settings.get("colorNameWords"),
+				settings.get("colorTranslateWords"),
+				settings.get("colorUnknownWords"),
+				settings.get("colorTranslateWords"));
 	}
 
-	/**
-	 * Get pairs of an unknown stems and a translate color
-	 */
-	private Map<String, String> getColorsTranslate() {
-		Map<String, String> stems = new HashMap<String, String>();
-		for (int i = 0; i < mainTable.getRowCount(); i++) {
-			boolean isName = (Boolean) mainTable.getModel().getValueAt(i, 0);
-			boolean isStudy = (Boolean) mainTable.getModel().getValueAt(i, 1);
-			boolean isKnown = (Boolean) mainTable.getModel().getValueAt(i, 2);
-			if (!isName && !isStudy && !isKnown) {
-				String word = mainTable.getModel().getValueAt(i, 3).toString();
-				Stem stem = new Stem(word, language);
-				stems.put(stem.getStem(), settings.get("colorTranslateWords"));
-			}
-		}
-		return stems;
-	}
+
 
 	/**
 	 * Get settings from the database
@@ -450,13 +423,13 @@ public class MainWindow implements PropertyChangeListener {
 	 */
 	void highlightWord(int rowNumber) {
 		int rowIndex = mainTable.convertRowIndexToModel(rowNumber);
-		if (rowIndex != -1 && subtitle != null) {
+		if (rowIndex != -1 && subtitleViewer != null) {
 			String word = mainTable.getModel().getValueAt(rowIndex, 3).toString();
-			Stem stem = new Stem(word, language);
+			Stemator stemator = new Stemator(word, language);
 			textSubtitleEditorPane.setText("");
 			Document document = textSubtitleEditorPane.getDocument();
-			subtitle.markWord(stem.getStem(), document);
-			textSubtitleEditorPane.setCaretPosition(subtitle.getPositionStem(stem.getStem()));
+			subtitleViewer.print(stemator.getStem(), document);
+			textSubtitleEditorPane.setCaretPosition(subtitleViewer.getPositionStem(stemator.getStem()));
 		}
 	}
 
@@ -464,7 +437,7 @@ public class MainWindow implements PropertyChangeListener {
 	 * Fill mainTable
 	 */
 	void loadTable() {
-		Map<Stem, Integer> stems = subtitle.getListStems();
+		Map<Stemator, Integer> stems = index.getListStems();
 		DefaultTableModel tableModel = ((DefaultTableModel) mainTable.getModel());
 		tableModel.setRowCount(0);
 		Vocabulary db = new Vocabulary();
@@ -473,7 +446,7 @@ public class MainWindow implements PropertyChangeListener {
 		mainTable.setDefaultRenderer(Object.class, new CellRender(hardWords, language));
 		mainTable.setDefaultRenderer(Integer.class, new CellRender(hardWords, language));
 		mainTable.setDefaultRenderer(Boolean.class, new CheckBoxRenderer());
-		for (Stem key : stems.keySet()) {
+		for (Stemator key : stems.keySet()) {
 			ItemVocabulary itemDatabase = db.getItem(key.getStem(), language);
 			boolean known = false;
 			boolean study = false;
@@ -585,9 +558,9 @@ public class MainWindow implements PropertyChangeListener {
 	 * @return true if it is success, otherwise false
 	 */
 	private boolean loadTextPane() {
-		if (subtitle != null) {
+		if (subtitleViewer != null) {
 			textSubtitleEditorPane.setText("");
-			subtitle.hideHeader(textSubtitleEditorPane.getDocument());
+			subtitleViewer.print(textSubtitleEditorPane.getDocument());
 
 			return true;
 		}

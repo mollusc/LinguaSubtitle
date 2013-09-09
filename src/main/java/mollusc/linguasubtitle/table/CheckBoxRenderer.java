@@ -1,4 +1,6 @@
-package mollusc.linguasubtitle;
+package mollusc.linguasubtitle.table;
+
+import mollusc.linguasubtitle.table.CellRender;
 
 import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
@@ -7,9 +9,9 @@ import java.awt.*;
 /**
  * @author mollusc <MolluscLab@gmail.com>
  */
-class CheckBoxRenderer extends JCheckBox implements TableCellRenderer {
+public class CheckBoxRenderer extends JCheckBox implements TableCellRenderer {
 
-	CheckBoxRenderer() {
+	public CheckBoxRenderer() {
 		setHorizontalAlignment(JLabel.CENTER);
 		setOpaque(true);
 	}

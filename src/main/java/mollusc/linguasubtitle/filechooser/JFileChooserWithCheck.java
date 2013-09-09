@@ -1,14 +1,15 @@
-package mollusc.linguasubtitle;
+package mollusc.linguasubtitle.filechooser;
 
 import javax.swing.*;
 import java.io.File;
 
 /**
- * Check before saving if the same file already exist then ask user for confirmation does she really want to override
+ * Check before saving if the same file already exist
+ * then ask user for confirmation does she really want to override
  *
  * @author mollusc <MolluscLab@gmail.com>
  */
-class JFileChooserWithCheck extends JFileChooser {
+public class JFileChooserWithCheck extends JFileChooser {
 	boolean isSubtitle;
 	public JFileChooserWithCheck(boolean isSubtitle)
 	{

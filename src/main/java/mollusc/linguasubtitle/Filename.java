@@ -33,7 +33,7 @@ package mollusc.linguasubtitle;
  * doesn't.
  */
 @SuppressWarnings("UnusedDeclaration")
-class Filename {
+public class Filename {
 	private final String fullPath;
 	private final char pathSeparator;
 	private final char extensionSeparator;

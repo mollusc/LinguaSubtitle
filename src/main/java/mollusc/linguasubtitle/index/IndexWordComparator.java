@@ -1,4 +1,4 @@
-package mollusc.linguasubtitle.subtitle.srt;
+package mollusc.linguasubtitle.index;
 
 import java.util.Comparator;
 
@@ -7,7 +7,7 @@ import java.util.Comparator;
  *
  * @author mollusc
  */
-class IndexWordComparator implements Comparator<IndexWord> {
+ public class IndexWordComparator implements Comparator<IndexWord> {
 	@Override
 	public int compare(IndexWord arg0, IndexWord arg1) {
 		int compare = arg0.indexSpeech - arg1.indexSpeech;
