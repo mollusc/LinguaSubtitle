@@ -1,10 +1,8 @@
 package mollusc.linguasubtitle.subtitle.format;
 
-import com.rits.cloning.Cloner;
 import mollusc.linguasubtitle.index.IndexWord;
 import mollusc.linguasubtitle.index.IndexWordComparator;
 import mollusc.linguasubtitle.index.Indexer;
-import mollusc.linguasubtitle.stemming.Stemator;
 import mollusc.linguasubtitle.subtitle.Speech;
 import mollusc.linguasubtitle.subtitle.Subtitle;
 
@@ -13,18 +11,20 @@ import java.io.OutputStreamWriter;
 import java.util.*;
 
 /**
- * Created with IntelliJ IDEA.
  * User: mollusc <MolluscLab@gmail.com>
  * Date: 06.09.13
  */
 public class SubRipRender extends Render {
-    private String textColor;
-    private boolean hideKnownDialog;
-    private boolean automaticDuration;
+	//<editor-fold desc="Private Fields">
+	private String textColor;
+	private boolean hideKnownDialog;
+	private boolean automaticDuration;
 	private int millisecondsPerCharacter;
 	private WordStyle wordStyle;
 	private Indexer indexer;
+	//</editor-fold>
 
+	//<editor-fold desc="Description">
 	public SubRipRender(Subtitle subtitle,
 						WordStyle wordStyle,
 						Indexer indexer,
@@ -40,65 +40,96 @@ public class SubRipRender extends Render {
 		this.millisecondsPerCharacter = millisecondsPerCharacter;
 		this.wordStyle = wordStyle;
 	}
+	//</editor-fold>
 
+	//<editor-fold desc="Public Methods">
 	@Override
-	public void save(String pathToSave)
-	{
+	public void save(String pathToSave) {
 		String textSubtitle = "";
-		Map <Integer, ArrayList<IndexWord>> indices = getAllIndexByIndexSpeech();
+		Map<Integer, ArrayList<IndexWord>> indices = getAllIndexByIndexSpeech();
 		int indexSpeech = 0;
-		for (Speech speech : subtitle)
-		{
-			ArrayList <IndexWord> indexWords = indices.get(indexSpeech);
-			String textSpeech = speech.content;
-			StringBuilder textTranslate = new StringBuilder(blankTranslate(speech.content));
-			Collections.sort(indexWords, new IndexWordComparator());
+		for (Speech speech : subtitle) {
 			boolean isEdited = false;
-			for (IndexWord indexWord : indexWords)
-			{
-				String word = indexWord.word;
-				String stem = indexWord.stem;
-				if(wordStyle.getColor(stem) != null)
-				{
-					isEdited = true;
-					String left = textSpeech.substring(0, indexWord.start);
-					int start = html2text(left).length();
-					if(wordStyle.getTranslatedWordInfo(stem) != null)
-					{
-						String translate = wordStyle.getTranslatedWordInfo(stem).getTranslate();
-						if ( translate != null && translate != "") {
-							String translateColor = wordStyle.getTranslateColor(stem);
-							InsertWordTranslation(textTranslate, translate, start, translateColor);
+			String textSpeech = speech.content;
+			StringBuilder textTranslate = new StringBuilder(blankTranslate(textSpeech));
+			ArrayList<IndexWord> indexWords = indices.get(indexSpeech);
+			if (indexWords != null) {
+				Collections.sort(indexWords, new IndexWordComparator());
+				for (IndexWord indexWord : indexWords) {
+					String word = indexWord.word;
+					String stem = indexWord.stem;
+					if (wordStyle.getColor(stem) != null) {
+						isEdited = true;
+						String left = textSpeech.substring(0, indexWord.start);
+						int start = html2text(left).length();
+						if (wordStyle.getTranslatedWordInfo(stem) != null) {
+							String translate = wordStyle.getTranslatedWordInfo(stem).getTranslate();
+							if (translate != null && translate != "") {
+								String translateColor = wordStyle.getTranslateColor(stem);
+								InsertWordTranslation(textTranslate, translate, start, translateColor);
+							}
 						}
+						String middle = "<font color=\"" + wordStyle.getColor(stem) + "\">" + word + "</font>";
+						String right = textSpeech.substring(indexWord.end);
+						textSpeech = left + middle + right;
 					}
-					String middle = "<font color=\"" + wordStyle.getColor(stem) + "\">" + word + "</font>";
-					String right = textSpeech.substring(indexWord.end);
-					textSpeech = left + middle + right;
 				}
 			}
-			if(hideKnownDialog && !isEdited)
+			indexSpeech++;
+
+			if (hideKnownDialog && !isEdited)
 				continue;
 
-			String timeStamp = getTimeStamp(speech, subtitle.getSpeech(indexSpeech + 1));
+			String timeStamp = getTimeStamp(speech, subtitle.getSpeech(indexSpeech));
 			textSubtitle += join(textSpeech, textTranslate.toString(), indexSpeech, timeStamp);
-			indexSpeech++;
+
 		}
 		saveSubtitle(pathToSave, textSubtitle);
 	}
+	//</editor-fold>
 
-	private String join(String textSpeech, String textTranslate, int indexSpeech, String timeStamp)
-	{
+	//<editor-fold desc="Protected Methods">
+
+	/**
+	 * Delete all html tags
+	 *
+	 * @param html string of html text
+	 * @return string without html tags
+	 */
+	protected static String html2text(String html) {
+		return html.replaceAll("<.*?>", "");
+	}
+
+	/**
+	 * Save content
+	 *
+	 * @param path - path to save
+	 */
+	protected static void saveSubtitle(String path, String content) {
+		try {
+			OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(path, false), "UTF8");
+			writer.append(content);
+			writer.close();
+		} catch (Exception e) {
+			System.err.println("Error: " + e.getMessage());
+		}
+	}
+	//</editor-fold>
+
+	//<editor-fold desc="Private Methods">
+	private String join(String textSpeech, String textTranslate, int indexSpeech, String timeStamp) {
 		String result = "";
-		result += (indexSpeech + 1) + "\n";
+		result += (indexSpeech) + "\n";
 		result += timeStamp + "\n";
 
 		String[] linesTranslate = textTranslate.split("\n");
 		String[] linesSpeech = textSpeech.split("\n");
 
+
 		String content = "";
 		for (int j = 0; j < linesSpeech.length; j++) {
-			result += linesTranslate[j];
-			result += "\n" + linesSpeech[j] + "\n";
+			content += linesTranslate[j];
+			content += "\n" + linesSpeech[j] + "\n";
 		}
 
 		// Hack for vlc
@@ -111,14 +142,11 @@ public class SubRipRender extends Render {
 	}
 
 
-	private Map <Integer, ArrayList<IndexWord>> getAllIndexByIndexSpeech()
-	{
-		Map <Integer, ArrayList<IndexWord>> indices = new HashMap<Integer, java.util.ArrayList<IndexWord>>();
-		for (String stem : indexer)
-		{
-			for (IndexWord indexWord : indexer.get(stem))
-			{
-				if(!indices.containsKey(indexWord.indexSpeech))
+	private Map<Integer, ArrayList<IndexWord>> getAllIndexByIndexSpeech() {
+		Map<Integer, ArrayList<IndexWord>> indices = new HashMap<Integer, java.util.ArrayList<IndexWord>>();
+		for (String stem : indexer) {
+			for (IndexWord indexWord : indexer.get(stem)) {
+				if (!indices.containsKey(indexWord.indexSpeech))
 					indices.put(indexWord.indexSpeech, new ArrayList<IndexWord>());
 
 				indices.get(indexWord.indexSpeech).add(indexWord);
@@ -129,6 +157,7 @@ public class SubRipRender extends Render {
 
 	/**
 	 * Create string filling by nonbreaking space.
+	 *
 	 * @param content
 	 * @return
 	 */
@@ -166,8 +195,7 @@ public class SubRipRender extends Render {
 	}
 
 	private String getTimeStamp(Speech currentSpeech, Speech nextSpeech) {
-		if(automaticDuration)
-		{
+		if (automaticDuration) {
 			int currentDuration = currentSpeech.endTimeInMilliseconds - currentSpeech.startTimeInMilliseconds;
 			int newDuration = html2text(currentSpeech.content).length() * millisecondsPerCharacter;
 
@@ -180,29 +208,5 @@ public class SubRipRender extends Render {
 		}
 		return Speech.getSubRipTimeStamp(currentSpeech.startTimeInMilliseconds, currentSpeech.endTimeInMilliseconds);
 	}
-
-	/**
-	 * Delete all html tags
-	 *
-	 * @param html string of html text
-	 * @return string without html tags
-	 */
-	protected static String html2text(String html) {
-		return html.replaceAll("<.*?>", "");
-	}
-
-	/**
-	 * Save content
-	 *
-	 * @param path    - path to save
-	 */
-	protected static void saveSubtitle(String path, String content) {
-		try {
-			OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(path, false), "UTF8");
-			writer.append(content);
-			writer.close();
-		} catch (Exception e) {
-			System.err.println("Error: " + e.getMessage());
-		}
-	}
+	//</editor-fold>
 }

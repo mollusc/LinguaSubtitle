@@ -5,7 +5,7 @@
 package mollusc.linguasubtitle.db;
 
 /**
- * Item of the table Stemator
+ * Item of the table Stemmator
  *
  * @author mollusc <MolluscLab@gmail.com>
  */

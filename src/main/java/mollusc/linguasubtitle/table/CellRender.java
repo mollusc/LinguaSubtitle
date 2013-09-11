@@ -1,6 +1,6 @@
 package mollusc.linguasubtitle.table;
 
-import mollusc.linguasubtitle.stemming.Stemator;
+import mollusc.linguasubtitle.stemming.Stemmator;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -31,8 +31,8 @@ public class CellRender extends DefaultTableCellRenderer {
 		Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, indexRow, column);
 		boolean isHard = false;
 		if (hardWords != null) {
-			Stemator stemator = new Stemator((String) table.getValueAt(row, 3), language);
-			if (hardWords.contains(stemator.getStem()))
+			Stemmator stemmator = new Stemmator((String) table.getValueAt(row, 3), language);
+			if (hardWords.contains(stemmator.getStem()))
 				isHard = true;
 		}
 

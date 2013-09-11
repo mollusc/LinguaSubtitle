@@ -12,6 +12,7 @@ public class SubtitleFilter extends javax.swing.filechooser.FileFilter {
 	final String ext;
 	private final String description;
 
+	//<editor-fold desc="Public Methods">
 	public String getDescription() {
 		return description;
 	}
@@ -24,4 +25,5 @@ public class SubtitleFilter extends javax.swing.filechooser.FileFilter {
 	public boolean accept(File f) {
 		return f != null && (f.isDirectory() || f.toString().endsWith(ext));
 	}
+	//</editor-fold>
 }

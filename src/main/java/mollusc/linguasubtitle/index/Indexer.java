@@ -1,6 +1,6 @@
 package mollusc.linguasubtitle.index;
 
-import mollusc.linguasubtitle.stemming.Stemator;
+import mollusc.linguasubtitle.stemming.Stemmator;
 import mollusc.linguasubtitle.subtitle.Speech;
 import mollusc.linguasubtitle.subtitle.Subtitle;
 
@@ -49,8 +49,8 @@ public class Indexer implements Iterable<String> {
 	 * @return Keys is a stem object, Value is quantity of the stem in the
 	 * subtitles
 	 */
-	public Map<Stemator, Integer> getListStems() {
-		Map<Stemator, Integer> result = new HashMap<Stemator, Integer>();
+	public Map<Stemmator, Integer> getListStems() {
+		Map<Stemmator, Integer> result = new HashMap<Stemmator, Integer>();
 		for (String stemString : index.keySet()) {
 			ArrayList<IndexWord> indexWords = index.get(stemString);
 
@@ -72,8 +72,8 @@ public class Indexer implements Iterable<String> {
 					currentWord = currentWord.toLowerCase();
 			}
 			if (!currentWord.isEmpty()) {
-				Stemator stemator = new Stemator(currentWord, language);
-				result.put(stemator, indexWords.size());
+				Stemmator stemmator = new Stemmator(currentWord, language);
+				result.put(stemmator, indexWords.size());
 			}
 		}
 		return result;
@@ -87,6 +87,11 @@ public class Indexer implements Iterable<String> {
 	public ArrayList<IndexWord> get(String stemString)
 	{
 		return index.get(stemString);
+	}
+
+	@Override
+	public Iterator<String> iterator() {
+		return index.keySet().iterator();
 	}
 	//</editor-fold>
 
@@ -105,7 +110,7 @@ public class Indexer implements Iterable<String> {
 				if (!isTag) {
 					if (!Character.isLetter(ch) && ch != '\'') {
 						if (word.length() > 2 && !tryParseInt(word)) {
-							String stem = Stemator.stemmingWord(word, language);
+							String stem = Stemmator.stemmingWord(word, language);
 							if (!index.containsKey(stem))
 								index.put(stem, new ArrayList<IndexWord>());
 							IndexWord indexWord = new IndexWord(word, stem, idSpeech, j - word.length(), j);
@@ -141,11 +146,6 @@ public class Indexer implements Iterable<String> {
 		{
 			return false;
 		}
-	}
-
-	@Override
-	public Iterator<String> iterator() {
-		return index.keySet().iterator();
 	}
 	//</editor-fold>
 }

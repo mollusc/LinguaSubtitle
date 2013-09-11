@@ -6,6 +6,7 @@ package mollusc.linguasubtitle.index;
  * @author mollusc <MolluscLab@gmail.com>
  */
 public class IndexWord {
+	//<editor-fold desc="Public Field">
 	/**
 	 * word
 	 */
@@ -29,7 +30,9 @@ public class IndexWord {
 	 * Index of last character of the word
 	 */
 	public final int end;
+	//</editor-fold>
 
+	//<editor-fold desc="Constructor">
 	public IndexWord(String word, String stem, int indexSpeech, int startWord, int lengthWord) {
 		this.word = word;
 		this.stem = stem;
@@ -37,4 +40,5 @@ public class IndexWord {
 		this.start = startWord;
 		this.end = lengthWord;
 	}
+	//</editor-fold>
 }

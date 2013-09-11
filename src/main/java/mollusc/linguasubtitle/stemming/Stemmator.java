@@ -7,11 +7,14 @@ import org.tartarus.snowball.SnowballStemmer;
  *
  * @author mollusc <MolluscLab@gmail.com>
  */
-public class Stemator implements Comparable<Stemator> {
+public class Stemmator implements Comparable<Stemmator> {
 
+	//<editor-fold desc="Private Fields">
 	private final String stem;
 	private final String word;
+	//</editor-fold>
 
+	//<editor-fold desc="Public Methods">
 	/**
 	 * Get stem
 	 */
@@ -29,7 +32,7 @@ public class Stemator implements Comparable<Stemator> {
 	/**
 	 * Initialize stem
 	 */
-	public Stemator(String word, String language) {
+	public Stemmator(String word, String language) {
 		this.word = word;
 		stem = stemmingWord(this.word.toLowerCase(), language);
 	}
@@ -48,6 +51,7 @@ public class Stemator implements Comparable<Stemator> {
 	public static String stemmingWord(String word, String language) {
 		try {
 			Class stemClass = Class.forName("org.tartarus.snowball.ext." + language + "Stemmer");
+			//Class stemClass = org.tartarus.snowball.ext.englishStemmer;
 			SnowballStemmer stemmer = (SnowballStemmer) stemClass.newInstance();
 			stemmer.setCurrent(word);
 			stemmer.stem();
@@ -62,8 +66,8 @@ public class Stemator implements Comparable<Stemator> {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj instanceof Stemator)
-			return this.getStem().equals(((Stemator) obj).getStem());
+		if (obj instanceof Stemmator)
+			return this.getStem().equals(((Stemmator) obj).getStem());
 		return obj instanceof String && this.getStem().equals(obj);
 	}
 
@@ -73,7 +77,8 @@ public class Stemator implements Comparable<Stemator> {
 	}
 
 	@Override
-	public int compareTo(Stemator stemator) {
-		return stemator.getStem().compareTo(this.getStem());
+	public int compareTo(Stemmator stemmator) {
+		return stemmator.getStem().compareTo(this.getStem());
 	}
+	//</editor-fold>
 }

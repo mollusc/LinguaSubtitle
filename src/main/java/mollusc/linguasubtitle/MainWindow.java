@@ -5,7 +5,7 @@ import mollusc.linguasubtitle.db.Vocabulary;
 import mollusc.linguasubtitle.filechooser.JFileChooserWithCheck;
 import mollusc.linguasubtitle.filechooser.SubtitleFilter;
 import mollusc.linguasubtitle.index.Indexer;
-import mollusc.linguasubtitle.stemming.Stemator;
+import mollusc.linguasubtitle.stemming.Stemmator;
 import mollusc.linguasubtitle.subtitle.Subtitle;
 import mollusc.linguasubtitle.subtitle.format.Render;
 import mollusc.linguasubtitle.subtitle.format.SubRipRender;
@@ -384,9 +384,9 @@ public class MainWindow implements PropertyChangeListener {
 			boolean isStudy = (Boolean) mainTable.getModel().getValueAt(i, 1);
 			boolean isKnown = (Boolean) mainTable.getModel().getValueAt(i, 2);
 			String word = mainTable.getModel().getValueAt(i, 3).toString();
-			Stemator stemator = new Stemator(word, language);
+			Stemmator stemmator = new Stemmator(word, language);
 			String translate = (String) mainTable.getModel().getValueAt(i, 4);
-			wordInfos.add(new WordInfo(word, stemator.getStem(), translate, isKnown, isStudy, isName));
+			wordInfos.add(new WordInfo(word, stemmator.getStem(), translate, isKnown, isStudy, isName));
 		}
 		return new WordStyle(wordInfos,
 				hardWords,
@@ -425,11 +425,11 @@ public class MainWindow implements PropertyChangeListener {
 		int rowIndex = mainTable.convertRowIndexToModel(rowNumber);
 		if (rowIndex != -1 && subtitleViewer != null) {
 			String word = mainTable.getModel().getValueAt(rowIndex, 3).toString();
-			Stemator stemator = new Stemator(word, language);
+			Stemmator stemmator = new Stemmator(word, language);
 			textSubtitleEditorPane.setText("");
 			Document document = textSubtitleEditorPane.getDocument();
-			subtitleViewer.print(stemator.getStem(), document);
-			textSubtitleEditorPane.setCaretPosition(subtitleViewer.getPositionStem(stemator.getStem()));
+			subtitleViewer.print(stemmator.getStem(), document);
+			textSubtitleEditorPane.setCaretPosition(subtitleViewer.getPositionStem(stemmator.getStem()));
 		}
 	}
 
@@ -437,7 +437,7 @@ public class MainWindow implements PropertyChangeListener {
 	 * Fill mainTable
 	 */
 	void loadTable() {
-		Map<Stemator, Integer> stems = index.getListStems();
+		Map<Stemmator, Integer> stems = index.getListStems();
 		DefaultTableModel tableModel = ((DefaultTableModel) mainTable.getModel());
 		tableModel.setRowCount(0);
 		Vocabulary db = new Vocabulary();
@@ -446,7 +446,7 @@ public class MainWindow implements PropertyChangeListener {
 		mainTable.setDefaultRenderer(Object.class, new CellRender(hardWords, language));
 		mainTable.setDefaultRenderer(Integer.class, new CellRender(hardWords, language));
 		mainTable.setDefaultRenderer(Boolean.class, new CheckBoxRenderer());
-		for (Stemator key : stems.keySet()) {
+		for (Stemmator key : stems.keySet()) {
 			ItemVocabulary itemDatabase = db.getItem(key.getStem(), language);
 			boolean known = false;
 			boolean study = false;

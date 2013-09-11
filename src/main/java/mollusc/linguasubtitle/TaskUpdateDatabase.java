@@ -1,7 +1,7 @@
 package mollusc.linguasubtitle;
 
 import mollusc.linguasubtitle.db.Vocabulary;
-import mollusc.linguasubtitle.stemming.Stemator;
+import mollusc.linguasubtitle.stemming.Stemmator;
 
 import javax.swing.*;
 
@@ -35,10 +35,10 @@ class TaskUpdateDatabase extends SwingWorker<Void, Void> {
 					boolean isStudy = (Boolean) outer.mainTable.getModel().getValueAt(i, 1);
 					boolean isKnown = (Boolean) outer.mainTable.getModel().getValueAt(i, 2);
 					String word = outer.mainTable.getModel().getValueAt(i, 3).toString();
-					Stemator stemator = new Stemator(word, outer.language);
+					Stemmator stemmator = new Stemmator(word, outer.language);
 					String translation = outer.mainTable.getModel().getValueAt(i, 4).toString();
 					String language = outer.language;
-					db.updateValues(stemator.getStem(), word, translation, language, isKnown, isStudy, updateMeeting);
+					db.updateValues(stemmator.getStem(), word, translation, language, isKnown, isStudy, updateMeeting);
 					progress += 100f / outer.mainTable.getRowCount();
 					setProgress((int) progress);
 				}

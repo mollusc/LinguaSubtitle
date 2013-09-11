@@ -19,7 +19,6 @@ public class WordStyle {
 	private Map<String, String> _translateColor;
 	//</editor-fold>
 
-
 	//<editor-fold desc="Constructor">
 	public WordStyle() {
 		_idexTranslatedWordInfo = new HashMap<String, WordInfo>();
@@ -51,7 +50,6 @@ public class WordStyle {
 		initializeColorsTranslate(wordInfos,colorTranslateWords);
 	}
 	//</editor-fold>
-
 
 	//<editor-fold desc="Public Methods">
 

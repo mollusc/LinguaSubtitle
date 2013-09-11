@@ -8,10 +8,10 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 /**
- * Created with IntelliJ IDEA.
  * User: mollusc <MolluscLab@gmail.com>
  * Date: 05.09.13
  */
@@ -34,7 +34,7 @@ public class Subtitle implements Iterable<Speech>{
 	//<editor-fold desc="Public Methods">
 	@Override
 	public Iterator<Speech> iterator() {
-		return speeches.iterator();
+		return speeches == null ? Collections.EMPTY_LIST.iterator() : speeches.iterator();
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class Subtitle implements Iterable<Speech>{
 				FileChannel fc = stream.getChannel();
 				MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
 				String content = Charset.defaultCharset().decode(bb).toString();
-				if (extension.toLowerCase() == "srt")
+				if (extension.toLowerCase().equals("srt"))
 					setSpeechesFromSrt (content);
 			} finally {
 				stream.close();
