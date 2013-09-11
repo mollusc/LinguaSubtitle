@@ -1,5 +1,7 @@
 package mollusc.linguasubtitle;
 
+import mollusc.linguasubtitle.subtitle.utility.CommonUtility;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -85,7 +87,7 @@ public class Preferences extends JDialog {
 	 */
 	private void onOK() {
 
-		if (!MainWindow.tryParseInt(exportMoreThanTextField.getText()) || !MainWindow.tryParseInt(msPerCharacterTextField.getText())) {
+		if (!CommonUtility.tryParseInt(exportMoreThanTextField.getText()) || !CommonUtility.tryParseInt(msPerCharacterTextField.getText())) {
 			JOptionPane.showMessageDialog(this,
 					"Wrong value of parameter.",
 					"Error",
@@ -129,7 +131,7 @@ public class Preferences extends JDialog {
 				exportKnownWords = settings.get("exportKnownWords").equals("1");
 			if (settings.containsKey("noBlankTranslation"))
 				noBlankTranslation = settings.get("noBlankTranslation").equals("1");
-			if (settings.containsKey("exportMoreThan") && MainWindow.tryParseInt(settings.get("exportMoreThan")))
+			if (settings.containsKey("exportMoreThan") && CommonUtility.tryParseInt(settings.get("exportMoreThan")))
 				exportMoreThan = settings.get("exportMoreThan");
 			if (settings.containsKey("exportLanguage") && languages.containsKey(settings.get("exportLanguage")))
 				exportLanguage = settings.get("exportLanguage");
@@ -171,7 +173,7 @@ public class Preferences extends JDialog {
 				colorNameWords = Color.decode("#" + settings.get("colorNameWords"));
 			if (settings.containsKey("colorStudiedWords"))
 				colorStudiedWords = Color.decode("#" + settings.get("colorStudiedWords"));
-			if (settings.containsKey("millisecondsPerCharacter") && MainWindow.tryParseInt(settings.get("millisecondsPerCharacter")))
+			if (settings.containsKey("millisecondsPerCharacter") && CommonUtility.tryParseInt(settings.get("millisecondsPerCharacter")))
 				msPerCharacter = settings.get("millisecondsPerCharacter");
 			if (settings.containsKey("automaticDurations"))
 				automaticDurations = settings.get("automaticDurations").equals("1");

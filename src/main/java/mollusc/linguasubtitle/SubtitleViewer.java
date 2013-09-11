@@ -4,6 +4,7 @@ import mollusc.linguasubtitle.index.IndexWord;
 import mollusc.linguasubtitle.index.Indexer;
 import mollusc.linguasubtitle.subtitle.Speech;
 import mollusc.linguasubtitle.subtitle.Subtitle;
+import mollusc.linguasubtitle.subtitle.utility.SubRipUtility;
 
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
@@ -56,7 +57,7 @@ public class SubtitleViewer {
 		try {
 			int idSpeech = 0;
 			for (Speech speech : subtitle) {
-				document.insertString(document.getLength(), Speech.getSubRipTimeStamp(speech.startTimeInMilliseconds, speech.endTimeInMilliseconds) + "\n", attrHide);
+				document.insertString(document.getLength(), SubRipUtility.getSubRipTimeStamp(speech.startTimeInMilliseconds, speech.endTimeInMilliseconds) + "\n", attrHide);
 				int length = document.getLength();
 				document.insertString(length, speech.content + "\n", attr);
 				for (IndexWord indexWord : indexWords) {
@@ -83,7 +84,7 @@ public class SubtitleViewer {
 		StyleConstants.setForeground(attrHide, Color.LIGHT_GRAY);
 		try {
 			for (Speech speech : subtitle) {
-				document.insertString(document.getLength(), Speech.getSubRipTimeStamp(speech.startTimeInMilliseconds, speech.endTimeInMilliseconds) + "\n", attrHide);
+				document.insertString(document.getLength(), SubRipUtility.getSubRipTimeStamp(speech.startTimeInMilliseconds, speech.endTimeInMilliseconds) + "\n", attrHide);
 				document.insertString(document.getLength(), speech.content + "\n", attr);
 			}
 		} catch (BadLocationException e) {
@@ -101,7 +102,7 @@ public class SubtitleViewer {
 			int lengthToWord = 0;
 			int idSpeech = 0;
 			for (Speech speech : subtitle) {
-				lengthToWord += Speech.getSubRipTimeStamp(speech.startTimeInMilliseconds, speech.endTimeInMilliseconds).length() + 1;
+				lengthToWord += SubRipUtility.getSubRipTimeStamp(speech.startTimeInMilliseconds, speech.endTimeInMilliseconds).length() + 1;
 
 				if (indexSpeech == idSpeech) {
 					lengthToWord += speech.content.substring(0, indexWords.get(0).end).length();

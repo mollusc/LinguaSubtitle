@@ -3,6 +3,7 @@ package mollusc.linguasubtitle.index;
 import mollusc.linguasubtitle.stemming.Stemmator;
 import mollusc.linguasubtitle.subtitle.Speech;
 import mollusc.linguasubtitle.subtitle.Subtitle;
+import mollusc.linguasubtitle.subtitle.utility.CommonUtility;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -109,7 +110,7 @@ public class Indexer implements Iterable<String> {
 				char ch = speech.content.charAt(j);
 				if (!isTag) {
 					if (!Character.isLetter(ch) && ch != '\'') {
-						if (word.length() > 2 && !tryParseInt(word)) {
+						if (word.length() > 2 && !CommonUtility.tryParseInt(word)) {
 							String stem = Stemmator.stemmingWord(word, language);
 							if (!index.containsKey(stem))
 								index.put(stem, new ArrayList<IndexWord>());
@@ -128,23 +129,6 @@ public class Indexer implements Iterable<String> {
 					isTag = false;
 			}
 			idSpeech++;
-		}
-	}
-
-	/**
-	 * Check, the text is an integer?
-	 *
-	 * @param value - the text for check
-	 * @return true, if the value is a integer, otherwise - false
-	 */
-	private static boolean tryParseInt(String value) {
-		try
-		{
-			Integer.parseInt(value);
-			return true;
-		} catch(NumberFormatException nfe)
-		{
-			return false;
 		}
 	}
 	//</editor-fold>

@@ -5,9 +5,9 @@ import mollusc.linguasubtitle.index.IndexWordComparator;
 import mollusc.linguasubtitle.index.Indexer;
 import mollusc.linguasubtitle.subtitle.Speech;
 import mollusc.linguasubtitle.subtitle.Subtitle;
+import mollusc.linguasubtitle.subtitle.utility.CommonUtility;
+import mollusc.linguasubtitle.subtitle.utility.SubRipUtility;
 
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
 import java.util.*;
 
 /**
@@ -15,16 +15,7 @@ import java.util.*;
  * Date: 06.09.13
  */
 public class SubRipRender extends Render {
-	//<editor-fold desc="Private Fields">
-	private String textColor;
-	private boolean hideKnownDialog;
-	private boolean automaticDuration;
-	private int millisecondsPerCharacter;
-	private WordStyle wordStyle;
-	private Indexer indexer;
-	//</editor-fold>
-
-	//<editor-fold desc="Description">
+	//<editor-fold desc="Constructor">
 	public SubRipRender(Subtitle subtitle,
 						WordStyle wordStyle,
 						Indexer indexer,
@@ -32,17 +23,12 @@ public class SubRipRender extends Render {
 						int millisecondsPerCharacter,
 						boolean hideKnownDialog,
 						boolean automaticDuration) {
-		super(subtitle);
-		this.indexer = indexer;
-		this.textColor = textColor;
-		this.hideKnownDialog = hideKnownDialog;
-		this.automaticDuration = automaticDuration;
-		this.millisecondsPerCharacter = millisecondsPerCharacter;
-		this.wordStyle = wordStyle;
+		super(subtitle, wordStyle, millisecondsPerCharacter, automaticDuration, indexer, textColor, hideKnownDialog);
 	}
 	//</editor-fold>
 
 	//<editor-fold desc="Public Methods">
+
 	@Override
 	public void save(String pathToSave) {
 		String textSubtitle = "";
@@ -61,10 +47,10 @@ public class SubRipRender extends Render {
 					if (wordStyle.getColor(stem) != null) {
 						isEdited = true;
 						String left = textSpeech.substring(0, indexWord.start);
-						int start = html2text(left).length();
+						int start = CommonUtility.html2text(left).length();
 						if (wordStyle.getTranslatedWordInfo(stem) != null) {
 							String translate = wordStyle.getTranslatedWordInfo(stem).getTranslate();
-							if (translate != null && translate != "") {
+							if (translate != null && !translate.equals("")) {
 								String translateColor = wordStyle.getTranslateColor(stem);
 								InsertWordTranslation(textTranslate, translate, start, translateColor);
 							}
@@ -85,34 +71,6 @@ public class SubRipRender extends Render {
 
 		}
 		saveSubtitle(pathToSave, textSubtitle);
-	}
-	//</editor-fold>
-
-	//<editor-fold desc="Protected Methods">
-
-	/**
-	 * Delete all html tags
-	 *
-	 * @param html string of html text
-	 * @return string without html tags
-	 */
-	protected static String html2text(String html) {
-		return html.replaceAll("<.*?>", "");
-	}
-
-	/**
-	 * Save content
-	 *
-	 * @param path - path to save
-	 */
-	protected static void saveSubtitle(String path, String content) {
-		try {
-			OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(path, false), "UTF8");
-			writer.append(content);
-			writer.close();
-		} catch (Exception e) {
-			System.err.println("Error: " + e.getMessage());
-		}
 	}
 	//</editor-fold>
 
@@ -158,12 +116,11 @@ public class SubRipRender extends Render {
 	/**
 	 * Create string filling by nonbreaking space.
 	 *
-	 * @param content
 	 * @return
 	 */
 	private String blankTranslate(String content) {
 		String strTranslate = "";
-		content = html2text(content);
+		content = CommonUtility.html2text(content);
 		for (int i = 0; i < content.length(); i++) {
 			if (content.charAt(i) == '\n')
 				strTranslate += '\n';
@@ -197,16 +154,16 @@ public class SubRipRender extends Render {
 	private String getTimeStamp(Speech currentSpeech, Speech nextSpeech) {
 		if (automaticDuration) {
 			int currentDuration = currentSpeech.endTimeInMilliseconds - currentSpeech.startTimeInMilliseconds;
-			int newDuration = html2text(currentSpeech.content).length() * millisecondsPerCharacter;
+			int newDuration = CommonUtility.html2text(currentSpeech.content).length() * millisecondsPerCharacter;
 
 			if (newDuration > currentDuration) {
 				int newEndTime = currentSpeech.startTimeInMilliseconds + newDuration;
 				if (nextSpeech != null && newEndTime > nextSpeech.startTimeInMilliseconds)
 					newEndTime = nextSpeech.startTimeInMilliseconds - 1; // 1 is space between subtitles
-				return Speech.getSubRipTimeStamp(currentSpeech.startTimeInMilliseconds, newEndTime);
+				return SubRipUtility.getSubRipTimeStamp(currentSpeech.startTimeInMilliseconds, newEndTime);
 			}
 		}
-		return Speech.getSubRipTimeStamp(currentSpeech.startTimeInMilliseconds, currentSpeech.endTimeInMilliseconds);
+		return SubRipUtility.getSubRipTimeStamp(currentSpeech.startTimeInMilliseconds, currentSpeech.endTimeInMilliseconds);
 	}
 	//</editor-fold>
 }

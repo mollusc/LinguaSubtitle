@@ -10,6 +10,7 @@ import mollusc.linguasubtitle.subtitle.Subtitle;
 import mollusc.linguasubtitle.subtitle.format.Render;
 import mollusc.linguasubtitle.subtitle.format.SubRipRender;
 import mollusc.linguasubtitle.subtitle.format.WordStyle;
+import mollusc.linguasubtitle.subtitle.utility.CommonUtility;
 import mollusc.linguasubtitle.table.*;
 import mollusc.linguasubtitle.table.CellEditor;
 
@@ -246,7 +247,7 @@ public class MainWindow implements PropertyChangeListener {
 				subtitle = new Subtitle(currentPathToSubtitle);
 				index = new Indexer(subtitle, language);
 				subtitleViewer = new SubtitleViewer(subtitle, index);
-				if (subtitleViewer != null && loadTextPane()) {
+				if (loadTextPane()) {
 					loadTable();
 					frameParent.setTitle("LinguaSubtitle 2 - " + fileName.filename());
 				}
@@ -268,7 +269,7 @@ public class MainWindow implements PropertyChangeListener {
 			String pathGeneratedSubtitle = file.getAbsolutePath();
 
 			int millisecondsPerCharacter = 100;
-			if (settings.containsKey("millisecondsPerCharacter") && tryParseInt(settings.get("millisecondsPerCharacter")))
+			if (settings.containsKey("millisecondsPerCharacter") && CommonUtility.tryParseInt(settings.get("millisecondsPerCharacter")))
 				millisecondsPerCharacter = Integer.parseInt(settings.get("millisecondsPerCharacter"));
 
 			WordStyle style = getWordStyle();
@@ -304,7 +305,7 @@ public class MainWindow implements PropertyChangeListener {
 		Vocabulary db = new Vocabulary();
 		db.createConnection();
 		int meeting;
-		if (settings.containsKey("exportMoreThan") && tryParseInt(settings.get("exportMoreThan")))
+		if (settings.containsKey("exportMoreThan") &&  CommonUtility.tryParseInt(settings.get("exportMoreThan")))
 			meeting = Integer.parseInt(settings.get("exportMoreThan"));
 		else
 			return;
@@ -565,20 +566,5 @@ public class MainWindow implements PropertyChangeListener {
 			return true;
 		}
 		return false;
-	}
-
-	/**
-	 * Check Is value an integer
-	 *
-	 * @param value string of number
-	 * @return true if value is integer, otherwise false
-	 */
-	static boolean tryParseInt(String value) {
-		try {
-			Integer.parseInt(value);
-			return true;
-		} catch (NumberFormatException nfe) {
-			return false;
-		}
 	}
 }

@@ -1,7 +1,5 @@
 package mollusc.linguasubtitle.subtitle;
 
-import java.util.concurrent.TimeUnit;
-
 /**
  * Container for data of a srt subtitle
  *
@@ -56,21 +54,5 @@ public class Speech {
 		endTimeInMilliseconds = 60 * 60 * 1000 * endH + 60 * 1000 * endM + 1000 * endS + endMS;
 	}
 
-	/**
-	 * Get SubRip time stamp
-	 */
-	public static String getSubRipTimeStamp(int startTimeInMilliseconds, int endTimeInMilliseconds) {
-		long startH = TimeUnit.MILLISECONDS.toHours(startTimeInMilliseconds);
-		long startM = TimeUnit.MILLISECONDS.toMinutes(startTimeInMilliseconds) - TimeUnit.MILLISECONDS.toHours(startTimeInMilliseconds) * 60;
-		long startS = TimeUnit.MILLISECONDS.toSeconds(startTimeInMilliseconds) - TimeUnit.MILLISECONDS.toMinutes(startTimeInMilliseconds) * 60;
-		long startMS = TimeUnit.MILLISECONDS.toMillis(startTimeInMilliseconds) - TimeUnit.MILLISECONDS.toSeconds(startTimeInMilliseconds) * 1000;
-		long endH = TimeUnit.MILLISECONDS.toHours(endTimeInMilliseconds);
-		long endM = TimeUnit.MILLISECONDS.toMinutes(endTimeInMilliseconds) - TimeUnit.MILLISECONDS.toHours(endTimeInMilliseconds) * 60;
-		long endS = TimeUnit.MILLISECONDS.toSeconds(endTimeInMilliseconds) - TimeUnit.MILLISECONDS.toMinutes(endTimeInMilliseconds) * 60;
-		long endMS = TimeUnit.MILLISECONDS.toMillis(endTimeInMilliseconds) - TimeUnit.MILLISECONDS.toSeconds(endTimeInMilliseconds) * 1000;
-		return String.format("%02d:%02d:%02d,%03d --> %02d:%02d:%02d,%03d",
-				startH, startM, startS, startMS,
-				endH, endM, endS, endMS);
-	}
 	//</editor-fold>
 }
