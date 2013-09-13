@@ -33,7 +33,9 @@ public class SubRipRender extends Render {
 	public void save(String pathToSave) {
 		String textSubtitle = "";
 		Map<Integer, ArrayList<IndexWord>> indices = getAllIndexByIndexSpeech();
+		ArrayList<Integer> editedIndexSpeeches = getEditedIndexSpeeches();
 		int indexSpeech = 0;
+		int index = 1;
 		for (Speech speech : subtitle) {
 			boolean isEdited = false;
 			String textSpeech = speech.content;
@@ -66,11 +68,36 @@ public class SubRipRender extends Render {
 			if (hideKnownDialog && !isEdited)
 				continue;
 
-			String timeStamp = getTimeStamp(speech, subtitle.getSpeech(indexSpeech));
-			textSubtitle += join(textSpeech, textTranslate.toString(), indexSpeech, timeStamp);
+			// Get next speech index
+			int nextIndexSpeech = indexSpeech;
+			while (hideKnownDialog && !editedIndexSpeeches.contains(nextIndexSpeech) && nextIndexSpeech < subtitle.size())
+				nextIndexSpeech++;
+
+			String timeStamp = getTimeStamp(speech, subtitle.getSpeech(nextIndexSpeech));
+			textSubtitle += join(textSpeech, textTranslate.toString(), index, timeStamp);
+			index++;
 
 		}
 		saveSubtitle(pathToSave, textSubtitle);
+	}
+
+	private ArrayList<Integer> getEditedIndexSpeeches() {
+		ArrayList<Integer> result = new ArrayList<Integer>();
+		Map<Integer, ArrayList<IndexWord>> indices = getAllIndexByIndexSpeech();
+		int indexSpeech = 0;
+		for (Speech ignored : subtitle) {
+			ArrayList<IndexWord> indexWords = indices.get(indexSpeech);
+			if (indexWords != null) {
+				for (IndexWord indexWord : indexWords) {
+					if (wordStyle.getColor(indexWord.stem) != null) {
+						result.add(indexSpeech);
+						break;
+					}
+				}
+			}
+			indexSpeech++;
+		}
+		return result;
 	}
 	//</editor-fold>
 

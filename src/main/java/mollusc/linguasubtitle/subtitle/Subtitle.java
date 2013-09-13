@@ -49,6 +49,15 @@ public class Subtitle implements Iterable<Speech> {
 			return speeches.get(index);
 		return null;
 	}
+
+	/**
+	 * Get size of speeches
+	 * @return
+	 */
+	public int size()
+	{
+		return speeches != null ? speeches.size() : 0;
+	}
 	//</editor-fold>
 
 	//<editor-fold desc="Private Methods">

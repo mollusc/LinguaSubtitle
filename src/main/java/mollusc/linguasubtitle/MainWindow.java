@@ -393,7 +393,7 @@ public class MainWindow implements PropertyChangeListener {
 				hardWords,
 				settings.get("colorStudiedWords"),
 				settings.get("colorNameWords"),
-				settings.get("colorTranslateWords"),
+				settings.get("colorHardWord"),
 				settings.get("colorUnknownWords"),
 				settings.get("colorTranslateWords"));
 	}

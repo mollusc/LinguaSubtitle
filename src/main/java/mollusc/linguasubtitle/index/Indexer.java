@@ -111,7 +111,7 @@ public class Indexer implements Iterable<String> {
 				if (!isTag) {
 					if (!Character.isLetter(ch) && ch != '\'') {
 						if (word.length() > 2 && !CommonUtility.tryParseInt(word)) {
-							String stem = Stemmator.stemmingWord(word, language);
+							String stem = Stemmator.stemmingWord(word.toLowerCase(), language);
 							if (!index.containsKey(stem))
 								index.put(stem, new ArrayList<IndexWord>());
 							IndexWord indexWord = new IndexWord(word, stem, idSpeech, j - word.length(), j);
@@ -119,7 +119,7 @@ public class Indexer implements Iterable<String> {
 						}
 						word = "";
 					} else {
-						word += Character.toLowerCase(ch);
+						word += ch;
 					}
 				}
 				if (ch == '<')
