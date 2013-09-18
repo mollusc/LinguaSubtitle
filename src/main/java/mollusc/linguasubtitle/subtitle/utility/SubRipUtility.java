@@ -4,6 +4,8 @@ import mollusc.linguasubtitle.subtitle.Speech;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * User: mollusc <MolluscLab@gmail.com>
@@ -33,28 +35,14 @@ public class SubRipUtility {
 	 */
 	public static ArrayList<Speech> getSpeeches(String content) {
 		ArrayList<Speech> speeches = new ArrayList<Speech>();
-		content += '\u00A0';
-		String[] lines = content.split("\\r?\\n");
-		boolean headerSpeech = true;
-		String timing = "";
-		String text = "";
-		for (int i = 0; i < lines.length; i++) {
-			String line = lines[i];
-			if (headerSpeech && CommonUtility.tryParseInt(line)) {
-				i++;
-				timing = lines[i];
-				headerSpeech = false;
-				continue;
-			}
-			if (line.isEmpty() && !text.isEmpty()) {
-				speeches.add(new Speech(timing, text));
-
-				text = "";
-				headerSpeech = true;
-				continue;
-			}
-			if (!headerSpeech)
-				text += line + "\n";
+		String newLine = "\\r?\\n";
+		String space = "[ \\t]*";
+		Pattern pattern = Pattern.compile("(?s)\\d+"+space+newLine
+				+"(\\d\\d:\\d\\d:\\d\\d,\\d\\d\\d"+space+"-->"+ space +"\\d\\d:\\d\\d:\\d\\d,\\d\\d\\d)"+space+"(X1:\\d.*?)??"+newLine
+				+"(.*?)"+newLine+newLine);
+		Matcher matcher = pattern.matcher(content);
+		while (matcher.find()) {
+			speeches.add(new Speech(matcher.group(1),matcher.group(3)));
 		}
 		return speeches;
 	}
