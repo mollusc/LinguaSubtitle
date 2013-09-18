@@ -33,12 +33,12 @@ public class IndexWord {
 	//</editor-fold>
 
 	//<editor-fold desc="Constructor">
-	public IndexWord(String word, String stem, int indexSpeech, int startWord, int lengthWord) {
+	public IndexWord(String word, String stem, int indexSpeech, int startWord, int endWord) {
 		this.word = word;
 		this.stem = stem;
 		this.indexSpeech = indexSpeech;
 		this.start = startWord;
-		this.end = lengthWord;
+		this.end = endWord;
 	}
 	//</editor-fold>
 }

@@ -42,7 +42,9 @@ public class SubRipUtility {
 				+"(.*?)"+newLine+newLine);
 		Matcher matcher = pattern.matcher(content);
 		while (matcher.find()) {
-			speeches.add(new Speech(matcher.group(1),matcher.group(3)));
+			String timing = matcher.group(1);
+			String text = matcher.group(3).replaceAll("\\r?\\n","\n");
+			speeches.add(new Speech(timing,text));
 		}
 		return speeches;
 	}

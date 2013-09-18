@@ -34,9 +34,10 @@ public class SubRipRender extends Render {
 		String textSubtitle = "";
 		Map<Integer, ArrayList<IndexWord>> indices = getAllIndexByIndexSpeech();
 		ArrayList<Integer> editedIndexSpeeches = getEditedIndexSpeeches();
-		int indexSpeech = 0;
+		int indexSpeech = -1;
 		int index = 1;
 		for (Speech speech : subtitle) {
+			indexSpeech++;
 			boolean isEdited = false;
 			String textSpeech = speech.content;
 			StringBuilder textTranslate = new StringBuilder(blankTranslate(textSpeech));
@@ -63,13 +64,13 @@ public class SubRipRender extends Render {
 					}
 				}
 			}
-			indexSpeech++;
+
 
 			if (hideKnownDialog && !isEdited)
 				continue;
 
 			// Get next speech index
-			int nextIndexSpeech = indexSpeech;
+			int nextIndexSpeech = indexSpeech + 1;
 			while (hideKnownDialog && !editedIndexSpeeches.contains(nextIndexSpeech) && nextIndexSpeech < subtitle.size())
 				nextIndexSpeech++;
 
