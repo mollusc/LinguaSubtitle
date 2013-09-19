@@ -114,7 +114,7 @@ public class Indexer implements Iterable<String> {
 			}
 
 
-			Pattern patternWord = Pattern.compile("[\\w']{3,}");
+			Pattern patternWord = Pattern.compile("[\\p{L}']{3,}");
 			Matcher matcherWord = patternWord.matcher(speech.content);
 			while (matcherWord.find()) {
 				boolean isExclude = false;
@@ -127,7 +127,7 @@ public class Indexer implements Iterable<String> {
 					}
 				}
 				String word = matcherWord.group();
-				if(isExclude || Character.isDigit(word.charAt(0)))
+				if(isExclude)
 					continue;
 
 				String stem = Stemmator.stemmingWord(word.toLowerCase(), language);
