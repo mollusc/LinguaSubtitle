@@ -103,41 +103,41 @@ public class Indexer implements Iterable<String> {
 	 */
 	private void initialIndex() {
 		index = new HashMap<String, ArrayList<IndexWord>>();
-		ArrayList<Pair<Integer, Integer>> excludePosition = new ArrayList<Pair<Integer, Integer>>();
-		int indexSpeech = -1;
+		int indexSpeech = 0;
 		for (Speech speech : subtitle) {
-			indexSpeech++;
-			Pattern patternTag = Pattern.compile("<[^>]*>");
-			Matcher matcherTag = patternTag.matcher(speech.content);
+			String text = speech.content;
+			Matcher matcherTag = Pattern.compile("<[^>]*>").matcher(text);
 			while (matcherTag.find()) {
-				excludePosition.add(new Pair<Integer, Integer>(matcherTag.start(), matcherTag.end()));
+				String fill = repeatChar(' ', matcherTag.group().length());
+				text = text.substring(0, matcherTag.start()) + fill + text.substring(matcherTag.end(), text.length());
 			}
 
 
 			Pattern patternWord = Pattern.compile("[\\p{L}']{3,}");
-			Matcher matcherWord = patternWord.matcher(speech.content);
+			Matcher matcherWord = patternWord.matcher(text);
 			while (matcherWord.find()) {
-				boolean isExclude = false;
-				for (Pair<Integer,Integer> pair : excludePosition)
-				{
-					if(pair.getLeft() < matcherWord.start() && matcherWord.end() < pair.getRight())
-					{
-						isExclude = true;
-						break;
-					}
-				}
 				String word = matcherWord.group();
-				if(isExclude)
-					continue;
-
 				String stem = Stemmator.stemmingWord(word.toLowerCase(), language);
 				if (!index.containsKey(stem))
 					index.put(stem, new ArrayList<IndexWord>());
 				IndexWord indexWord = new IndexWord(word, stem, indexSpeech, matcherWord.start(), matcherWord.end());
 				index.get(stem).add(indexWord);
 			}
+			indexSpeech++;
 		}
 	}
+
+	/**
+	 * Repeat char c n times
+	 */
+	public static String repeatChar(char c, int n) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < n; i++) {
+			sb.append(c);
+		}
+		return sb.toString();
+	}
+
 
 	//</editor-fold>
 }
