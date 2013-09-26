@@ -10,21 +10,20 @@ import java.io.File;
  * @author mollusc <MolluscLab@gmail.com>
  */
 public class JFileChooserWithCheck extends JFileChooser {
-	boolean isSubtitle;
+	private boolean isSubtitle;
 	public JFileChooserWithCheck(boolean isSubtitle)
 	{
 		this.isSubtitle = isSubtitle;
 	}
-
 	@Override
 	public void approveSelection() {
 
 		String pathSubtitle = getSelectedFile().getAbsolutePath();
 		if(isSubtitle)
 		{
-			String ext = ((SubtitleFilter) getFileFilter()).ext;
+			String ext = ((ExtensionFileFilter) getFileFilter()).extensions[0];
 			if (!(pathSubtitle.length() > ext.length() && pathSubtitle.substring(pathSubtitle.length() - ext.length()).toLowerCase().equals(ext)))
-				setSelectedFile(new File(pathSubtitle + ext));
+				setSelectedFile(new File(pathSubtitle + "." + ext));
 		}
 
 		File file = getSelectedFile();

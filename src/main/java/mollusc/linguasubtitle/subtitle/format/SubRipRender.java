@@ -38,7 +38,8 @@ public class SubRipRender extends Render {
 		int index = 1;
 		for (Speech speech : subtitle) {
 			indexSpeech++;
-			boolean isEdited = false;
+			if (hideKnownDialog && !editedIndexSpeeches.contains(indexSpeech))
+				continue;
 			String textSpeech = speech.content;
 			StringBuilder textTranslate = new StringBuilder(blankTranslate(textSpeech));
 			ArrayList<IndexWord> indexWords = indices.get(indexSpeech);
@@ -48,7 +49,6 @@ public class SubRipRender extends Render {
 					String word = indexWord.word;
 					String stem = indexWord.stem;
 					if (wordStyle.getColor(stem) != null) {
-						isEdited = true;
 						String left = textSpeech.substring(0, indexWord.start);
 						int start = CommonUtility.html2text(left).length();
 						if (wordStyle.getTranslatedWordInfo(stem) != null) {
@@ -65,10 +65,6 @@ public class SubRipRender extends Render {
 				}
 			}
 
-
-			if (hideKnownDialog && !isEdited)
-				continue;
-
 			// Get next speech index
 			int nextIndexSpeech = indexSpeech + 1;
 			while (hideKnownDialog && !editedIndexSpeeches.contains(nextIndexSpeech) && nextIndexSpeech < subtitle.size())
@@ -82,27 +78,8 @@ public class SubRipRender extends Render {
 		saveSubtitle(pathToSave, textSubtitle);
 	}
 
-	private ArrayList<Integer> getEditedIndexSpeeches() {
-		ArrayList<Integer> result = new ArrayList<Integer>();
-		Map<Integer, ArrayList<IndexWord>> indices = getAllIndexByIndexSpeech();
-		int indexSpeech = 0;
-		for (Speech ignored : subtitle) {
-			ArrayList<IndexWord> indexWords = indices.get(indexSpeech);
-			if (indexWords != null) {
-				for (IndexWord indexWord : indexWords) {
-					if (wordStyle.getColor(indexWord.stem) != null) {
-						result.add(indexSpeech);
-						break;
-					}
-				}
-			}
-			indexSpeech++;
-		}
-		return result;
-	}
 	//</editor-fold>
 
-	//<editor-fold desc="Private Methods">
 	private String join(String textSpeech, String textTranslate, int indexSpeech, String timeStamp) {
 		String result = "";
 		result += (indexSpeech) + "\n";
@@ -127,19 +104,6 @@ public class SubRipRender extends Render {
 		return result;
 	}
 
-
-	private Map<Integer, ArrayList<IndexWord>> getAllIndexByIndexSpeech() {
-		Map<Integer, ArrayList<IndexWord>> indices = new HashMap<Integer, java.util.ArrayList<IndexWord>>();
-		for (String stem : indexer) {
-			for (IndexWord indexWord : indexer.get(stem)) {
-				if (!indices.containsKey(indexWord.indexSpeech))
-					indices.put(indexWord.indexSpeech, new ArrayList<IndexWord>());
-
-				indices.get(indexWord.indexSpeech).add(indexWord);
-			}
-		}
-		return indices;
-	}
 
 	/**
 	 * Create string filling by nonbreaking space.
@@ -188,10 +152,10 @@ public class SubRipRender extends Render {
 				int newEndTime = currentSpeech.startTimeInMilliseconds + newDuration;
 				if (nextSpeech != null && newEndTime > nextSpeech.startTimeInMilliseconds)
 					newEndTime = nextSpeech.startTimeInMilliseconds - 1; // 1 is space between subtitles
-				return SubRipUtility.getSubRipTimeStamp(currentSpeech.startTimeInMilliseconds, newEndTime);
+				return SubRipUtility.getTimeStamp(currentSpeech.startTimeInMilliseconds, newEndTime);
 			}
 		}
-		return SubRipUtility.getSubRipTimeStamp(currentSpeech.startTimeInMilliseconds, currentSpeech.endTimeInMilliseconds);
+		return SubRipUtility.getTimeStamp(currentSpeech.startTimeInMilliseconds, currentSpeech.endTimeInMilliseconds);
 	}
 	//</editor-fold>
 }

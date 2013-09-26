@@ -2,11 +2,13 @@ package mollusc.linguasubtitle;
 
 import mollusc.linguasubtitle.db.ItemVocabulary;
 import mollusc.linguasubtitle.db.Vocabulary;
+import mollusc.linguasubtitle.filechooser.AdvancedSubStationAlphaSubtitleFilter;
 import mollusc.linguasubtitle.filechooser.JFileChooserWithCheck;
-import mollusc.linguasubtitle.filechooser.SubtitleFilter;
+import mollusc.linguasubtitle.filechooser.SubRipSubtitleFilter;
 import mollusc.linguasubtitle.index.Indexer;
 import mollusc.linguasubtitle.stemming.Stemmator;
 import mollusc.linguasubtitle.subtitle.Subtitle;
+import mollusc.linguasubtitle.subtitle.format.AdvancedSubStationAlphaRender;
 import mollusc.linguasubtitle.subtitle.format.Render;
 import mollusc.linguasubtitle.subtitle.format.SubRipRender;
 import mollusc.linguasubtitle.subtitle.format.WordStyle;
@@ -67,6 +69,8 @@ public class MainWindow implements PropertyChangeListener {
 		this.frameParent = frameParent;
 		this.frameParent.setTitle("LinguaSubtitle 2");
 
+
+
 		initializeLanguages();
 		settings = getSettings();
 		initializeExportToSubtitle();
@@ -117,6 +121,10 @@ public class MainWindow implements PropertyChangeListener {
 				openPreference(1);
 			}
 		});
+
+		/*Graphics g = TestPanel.getGraphics();
+		g.setFont(new Font("Arial", Font.PLAIN, 48));
+		g.drawString("плуноний",0,0);*/
 	}
 	private void initializeExportToSubtitle() {
 		exportToSubtitleButton.addActionListener(new ActionListener() {
@@ -232,7 +240,7 @@ public class MainWindow implements PropertyChangeListener {
 	private void openSubtitleActionPerformed() {
 		language = languages.get(languagesComboBox.getSelectedItem());
 		JFileChooser fileOpen = new JFileChooser();
-		fileOpen.setFileFilter(new SubtitleFilter());
+		fileOpen.setFileFilter(new SubRipSubtitleFilter());
 		if (subtitleViewer != null && new File(currentPathToSubtitle).exists())
 			fileOpen.setCurrentDirectory(new File(currentPathToSubtitle));
 		int returnValue = fileOpen.showDialog(null, "Open");
@@ -261,7 +269,8 @@ public class MainWindow implements PropertyChangeListener {
 	 */
 	private void exportToSubtitleButtonActionPerformed() {
 		JFileChooser fileOpen = new JFileChooserWithCheck(true);
-		fileOpen.setFileFilter(new SubtitleFilter());
+		fileOpen.setFileFilter(new AdvancedSubStationAlphaSubtitleFilter());
+		fileOpen.addChoosableFileFilter(new SubRipSubtitleFilter());
 		fileOpen.setCurrentDirectory(new File(currentPathToSubtitle));
 		int returnValue = fileOpen.showSaveDialog(null);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
@@ -277,6 +286,9 @@ public class MainWindow implements PropertyChangeListener {
 			Filename fileName = new Filename(pathGeneratedSubtitle);
 			if (fileName.extension().toLowerCase().equals("srt"))
 				render = new SubRipRender(subtitle, style, index, settings.get("colorKnownWords"),millisecondsPerCharacter,
+						settings.get("hideKnownDialog").equals("1"), settings.get("automaticDurations").equals("1"));
+			else if (fileName.extension().toLowerCase().equals("ass"))
+				render = new AdvancedSubStationAlphaRender(subtitle, style, index, settings.get("colorKnownWords"),millisecondsPerCharacter,
 						settings.get("hideKnownDialog").equals("1"), settings.get("automaticDurations").equals("1"));
 			if(render != null)
 				render.save(pathGeneratedSubtitle);

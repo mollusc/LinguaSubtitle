@@ -1,10 +1,15 @@
 package mollusc.linguasubtitle.subtitle.format;
 
+import mollusc.linguasubtitle.index.IndexWord;
 import mollusc.linguasubtitle.index.Indexer;
+import mollusc.linguasubtitle.subtitle.Speech;
 import mollusc.linguasubtitle.subtitle.Subtitle;
 
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -49,4 +54,36 @@ public abstract class Render {
 
 	public abstract void save(String pathToSave);
 
+	protected Map<Integer, ArrayList<IndexWord>> getAllIndexByIndexSpeech() {
+		Map<Integer, ArrayList<IndexWord>> indices = new HashMap<Integer, ArrayList<IndexWord>>();
+		for (String stem : indexer) {
+			for (IndexWord indexWord : indexer.get(stem)) {
+				if (!indices.containsKey(indexWord.indexSpeech))
+					indices.put(indexWord.indexSpeech, new ArrayList<IndexWord>());
+
+				indices.get(indexWord.indexSpeech).add(indexWord);
+			}
+		}
+		return indices;
+	}
+
+	//<editor-fold desc="Private Methods">
+	protected ArrayList<Integer> getEditedIndexSpeeches() {
+		ArrayList<Integer> result = new ArrayList<Integer>();
+		Map<Integer, ArrayList<IndexWord>> indices = getAllIndexByIndexSpeech();
+		int indexSpeech = 0;
+		for (Speech ignored : subtitle) {
+			ArrayList<IndexWord> indexWords = indices.get(indexSpeech);
+			if (indexWords != null) {
+				for (IndexWord indexWord : indexWords) {
+					if (wordStyle.getColor(indexWord.stem) != null) {
+						result.add(indexSpeech);
+						break;
+					}
+				}
+			}
+			indexSpeech++;
+		}
+		return result;
+	}
 }

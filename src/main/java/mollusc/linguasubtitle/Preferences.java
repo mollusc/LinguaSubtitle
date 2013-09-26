@@ -234,7 +234,7 @@ public class Preferences extends JDialog {
 	/**
 	 * Convert a color to a hex string
 	 */
-	private static String toHexString(Color c) {
+	public static String toHexString(Color c) {
 		StringBuilder sb = new StringBuilder();
 
 		if (c.getRed() < 16) {
