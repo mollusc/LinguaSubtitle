@@ -12,22 +12,50 @@ import java.awt.event.ActionListener;
  */
 public class ColorSelectionButton extends JButton implements ActionListener {
 
+	//<editor-fold desc="Private Field">
+	/**
+	 * Color of this button
+	 */
 	private Color color;
+	//</editor-fold>
 
+	//<editor-fold desc="Constructors">
+
+	/**
+	 * Constructor of the class ColorSelectionButton
+	 */
 	public ColorSelectionButton() {
 		this(Color.white);
 	}
 
+	/**
+	 * Constructor of the class ColorSelectionButton
+	 *
+	 * @param c color of this button
+	 */
 	public ColorSelectionButton(Color c) {
 		super();
 		color = c;
 		addActionListener(this);
 	}
+	//</editor-fold>
 
+	//<editor-fold desc="Public Methods">
+
+	/**
+	 * Get current color of this button
+	 *
+	 * @return color of this button
+	 */
 	public Color getColor() {
 		return color;
 	}
 
+	/**
+	 * Set color of this button
+	 *
+	 * @param color new color of this button
+	 */
 	public void setColor(Color color) {
 		this.color = color;
 		repaint();
@@ -57,4 +85,5 @@ public class ColorSelectionButton extends JButton implements ActionListener {
 		if (c != null)
 			setColor(c);
 	}
+	//</editor-fold>
 }

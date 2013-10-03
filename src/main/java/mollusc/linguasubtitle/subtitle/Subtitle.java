@@ -15,6 +15,8 @@ import java.util.Iterator;
 /**
  * User: mollusc <MolluscLab@gmail.com>
  * Date: 05.09.13
+ * <p/>
+ * Container of speeches
  */
 public class Subtitle implements Iterable<Speech> {
 
@@ -26,8 +28,13 @@ public class Subtitle implements Iterable<Speech> {
 	//</editor-fold>
 
 	//<editor-fold desc="Constructor">
-	public Subtitle(String path)
-	{
+
+	/**
+	 * Constructor of the class Subtitle
+	 *
+	 * @param path path to the subtitle file
+	 */
+	public Subtitle(String path) {
 		initializeFromFile(path);
 	}
 	//</editor-fold>
@@ -40,29 +47,31 @@ public class Subtitle implements Iterable<Speech> {
 
 	/**
 	 * Get speech by index
+	 *
 	 * @param index index of speech
 	 * @return Speech
 	 */
-	public Speech getSpeech(int index)
-	{
-		if(index >= 0 && index< speeches.size())
+	public Speech getSpeech(int index) {
+		if (index >= 0 && index < speeches.size())
 			return speeches.get(index);
 		return null;
 	}
 
 	/**
 	 * Get size of speeches
-	 * @return
+	 *
+	 * @return size of speeches
 	 */
-	public int size()
-	{
+	public int size() {
 		return speeches != null ? speeches.size() : 0;
 	}
 	//</editor-fold>
 
 	//<editor-fold desc="Private Methods">
+
 	/**
 	 * Initialise file from the file subtitles
+	 *
 	 * @param path path to the file subtitles
 	 */
 	private void initializeFromFile(String path) {

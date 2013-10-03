@@ -12,7 +12,6 @@ import mollusc.linguasubtitle.subtitle.format.AdvancedSubStationAlphaRender;
 import mollusc.linguasubtitle.subtitle.format.Render;
 import mollusc.linguasubtitle.subtitle.format.SubRipRender;
 import mollusc.linguasubtitle.subtitle.format.WordStyle;
-import mollusc.linguasubtitle.subtitle.utility.CommonUtility;
 import mollusc.linguasubtitle.table.*;
 import mollusc.linguasubtitle.table.CellEditor;
 
@@ -35,14 +34,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created with IntelliJ IDEA.
  * User: mollusc <MolluscLab@gmail.com>
  */
 public class MainWindow implements PropertyChangeListener {
+
+	//<editor-fold desc="Form controls">
+	//<editor-fold desc="Private Field">
 	private JPanel contentPanel;
-	public JTable mainTable;
 	private JTable statisticTable;
-	public JButton exportToSubtitleButton;
 	private JButton exportFromDatabaseButton;
 	private JButton preferenceToSubtitleButton;
 	private JButton preferenceFromDatabaseButton;
@@ -51,25 +50,81 @@ public class MainWindow implements PropertyChangeListener {
 	private JLabel helpLinkLabel;
 	private JLabel siteLinkLabel;
 	private JButton openSubtitleButton;
+	//</editor-fold>
+	//<editor-fold desc="Public Field">
+	public JTable mainTable;
+	public JButton exportToSubtitleButton;
+	//</editor-fold>
+	//</editor-fold>
 
-	public String language;
-	private String currentPathToSubtitle;
+	//<editor-fold desc="Private Fields">
+	/**
+	 * Path to pathToSubtitle
+	 */
+	private String pathToSubtitle;
+	/**
+	 * Responsible for view subtitle in the text pane
+	 */
 	private SubtitleViewer subtitleViewer;
+	/**
+	 * Container for speeches
+	 */
 	private Subtitle subtitle;
+	/**
+	 * Index of the text subtitle
+	 */
 	private Indexer index;
-
+	/**
+	 * Array of hard words
+	 */
 	private ArrayList<String> hardWords;
+	/**
+	 * Settings of the program
+	 */
 	private final Settings settings;
+	/**
+	 * Map with available languages
+	 */
 	private Map<String, String> languages;
-	public ProgressMonitor progressMonitor;
+	/**
+	 * Task for updating the database
+	 */
 	private TaskUpdateDatabase task;
+	/**
+	 * Parent frame
+	 */
 	private final JFrame frameParent;
+	//</editor-fold>
 
+	//<editor-fold desc="Public Fields">
+	/**
+	 * Display of progress complete
+	 */
+	public ProgressMonitor progressMonitor;
+	/**
+	 * Language of the subtitle
+	 */
+	public String language;
+	//</editor-fold>
+
+
+	public static void main(String[] args) {
+		JFrame frame = new JFrame("MainWindow");
+		frame.setContentPane(new MainWindow(frame).contentPanel);
+		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		frame.pack();
+		frame.setVisible(true);
+	}
+
+	//<editor-fold desc="Constructor">
+
+	/**
+	 * Constructor of the class MainWindow
+	 * @param frameParent parent frame
+	 */
 	private MainWindow(JFrame frameParent) {
 		this.frameParent = frameParent;
 		this.frameParent.setTitle("LinguaSubtitle 2");
-
-
 
 		initializeLanguages();
 		settings = getSettings();
@@ -86,15 +141,9 @@ public class MainWindow implements PropertyChangeListener {
 			}
 		});
 	}
+	//</editor-fold>
 
-	public static void main(String[] args) {
-		JFrame frame = new JFrame("MainWindow");
-		frame.setContentPane(new MainWindow(frame).contentPanel);
-		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		frame.pack();
-		frame.setVisible(true);
-	}
-
+	//<editor-fold desc="Private Methods">
 
 	//<editor-fold desc="Initialization parameters">
 	private void initializeLanguages() {
@@ -121,11 +170,8 @@ public class MainWindow implements PropertyChangeListener {
 				openPreference(1);
 			}
 		});
-
-		/*Graphics g = TestPanel.getGraphics();
-		g.setFont(new Font("Arial", Font.PLAIN, 48));
-		g.drawString("плуноний",0,0);*/
 	}
+
 	private void initializeExportToSubtitle() {
 		exportToSubtitleButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
@@ -174,8 +220,7 @@ public class MainWindow implements PropertyChangeListener {
 		for (String language : languages.keySet())
 			languagesComboBox.addItem(language);
 
-		if(languages.containsValue(settings.getLanguage()))
-		{
+		if (languages.containsValue(settings.getLanguage())) {
 			for (String key : languages.keySet()) {
 				String value = languages.get(key);
 				if (value.equals(settings.getLanguage()))
@@ -211,8 +256,12 @@ public class MainWindow implements PropertyChangeListener {
 
 	//</editor-fold>
 
+	//<editor-fold desc="Handle for event">
+
 	/**
 	 * Handle clicks on open Preference button.
+	 *
+	 * @param index which table activate
 	 */
 	private void openPreference(int index) {
 		Preferences preferencesDialog = new Preferences(this.settings, this.languages);
@@ -241,18 +290,18 @@ public class MainWindow implements PropertyChangeListener {
 		language = languages.get(languagesComboBox.getSelectedItem());
 		JFileChooser fileOpen = new JFileChooser();
 		fileOpen.setFileFilter(new SubRipSubtitleFilter());
-		if (subtitleViewer != null && new File(currentPathToSubtitle).exists())
-			fileOpen.setCurrentDirectory(new File(currentPathToSubtitle));
+		if (subtitleViewer != null && new File(pathToSubtitle).exists())
+			fileOpen.setCurrentDirectory(new File(pathToSubtitle));
 		int returnValue = fileOpen.showDialog(null, "Open");
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			frameParent.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			File file = fileOpen.getSelectedFile();
 			String path = file.getAbsolutePath();
 			if (path != null) {
-				currentPathToSubtitle = path;
+				pathToSubtitle = path;
 				subtitleViewer = null;
-				Filename fileName = new Filename(currentPathToSubtitle);
-				subtitle = new Subtitle(currentPathToSubtitle);
+				Filename fileName = new Filename(pathToSubtitle);
+				subtitle = new Subtitle(pathToSubtitle);
 				index = new Indexer(subtitle, language);
 				subtitleViewer = new SubtitleViewer(subtitle, index);
 				if (loadTextPane()) {
@@ -271,12 +320,11 @@ public class MainWindow implements PropertyChangeListener {
 		JFileChooser fileOpen = new JFileChooserWithCheck(true);
 		fileOpen.setFileFilter(new AdvancedSubStationAlphaSubtitleFilter());
 		fileOpen.addChoosableFileFilter(new SubRipSubtitleFilter());
-		fileOpen.setCurrentDirectory(new File(currentPathToSubtitle));
+		fileOpen.setCurrentDirectory(new File(pathToSubtitle));
 		int returnValue = fileOpen.showSaveDialog(null);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File file = fileOpen.getSelectedFile();
 			String pathGeneratedSubtitle = file.getAbsolutePath();
-
 
 
 			WordStyle style = getWordStyle();
@@ -284,18 +332,18 @@ public class MainWindow implements PropertyChangeListener {
 			Filename fileName = new Filename(pathGeneratedSubtitle);
 			if (fileName.extension().toLowerCase().equals("srt"))
 				render = new SubRipRender(subtitle, style, index, settings);
-			else if (fileName.extension().toLowerCase().equals("ass")){
-				render = new AdvancedSubStationAlphaRender(subtitle, style, index,settings);
+			else if (fileName.extension().toLowerCase().equals("ass")) {
+				render = new AdvancedSubStationAlphaRender(subtitle, style, index, settings);
 			}
-			if(render != null)
+			if (render != null)
 				render.save(pathGeneratedSubtitle);
 			updateDatabase();
 		}
 	}
+	//</editor-fold>
 
 	/**
-	 * Updating records in the Database
-	 *
+	 * Updating records in the database
 	 */
 	private void updateDatabase() {
 		exportToSubtitleButton.setEnabled(false);
@@ -310,6 +358,9 @@ public class MainWindow implements PropertyChangeListener {
 		task.execute();
 	}
 
+	/**
+	 * Create dump of the database
+	 */
 	private void dumpDatabase() {
 		Vocabulary db = new Vocabulary();
 		db.createConnection();
@@ -336,6 +387,12 @@ public class MainWindow implements PropertyChangeListener {
 		updateSettings();
 	}
 
+	/**
+	 * Save dump of the database in a file
+	 *
+	 * @param path  path to the file
+	 * @param items saved items
+	 */
 	private static void saveDump(String path, ArrayList<ItemVocabulary> items) {
 		if (path != null && items != null) {
 			try {
@@ -361,28 +418,11 @@ public class MainWindow implements PropertyChangeListener {
 	}
 
 	/**
-	 * This method gets called when a bound property is changed
+	 * Get words style
+	 *
+	 * @return words style
 	 */
-	@Override
-	public void propertyChange(PropertyChangeEvent evt) {
-		if ("progress".equals(evt.getPropertyName())) {
-			int progress = (Integer) evt.getNewValue();
-			progressMonitor.setProgress(progress);
-			String message =
-					String.format("Completed %d%%.\n", progress);
-			progressMonitor.setNote(message);
-			if (progressMonitor.isCanceled() || task.isDone()) {
-				if (progressMonitor.isCanceled()) {
-					task.cancel(true);
-				}
-				exportToSubtitleButton.setEnabled(true);
-			}
-		}
-	}
-
-
-	private WordStyle getWordStyle()
-	{
+	private WordStyle getWordStyle() {
 		ArrayList<WordInfo> wordInfos = new ArrayList<WordInfo>();
 		for (int i = 0; i < mainTable.getRowCount(); i++) {
 			boolean isName = (Boolean) mainTable.getModel().getValueAt(i, 0);
@@ -395,7 +435,6 @@ public class MainWindow implements PropertyChangeListener {
 		}
 		return new WordStyle(wordInfos, hardWords, settings);
 	}
-
 
 
 	/**
@@ -417,11 +456,11 @@ public class MainWindow implements PropertyChangeListener {
 	}
 
 	/**
-	 * Highlight a selected word
+	 * Highlight a selected word in the text pane
 	 *
 	 * @param rowNumber selected row
 	 */
-	void highlightWord(int rowNumber) {
+	private void highlightWord(int rowNumber) {
 		int rowIndex = mainTable.convertRowIndexToModel(rowNumber);
 		if (rowIndex != -1 && subtitleViewer != null) {
 			String word = mainTable.getModel().getValueAt(rowIndex, 3).toString();
@@ -436,7 +475,7 @@ public class MainWindow implements PropertyChangeListener {
 	/**
 	 * Fill mainTable
 	 */
-	void loadTable() {
+	private void loadTable() {
 		Map<Stemmator, Integer> stems = index.getListStems();
 		DefaultTableModel tableModel = ((DefaultTableModel) mainTable.getModel());
 		tableModel.setRowCount(0);
@@ -566,4 +605,24 @@ public class MainWindow implements PropertyChangeListener {
 		}
 		return false;
 	}
+	//</editor-fold>
+
+	//<editor-fold desc="Public Methods">
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if ("progress".equals(evt.getPropertyName())) {
+			int progress = (Integer) evt.getNewValue();
+			progressMonitor.setProgress(progress);
+			String message =
+					String.format("Completed %d%%.\n", progress);
+			progressMonitor.setNote(message);
+			if (progressMonitor.isCanceled() || task.isDone()) {
+				if (progressMonitor.isCanceled()) {
+					task.cancel(true);
+				}
+				exportToSubtitleButton.setEnabled(true);
+			}
+		}
+	}
+	//</editor-fold>
 }

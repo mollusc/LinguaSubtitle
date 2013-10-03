@@ -7,30 +7,46 @@ import java.io.File;
  * Date: 20.09.13
  */
 public class ExtensionFileFilter extends javax.swing.filechooser.FileFilter {
+	//<editor-fold desc="Private Fields">
+	/**
+	 * Description of files
+	 */
+	private final String description;
+	/**
+	 * Extensions of files
+	 */
+	public final String[] extensions;
+	//</editor-fold>
 
-	String description;
-	String extensions[];
+	//<editor-fold desc="Constructors">
 
+	/**
+	 * Constructor of the class ExtensionFileFilter
+	 * @param description description of a file
+	 * @param extension   extensions of a file
+	 */
 	public ExtensionFileFilter(String description, String extension) {
-		this(description, new String[] { extension });
+		this(description, new String[]{extension});
 	}
 
+	/**
+	 * Constructor of the class ExtensionFileFilter
+	 *
+	 * @param description description of files
+	 * @param extensions array of extensions
+	 */
 	public ExtensionFileFilter(String description, String extensions[]) {
 		if (description == null) {
 			this.description = extensions[0];
 		} else {
 			this.description = description;
 		}
-		this.extensions = (String[]) extensions.clone();
+		this.extensions = extensions.clone();
 		toLower(this.extensions);
 	}
+	//</editor-fold>
 
-	private void toLower(String array[]) {
-		for (int i = 0, n = array.length; i < n; i++) {
-			array[i] = array[i].toLowerCase();
-		}
-	}
-
+	//<editor-fold desc="Public Methods">
 	public String getDescription() {
 		return description;
 	}
@@ -40,8 +56,7 @@ public class ExtensionFileFilter extends javax.swing.filechooser.FileFilter {
 			return true;
 		} else {
 			String path = file.getAbsolutePath().toLowerCase();
-			for (int i = 0, n = extensions.length; i < n; i++) {
-				String extension = extensions[i];
+			for (String extension : extensions) {
 				if ((path.endsWith(extension) && (path.charAt(path.length() - extension.length() - 1)) == '.')) {
 					return true;
 				}
@@ -49,4 +64,16 @@ public class ExtensionFileFilter extends javax.swing.filechooser.FileFilter {
 		}
 		return false;
 	}
+
+	/**
+	 * All item of array to lower case
+	 *
+	 * @param array array of strings
+	 */
+	private void toLower(String array[]) {
+		for (int i = 0, n = array.length; i < n; i++) {
+			array[i] = array[i].toLowerCase();
+		}
+	}
+	//</editor-fold>
 }

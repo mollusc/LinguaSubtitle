@@ -32,7 +32,6 @@ package mollusc.linguasubtitle;
  * directory path, filename, and extension. The methods won't work if it
  * doesn't.
  */
-@SuppressWarnings("UnusedDeclaration")
 public class Filename {
 	private final String fullPath;
 	private final char pathSeparator;

@@ -10,11 +10,32 @@ import org.tartarus.snowball.SnowballStemmer;
 public class Stemmator implements Comparable<Stemmator> {
 
 	//<editor-fold desc="Private Fields">
-	private final String stem;
+	/**
+	 * Word
+	 */
 	private final String word;
+	/**
+	 * Stem of the word
+	 */
+	private final String stem;
+	//</editor-fold>
+
+	//<editor-fold desc="Constructor">
+
+	/**
+	 * Constructor of the class Stemmator
+	 *
+	 * @param word     word
+	 * @param language language of the word
+	 */
+	public Stemmator(String word, String language) {
+		this.word = word;
+		stem = stemmingWord(this.word.toLowerCase(), language);
+	}
 	//</editor-fold>
 
 	//<editor-fold desc="Public Methods">
+
 	/**
 	 * Get stem
 	 */
@@ -30,18 +51,9 @@ public class Stemmator implements Comparable<Stemmator> {
 	}
 
 	/**
-	 * Initialize stem
-	 */
-	public Stemmator(String word, String language) {
-		this.word = word;
-		stem = stemmingWord(this.word.toLowerCase(), language);
-	}
-
-
-	/**
 	 * Get stem from the word
 	 *
-	 * @param word is word for stemming
+	 * @param word     is word for stemming
 	 * @param language - Language of the word. (danish, dutch,
 	 *                 swedish, finnish, hungarian,
 	 *                 norwegian, romanian, english,
@@ -51,7 +63,6 @@ public class Stemmator implements Comparable<Stemmator> {
 	public static String stemmingWord(String word, String language) {
 		try {
 			Class stemClass = Class.forName("org.tartarus.snowball.ext." + language + "Stemmer");
-			//Class stemClass = org.tartarus.snowball.ext.englishStemmer;
 			SnowballStemmer stemmer = (SnowballStemmer) stemClass.newInstance();
 			stemmer.setCurrent(word);
 			stemmer.stem();

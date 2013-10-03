@@ -4,23 +4,35 @@ import javax.swing.*;
 import java.io.File;
 
 /**
- * Check before saving if the same file already exist
- * then ask user for confirmation does she really want to override
- *
  * @author mollusc <MolluscLab@gmail.com>
+ *         Check before saving if the same file already exist
+ *         then ask user for confirmation does she really want to override
  */
 public class JFileChooserWithCheck extends JFileChooser {
-	private boolean isSubtitle;
-	public JFileChooserWithCheck(boolean isSubtitle)
-	{
+	//<editor-fold desc="Private Fields">
+	/**
+	 * Is file subtitle?
+	 */
+	private final boolean isSubtitle;
+	//</editor-fold>
+
+	//<editor-fold desc="Constructors">
+
+	/**
+	 * Constructor of the class JFileChooserWithCheck
+	 *
+	 * @param isSubtitle Is file subtitle?
+	 */
+	public JFileChooserWithCheck(boolean isSubtitle) {
 		this.isSubtitle = isSubtitle;
 	}
+	//</editor-fold>
+
+	//<editor-fold desc="Public Methods">
 	@Override
 	public void approveSelection() {
-
 		String pathSubtitle = getSelectedFile().getAbsolutePath();
-		if(isSubtitle)
-		{
+		if (isSubtitle) {
 			String ext = ((ExtensionFileFilter) getFileFilter()).extensions[0];
 			if (!(pathSubtitle.length() > ext.length() && pathSubtitle.substring(pathSubtitle.length() - ext.length()).toLowerCase().equals(ext)))
 				setSelectedFile(new File(pathSubtitle + "." + ext));
@@ -47,4 +59,5 @@ public class JFileChooserWithCheck extends JFileChooser {
 		}
 		super.approveSelection();
 	}
+	//</editor-fold>
 }

@@ -31,6 +31,13 @@ public class SubtitleViewer {
 	//</editor-fold>
 
 	//<editor-fold desc="Constructor">
+
+	/**
+	 * Constructor of the class SubtitleViewer
+	 *
+	 * @param subtitle container for speeches
+	 * @param index    index of the text subtitle
+	 */
 	public SubtitleViewer(Subtitle subtitle, Indexer index) {
 		this.subtitle = subtitle;
 		this.index = index;
@@ -38,10 +45,12 @@ public class SubtitleViewer {
 	//</editor-fold>
 
 	//<editor-fold desc="Public Methods">
+
 	/**
 	 * Print subtitle to document, and highlight word
+	 *
 	 * @param stemString stem of highlighted word
-	 * @param document output document
+	 * @param document   output document
 	 */
 	public void print(String stemString, Document document) {
 		ArrayList<IndexWord> indexWords = index.get(stemString);
@@ -76,6 +85,7 @@ public class SubtitleViewer {
 
 	/**
 	 * Print subtitle to document
+	 *
 	 * @param document output document
 	 */
 	public void print(Document document) {
@@ -94,6 +104,9 @@ public class SubtitleViewer {
 
 	/**
 	 * Get position of the stems in the subtitle.
+	 *
+	 * @param stem of the words
+	 * @return position of the stems in the subtitle
 	 */
 	public int getPositionStem(String stem) {
 		ArrayList<IndexWord> indexWords = index.get(stem);

@@ -17,33 +17,60 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
 
-import static mollusc.linguasubtitle.Preferences.toHexString;
+import static mollusc.linguasubtitle.subtitle.utility.CommonUtility.toHexString;
 
 /**
  * User: mollusc <MolluscLab@gmail.com>
  * Date: 20.09.13
+ * <p/>
+ * Class for generate an Advanced SubStation Alpha subtitle
  */
 public class AdvancedSubStationAlphaRender extends Render {
 	//<editor-fold desc="Private Fields">
-	private String transparencyKnownWords;
-	private int playResX;
-	private int playResY;
-	private String fontName;
-	private int mainFontSize;
-	private int translateFontSize;
+	/**
+	 * Transparency of known words
+	 */
+	private final String transparencyKnownWords;
+	/**
+	 * Horizontal video resolution
+	 */
+	private final int playResX;
+	/**
+	 * Vertical video resolution
+	 */
+	private final int playResY;
+	/**
+	 * Name of a font
+	 */
+	private final String fontName;
+	/**
+	 * Font size of speeches
+	 */
+	private final int mainFontSize;
+	/**
+	 * Font siz of translations
+	 */
+	private final int translateFontSize;
 
-	private double translateMariginV;
-	private double translateMariginH;
+	/**
+	 * Current vertical margin for translations
+	 */
+	private double translateMarginV;
+	/**
+	 * Current horizontal margin for translations
+	 */
+	private double translateMarginH;
 	//</editor-fold>
 
 	//<editor-fold desc="Constructor">
 
 	/**
-	 * Color of subtitle
-	 * @param subtitle
-	 * @param wordStyle
-	 * @param indexer
-	 * @param settings
+	 * Constructor of the class AdvancedSubStationAlphaRender
+	 *
+	 * @param subtitle  container for speeches
+	 * @param wordStyle style of words
+	 * @param indexer   index of the text subtitle
+	 * @param settings  settings of the program
 	 */
 	public AdvancedSubStationAlphaRender(Subtitle subtitle,
 										 WordStyle wordStyle,
@@ -56,7 +83,7 @@ public class AdvancedSubStationAlphaRender extends Render {
 		this.translateFontSize = settings.getTranslateFontSize();
 		this.transparencyKnownWords = settings.getTransparencyKnownWords();
 
-		// Set playResX playResY
+		// Set playResX, playResY
 		VideoConfiguration f = new VideoConfiguration(settings);
 		f.setVisible(true);
 		f.pack();
@@ -84,8 +111,8 @@ public class AdvancedSubStationAlphaRender extends Render {
 			ArrayList<String> translates = new ArrayList<String>();
 			if (indexWords != null) {
 				Collections.sort(indexWords, new IndexWordComparator());
-				translateMariginV = 0;
-				translateMariginH = 0;
+				translateMarginV = 0;
+				translateMarginH = 0;
 				for (IndexWord indexWord : indexWords) {
 					String word = indexWord.word;
 					String stem = indexWord.stem;
@@ -94,9 +121,8 @@ public class AdvancedSubStationAlphaRender extends Render {
 						int start = CommonUtility.html2text(left).length();
 						if (wordStyle.getTranslatedWordInfo(stem) != null) {
 							String translate = wordStyle.getTranslatedWordInfo(stem).getTranslate();
-							if (translate != null && !translate.equals("")) {
-								InsertWordTranslation(translates, translate, start, CommonUtility.html2text(speech.content));
-							}
+							if (translate != null && !translate.equals(""))
+								translates.add(InsertWordTranslation(translate, start, CommonUtility.html2text(speech.content)));
 						}
 						String middle = "{\\alpha&H00&, \\c&H" + RGBtoBGR(wordStyle.getColor(stem)) + "&}" + word + "{\\alpha,\\c }";
 						String right = textSpeech.substring(indexWord.end);
@@ -125,6 +151,13 @@ public class AdvancedSubStationAlphaRender extends Render {
 	//</editor-fold>
 
 	//<editor-fold desc="Private Methods">
+
+	/**
+	 * Replace html tags by ass tags
+	 *
+	 * @param textSpeech speech
+	 * @return cleaned text
+	 */
 	private String clearSpeech(String textSpeech) {
 		textSpeech = textSpeech.replaceAll("\n", "\\\\N\\\\N");
 		textSpeech = textSpeech.replaceAll("<b>", "{\\\\b1}");
@@ -138,10 +171,18 @@ public class AdvancedSubStationAlphaRender extends Render {
 		return CommonUtility.html2text(textSpeech);
 	}
 
-	private void InsertWordTranslation(ArrayList<String> translates,
-									   String translate,
-									   int start,
-									   final String textSpeech) {
+	/**
+	 * Insert translation in current position
+	 *
+	 * @param wordTranslate translation
+	 * @param start         start position of the translation
+	 * @param textSpeech    speech
+	 * @return ass script line for translation
+	 */
+	private String InsertWordTranslation(String wordTranslate,
+										 int start,
+										 final String textSpeech) {
+		String scriptLine = "";
 		String[] lines = textSpeech.split("\\n");
 		int minPos = 0;
 		int maxPos = 0;
@@ -152,11 +193,11 @@ public class AdvancedSubStationAlphaRender extends Render {
 				double totalWidthPixel = getStringWidth(line, mainFontSize);
 				double startPixel = getStringWidth(line.substring(0, start - minPos), mainFontSize);
 				double from = startPixel - totalWidthPixel / 2;
-				double translateWidthPixel = getStringWidth(translate + " ", translateFontSize);
+				double translateWidthPixel = getStringWidth(wordTranslate + " ", translateFontSize);
 				int scaleX = 100;
-				if (marginV == translateMariginV && (from + translateWidthPixel) > translateMariginH) {
+				if (marginV == translateMarginV && (from + translateWidthPixel) > translateMarginH) {
 					// Try to fit the translation by scaling
-					double newTranslateWidthPixel = translateMariginH - from;
+					double newTranslateWidthPixel = translateMarginH - from;
 					if (newTranslateWidthPixel / translateWidthPixel < 0.6)
 						scaleX = 60;
 					else
@@ -164,31 +205,46 @@ public class AdvancedSubStationAlphaRender extends Render {
 					translateWidthPixel = translateWidthPixel * scaleX / 100.0;
 
 					// Try to fit the translation by cutting
-					while (marginV == translateMariginV && (from + translateWidthPixel) > translateMariginH) {
-						translate = translate.substring(0, translate.length() - 2);
-						translate += '…';
-						translateWidthPixel = getStringWidth(translate + " ", translateFontSize) * scaleX / 100.0;
+					while (marginV == translateMarginV && (from + translateWidthPixel) > translateMarginH) {
+						wordTranslate = wordTranslate.substring(0, wordTranslate.length() - 2);
+						wordTranslate += '…';
+						translateWidthPixel = getStringWidth(wordTranslate + " ", translateFontSize) * scaleX / 100.0;
 					}
 				}
 				// Create a line in the script
 				double margin = from + translateWidthPixel / 2;
-				translateMariginH = from;
-				translateMariginV = marginV;
+				translateMarginH = from;
+				translateMarginV = marginV;
 				int marginL = (int) margin > 0 ? (int) margin : 0;
 				int marginR = (int) margin <= 0 ? (int) -margin : 0;
-				translates.add(",Translate, NTP, " + marginL * 2 + ", " + marginR * 2 + ", " + marginV + ",!Effect,{\\fscx" + scaleX + "}" + translate);
+				scriptLine = ",Translate, NTP, " + marginL * 2 + ", " + marginR * 2 + ", " + marginV + ",!Effect,{\\fscx" + scaleX + "}" + wordTranslate;
 				break;
 			}
 			minPos = maxPos + 1;
 			marginV = marginV - mainFontSize - mainFontSize / 2;
 		}
+		return scriptLine;
 	}
 
+	/**
+	 * Join all components of the ass script line
+	 *
+	 * @param layer      layer of the dialogue
+	 * @param timeStamp  time stamp of the dialogue
+	 * @param textSpeech text of the dialogue
+	 * @return ass script line
+	 */
 	private String join(int layer, String timeStamp, String textSpeech) {
 		return "Dialogue: " + layer + "," + timeStamp + textSpeech + "\n";
 	}
 
-
+	/**
+	 * Get time stamp of the speech
+	 *
+	 * @param currentSpeech current speech
+	 * @param nextSpeech    next speech
+	 * @return string with time stamp
+	 */
 	private String getTimeStamp(Speech currentSpeech, Speech nextSpeech) {
 		if (automaticDuration) {
 			int currentDuration = currentSpeech.endTimeInMilliseconds - currentSpeech.startTimeInMilliseconds;
@@ -204,7 +260,11 @@ public class AdvancedSubStationAlphaRender extends Render {
 		return AdvancedSubStationAlphaUtility.getTimeStamp(currentSpeech.startTimeInMilliseconds, currentSpeech.endTimeInMilliseconds);
 	}
 
-
+	/**
+	 * Get header of ass subtitle
+	 *
+	 * @return ass script lines
+	 */
 	private String getScriptInfo() {
 		return "[Script Info]\n" +
 				"Original Script: LinguaSubtitle 2.3 http://sourceforge.net/projects/linguasubtitle/\n" +
@@ -216,6 +276,11 @@ public class AdvancedSubStationAlphaRender extends Render {
 				"Timer: 100.0000\n\n";
 	}
 
+	/**
+	 * Get styles information
+	 *
+	 * @return ass script lines
+	 */
 	private String getStyles() {
 		int Outline = (int) Math.ceil(mainFontSize / 24.0);
 		int Shadow = Outline;
@@ -225,21 +290,33 @@ public class AdvancedSubStationAlphaRender extends Render {
 				"Style:Translate," + fontName + "," + translateFontSize + ",&H00" + RGBtoBGR(translateColor) + ",&H00FFFFFF,&H00000000,&HFF000000,0,0,0,0,100,100,0,0,1,2," + Outline + "," + Shadow + ",0,0,10,1\n\n";
 	}
 
-	private String RGBtoBGR(String color) {
-		int in = Integer.decode("#" + color);
+	/**
+	 * Convert color from a RGB format to a BGR format
+	 *
+	 * @param RGBColor color in RGB format
+	 * @return color in BGR format
+	 */
+	private String RGBtoBGR(String RGBColor) {
+		int in = Integer.decode("#" + RGBColor);
 		int red = (in >> 16) & 0xFF;
 		int green = (in >> 8) & 0xFF;
-		int blue = (in >> 0) & 0xFF;
-		int out = (blue << 16) | (green << 8) | (red << 0);
+		int blue = (in) & 0xFF;
+		int out = (blue << 16) | (green << 8) | (red);
 		Color c = new Color(out);
 		return toHexString(c);
 	}
 
+	/**
+	 * Get text width in pixels
+	 *
+	 * @param text     measured text
+	 * @param fontSize font size of the text
+	 * @return width in pixels
+	 */
 	private double getStringWidth(String text, int fontSize) {
 		Font font = new Font(fontName, Font.PLAIN, fontSize);
 		TextLayout textLayout = new TextLayout(text, font, new FontRenderContext(null, true, true));
-		double width = textLayout.getAdvance() * fontSize / (textLayout.getAscent() + textLayout.getDescent());
-		return width;
+		return textLayout.getAdvance() * fontSize / (textLayout.getAscent() + textLayout.getDescent());
 	}
 	//</editor-fold>
 

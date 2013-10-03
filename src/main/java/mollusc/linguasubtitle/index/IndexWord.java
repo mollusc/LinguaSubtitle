@@ -33,6 +33,15 @@ public class IndexWord {
 	//</editor-fold>
 
 	//<editor-fold desc="Constructor">
+
+	/**
+	 * Constructor of the class Indexer
+	 * @param word word
+	 * @param stem stem of the word
+	 * @param indexSpeech speech id
+	 * @param startWord start position of the word in the speech
+	 * @param endWord end position of the word in the speech
+	 */
 	public IndexWord(String word, String stem, int indexSpeech, int startWord, int endWord) {
 		this.word = word;
 		this.stem = stem;

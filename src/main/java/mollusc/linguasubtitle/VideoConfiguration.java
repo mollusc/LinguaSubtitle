@@ -4,17 +4,33 @@ import javax.swing.*;
 import java.awt.event.*;
 
 public class VideoConfiguration extends JDialog {
+	//<editor-fold desc="Form controls">
+	//<editor-fold desc="Private Field">
 	private JPanel contentPane;
 	private JButton buttonOK;
 	private JButton buttonCancel;
 	private JComboBox resolutionsComboBox;
 	private JTextField playResXTextField;
 	private JTextField playResYTextField;
-	private Settings settings;
-	private boolean isOk;
 	private JPanel mainPanel;
 	private JPanel buttonPanel;
+	//</editor-fold>
+	//</editor-fold>
 
+	//<editor-fold desc="Private Fields">
+	/**
+	 * Settings of the program
+	 */
+	private final Settings settings;
+	//</editor-fold>
+
+	//<editor-fold desc="Constructor">
+
+	/**
+	 * Constructor of the class VideoConfiguration
+	 *
+	 * @param settings settings of the program
+	 */
 	public VideoConfiguration(Settings settings) {
 		setContentPane(contentPane);
 		setModal(true);
@@ -60,10 +76,15 @@ public class VideoConfiguration extends JDialog {
 			}
 		});
 	}
+	//</editor-fold>
 
+	//<editor-fold desc="Private Methods">
+
+	/**
+	 * Change resolution by resolutionComboBox
+	 */
 	private void changeVideoResolution() {
-		switch (resolutionsComboBox.getSelectedIndex())
-		{
+		switch (resolutionsComboBox.getSelectedIndex()) {
 			case 0:
 				playResXTextField.setText("640");
 				playResYTextField.setText("352");
@@ -113,4 +134,5 @@ public class VideoConfiguration extends JDialog {
 // add your code here if necessary
 		dispose();
 	}
+	//</editor-fold>
 }

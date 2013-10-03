@@ -1,9 +1,9 @@
 package mollusc.linguasubtitle.subtitle;
 
 /**
- * Container for data of a srt subtitle
- *
  * @author mollusc <MolluscLab@gmail.com>
+ *         <p/>
+ *         Container for data of a srt subtitle
  */
 public class Speech {
 
@@ -11,7 +11,7 @@ public class Speech {
 	/**
 	 * Content of the speech
 	 */
-	public String content;
+	public final String content;
 
 	/**
 	 * Start timestamps of the subtitle in milliseconds
@@ -25,6 +25,13 @@ public class Speech {
 	//</editor-fold>
 
 	//<editor-fold desc="Constructor">
+
+	/**
+	 * Constructor of the class Speech
+	 *
+	 * @param srtTiming time stamp in SubRip format
+	 * @param content   content of the speech
+	 */
 	public Speech(String srtTiming, String content) {
 		this.content = content;
 		setTimesFromSrtTimeStamp(srtTiming);
@@ -32,11 +39,13 @@ public class Speech {
 	//</editor-fold>
 
 	//<editor-fold desc="Public Methods">
+
 	/**
 	 * Set startTimeInMilliseconds and endTimeInMilliseconds from SubRip time stamp
+	 *
 	 * @param srtTiming SubRip time stamp
 	 */
-	public void setTimesFromSrtTimeStamp(String srtTiming) {
+	void setTimesFromSrtTimeStamp(String srtTiming) {
 		int indexOfArrowChars = srtTiming.indexOf("-->");
 		String startString = srtTiming.substring(0, indexOfArrowChars).trim();
 		String endString = srtTiming.substring(indexOfArrowChars + 4, srtTiming.length()).trim();

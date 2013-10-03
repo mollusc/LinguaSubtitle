@@ -9,7 +9,7 @@ import java.util.Map;
  * @author mollusc <MolluscLab@gmail.com>
  */
 public class Vocabulary {
-
+	//<editor-fold desc="Private Fields">
 	/**
 	 * Version of the database
 	 */
@@ -26,10 +26,19 @@ public class Vocabulary {
 	 * Statement
 	 */
 	private Statement statement;
+	//</editor-fold>
 
+	//<editor-fold desc="Constructor">
+
+	/**
+	 * Constructor of the class Vocabulary
+	 */
 	public Vocabulary() {
 		nameDB = "Vocabulary";
 	}
+	//</editor-fold>
+
+	//<editor-fold desc="Public Methods">
 
 	/**
 	 * Create a database connection
@@ -70,7 +79,7 @@ public class Vocabulary {
 	/**
 	 * Get hard words
 	 *
-	 * @return List of hard words
+	 * @return array of hard words
 	 */
 	public ArrayList<String> getHardWords() {
 		try {
@@ -90,8 +99,15 @@ public class Vocabulary {
 
 	/**
 	 * Update values
+	 *
+	 * @param stem      stem of the word
+	 * @param word      word
+	 * @param translate translation of the word
+	 * @param language  language of the word
+	 * @param isKnown   Is word known?
+	 * @param isStudy   Is word study?
 	 */
-	public void updateValues(String stem, String word, String translate, String language, boolean isKnown, boolean isStudy, boolean updateMeeting) {
+	public void updateValues(String stem, String word, String translate, String language, boolean isKnown, boolean isStudy) {
 		try {
 			String query = "INSERT OR REPLACE INTO Stems (Stem, Word, Translate, Language, Known, Study, Meeting)  VALUES ("
 					+ "'" + escapeCharacter(stem) + "',"
@@ -100,12 +116,8 @@ public class Vocabulary {
 					+ "'" + escapeCharacter(language) + "',"
 					+ boolToInt(isKnown) + ","
 					+ boolToInt(isStudy) + ","
-					+ "COALESCE((SELECT Meeting FROM Stems WHERE";
-			if (updateMeeting) {
-				query += " Stem='" + escapeCharacter(stem) + "' AND Language='" + escapeCharacter(language) + "') + 1,1))";
-			} else {
-				query += " Stem='" + escapeCharacter(stem) + "' AND Language='" + escapeCharacter(language) + "'),1))";
-			}
+					+ "COALESCE((SELECT Meeting FROM Stems WHERE"
+					+ " Stem='" + escapeCharacter(stem) + "' AND Language='" + escapeCharacter(language) + "') + 1,1))";
 			statement.executeUpdate(query);
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
@@ -115,7 +127,9 @@ public class Vocabulary {
 	/**
 	 * Get data from the database
 	 *
-	 * @param stem is key for search
+	 * @param stem     key for search
+	 * @param language language of words
+	 * @return information about the word
 	 */
 	public ItemVocabulary getItem(String stem, String language) {
 		try {
@@ -182,6 +196,8 @@ public class Vocabulary {
 
 	/**
 	 * Update Settings
+	 *
+	 * @param settings of the program
 	 */
 	public void updateSettings(Map<String, String> settings) {
 		try {
@@ -217,14 +233,29 @@ public class Vocabulary {
 		return null;
 	}
 
+	/**
+	 * Escape characters
+	 *
+	 * @param string text for escaping
+	 * @return escaped text
+	 */
 	private static String escapeCharacter(String string) {
 		string = string.replace("'", "''");
 		return string;
 	}
 
+	/**
+	 * Convert boolean to integer
+	 *
+	 * @param value boolean value
+	 * @return integer value
+	 */
 	private static int boolToInt(boolean value) {
 		return value ? 1 : 0;
 	}
+	//</editor-fold>
+
+	//<editor-fold desc="Private Methods">
 
 	/**
 	 * Correct version of the database
@@ -290,6 +321,9 @@ public class Vocabulary {
 
 	}
 
+	/**
+	 * Set database version
+	 */
 	private void SetVersionDB() {
 		Map<String, String> settings;
 		settings = getSettings();
@@ -303,4 +337,5 @@ public class Vocabulary {
 			}
 		}
 	}
+	//</editor-fold>
 }

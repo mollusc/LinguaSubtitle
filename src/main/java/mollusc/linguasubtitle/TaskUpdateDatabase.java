@@ -6,25 +6,37 @@ import mollusc.linguasubtitle.stemming.Stemmator;
 import javax.swing.*;
 
 /**
- * Update data from mainTable to the Database
- *
  * @author mollusc <MolluscLab@gmail.com>
+ *         <p/>
+ *         Update data from mainTable to the Database
  */
 class TaskUpdateDatabase extends SwingWorker<Void, Void> {
-	private final boolean updateMeeting;
+	//<editor-fold desc="Private Fields">
+	/**
+	 * Form that call this class
+	 */
 	private final MainWindow outer;
+	/**
+	 * Updated database
+	 */
 	private final Vocabulary db;
+	//</editor-fold>
 
+	//<editor-fold desc="Constructors">
+
+	/**
+	 * Constructor of the class ExtensionFileFilter
+	 *
+	 * @param outer form that call this class
+	 */
 	public TaskUpdateDatabase(final MainWindow outer) {
 		this.outer = outer;
-		this.updateMeeting = true;
 		db = new Vocabulary();
 		db.createConnection();
 	}
+	//</editor-fold>
 
-	/*
-	 * Main task. Executed in background thread.
-	 */
+	//<editor-fold desc="Public Methods">
 	@Override
 	public Void doInBackground() throws ClassNotFoundException {
 		try {
@@ -38,7 +50,7 @@ class TaskUpdateDatabase extends SwingWorker<Void, Void> {
 					Stemmator stemmator = new Stemmator(word, outer.language);
 					String translation = outer.mainTable.getModel().getValueAt(i, 4).toString();
 					String language = outer.language;
-					db.updateValues(stemmator.getStem(), word, translation, language, isKnown, isStudy, updateMeeting);
+					db.updateValues(stemmator.getStem(), word, translation, language, isKnown, isStudy);
 					progress += 100f / outer.mainTable.getRowCount();
 					setProgress((int) progress);
 				}
@@ -54,5 +66,5 @@ class TaskUpdateDatabase extends SwingWorker<Void, Void> {
 		outer.progressMonitor.close();
 		outer.exportToSubtitleButton.setEnabled(true);
 	}
-
+	//</editor-fold>
 }

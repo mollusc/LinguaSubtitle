@@ -28,17 +28,23 @@ public class Indexer implements Iterable<String> {
 	/**
 	 * Subtitle
 	 */
-	private Subtitle subtitle;
+	private final Subtitle subtitle;
 
 	/**
 	 * Language of the subtitle
 	 */
-	private String language;
+	private final String language;
 	//</editor-fold>
 
 	//<editor-fold desc="Constructor">
-	public Indexer(Subtitle subtitle, String language)
-	{
+
+	/**
+	 * Constructor of the class Indexer
+	 *
+	 * @param subtitle container of speeches
+	 * @param language language of subtitle
+	 */
+	public Indexer(Subtitle subtitle, String language) {
 		this.subtitle = subtitle;
 		this.language = language;
 		initialIndex();
@@ -46,11 +52,12 @@ public class Indexer implements Iterable<String> {
 	//</editor-fold>
 
 	//<editor-fold desc="Public Methods">
+
 	/**
 	 * Get the list of stems
 	 *
 	 * @return Keys is a stem object, Value is quantity of the stem in the
-	 * subtitles
+	 *         subtitles
 	 */
 	public Map<Stemmator, Integer> getListStems() {
 		Map<Stemmator, Integer> result = new HashMap<Stemmator, Integer>();
@@ -60,7 +67,7 @@ public class Indexer implements Iterable<String> {
 			String currentWord = "";
 			for (IndexWord indexWord : indexWords) {
 				Speech speech = subtitle.getSpeech(indexWord.indexSpeech);
-				String word = speech.content.substring(indexWord.start,indexWord.end);
+				String word = speech.content.substring(indexWord.start, indexWord.end);
 
 				if (currentWord.isEmpty()) {
 					currentWord = word;
@@ -83,11 +90,11 @@ public class Indexer implements Iterable<String> {
 
 	/**
 	 * Get list of IndexWord by key - stemString
-	 * @param stemString
-	 * @return
+	 *
+	 * @param stemString stem of the word
+	 * @return array of IndexWord
 	 */
-	public ArrayList<IndexWord> get(String stemString)
-	{
+	public ArrayList<IndexWord> get(String stemString) {
 		return index.get(stemString);
 	}
 
@@ -98,6 +105,7 @@ public class Indexer implements Iterable<String> {
 	//</editor-fold>
 
 	//<editor-fold desc="Private Methods">
+
 	/**
 	 * Index initialization
 	 */
@@ -130,14 +138,12 @@ public class Indexer implements Iterable<String> {
 	/**
 	 * Repeat char c n times
 	 */
-	public static String repeatChar(char c, int n) {
+	private static String repeatChar(char c, int n) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < n; i++) {
 			sb.append(c);
 		}
 		return sb.toString();
 	}
-
-
 	//</editor-fold>
 }

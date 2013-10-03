@@ -13,9 +13,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created with IntelliJ IDEA.
  * User: mollusc <MolluscLab@gmail.com>
  * Date: 07.09.13
+ * <p/>
+ * Abstract class for subtitle generator
  */
 public abstract class Render {
 	//<editor-fold desc="Protected Fields">
@@ -26,31 +27,34 @@ public abstract class Render {
 	/**
 	 * Color of speeches
 	 */
-	protected String textColor;
+	protected final String textColor;
 	/**
 	 * Color of translated words
 	 */
-	protected String translateColor;
+	protected final String translateColor;
 	/**
 	 * Are speeches hiding?
 	 */
-	protected boolean hideKnownDialog;
+	protected final boolean hideKnownDialog;
 	/**
 	 * Is automatic durations?
 	 */
-	protected boolean automaticDuration;
+	protected final boolean automaticDuration;
 	/**
 	 * Milliseconds per character
 	 */
-	protected int millisecondsPerCharacter;
+	protected final int millisecondsPerCharacter;
 	/**
 	 * Style of words
 	 */
-	protected WordStyle wordStyle;
+	protected final WordStyle wordStyle;
+	//</editor-fold>
+
+	//<editor-fold desc="Private Fields">
 	/**
 	 * Index of the text subtitle
 	 */
-	protected Indexer indexer;
+	private final Indexer indexer;
 	//</editor-fold>
 
 	//<editor-fold desc="Constructor">
@@ -79,15 +83,18 @@ public abstract class Render {
 
 	/**
 	 * Generate and save the subtitle to the file
+	 *
 	 * @param pathToSave path to save the file
 	 */
 	public abstract void save(String pathToSave);
 	//</editor-fold>
 
+	//<editor-fold desc="Protected Methods">
+
 	/**
 	 * Save content in the file
 	 *
-	 * @param path path to save a file
+	 * @param path    path to save a file
 	 * @param content content of a file
 	 */
 	protected static void saveSubtitle(String path, String content) {
@@ -101,8 +108,9 @@ public abstract class Render {
 	}
 
 	/**
+	 * Get all indices without a speech id
 	 *
-	 * @return
+	 * @return all indices
 	 */
 	protected Map<Integer, ArrayList<IndexWord>> getAllIndicesByIndexSpeech() {
 		Map<Integer, ArrayList<IndexWord>> indices = new HashMap<Integer, ArrayList<IndexWord>>();
@@ -117,6 +125,11 @@ public abstract class Render {
 		return indices;
 	}
 
+	/**
+	 * Get speeches id that have edited
+	 *
+	 * @return array with speeches id
+	 */
 	protected ArrayList<Integer> getEditedIndexSpeeches() {
 		ArrayList<Integer> result = new ArrayList<Integer>();
 		Map<Integer, ArrayList<IndexWord>> indices = getAllIndicesByIndexSpeech();

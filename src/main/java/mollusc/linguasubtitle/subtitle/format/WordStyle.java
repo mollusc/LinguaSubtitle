@@ -8,50 +8,59 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created with IntelliJ IDEA.
  * User: mollusc <MolluscLab@gmail.com>
  * Date: 07.09.13
+ * <p/>
+ * Class that keeps information about words
  */
 public class WordStyle {
 
 	//<editor-fold desc="Private Fields">
-	private Map<String, WordInfo> _idexTranslatedWordInfo;
-	private Map<String, String> _color;
-	//private Map<String, String> _translateColor;
+	/**
+	 * Information of translated words. Key is a stem of a word, Value is
+	 * information about it.
+	 */
+	private final Map<String, WordInfo> _indexTranslatedWordInfo;
+	/**
+	 * Color of words. Key is a stem of a word, Value is color of a word.
+	 */
+	private final Map<String, String> _color;
 	//</editor-fold>
 
 	//<editor-fold desc="Constructor">
-	public WordStyle() {
-		_idexTranslatedWordInfo = new HashMap<String, WordInfo>();
-		_color = new HashMap<String, String>();
-		//_translateColor = new HashMap<String, String>();
-	}
 
 	/**
-	 * Initialize WordStyle
-	 * @param wordInfos array of WordInfo
-	 * @param hardWords array of hard words
+	 * Constructor of the class WordStyle
 	 */
-	public WordStyle(ArrayList<WordInfo> wordInfos,
-					 ArrayList<String> hardWords,
-					 Settings settings)
-	{
-		this();
-		initializeIdexTranslatedWordInfo(wordInfos);
-		initializeColor(wordInfos, hardWords, settings);
-		//initializeColorsTranslate(wordInfos, settings);
+	public WordStyle() {
+		_indexTranslatedWordInfo = new HashMap<String, WordInfo>();
+		_color = new HashMap<String, String>();
 	}
 	//</editor-fold>
 
 	//<editor-fold desc="Public Methods">
 
 	/**
-	 * Get color of the word
-	 * @param stem stem of the word
-	 * @return
+	 * Constructor of the WordStyle class
+	 *
+	 * @param wordInfos array of WordInfo
+	 * @param hardWords array of hard words
 	 */
-	public String getColor(String stem)
-	{
+	public WordStyle(ArrayList<WordInfo> wordInfos,
+					 ArrayList<String> hardWords,
+					 Settings settings) {
+		this();
+		initializeIndexTranslatedWordInfo(wordInfos);
+		initializeColor(wordInfos, hardWords, settings);
+	}
+
+	/**
+	 * Get color of the word
+	 *
+	 * @param stem stem of the word
+	 * @return color of the word
+	 */
+	public String getColor(String stem) {
 		if (_color.containsKey(stem))
 			return _color.get(stem);
 		return null;
@@ -59,41 +68,41 @@ public class WordStyle {
 
 	/**
 	 * Get WordInfo of the word
+	 *
 	 * @param stem stem of the word
-	 * @return
+	 * @return WordInfo of the word
 	 */
-	public WordInfo getTranslatedWordInfo(String stem)
-	{
-		if (_idexTranslatedWordInfo.containsKey(stem))
-			return _idexTranslatedWordInfo.get(stem);
+	public WordInfo getTranslatedWordInfo(String stem) {
+		if (_indexTranslatedWordInfo.containsKey(stem))
+			return _indexTranslatedWordInfo.get(stem);
 		return null;
 	}
-
-
-	/**
-	 * Get color of the translate
-	 * @param stem stem of the word
-	 * @return
-	 */
-	/*public String getTranslateColor(String stem)
-	{
-		if (_translateColor.containsKey(stem))
-			return _translateColor.get(stem);
-		return null;
-	}*/
 	//</editor-fold>
 
 	//<editor-fold desc="Private Methods">
-	private void initializeIdexTranslatedWordInfo(ArrayList<WordInfo> wordInfos) {
+
+	/**
+	 * Initialize field _indexTranslatedWordInfo
+	 *
+	 * @param wordInfos array of WordInfo
+	 */
+	private void initializeIndexTranslatedWordInfo(ArrayList<WordInfo> wordInfos) {
 		for (WordInfo wordInfo : wordInfos) {
 			if (!wordInfo.isName() && !wordInfo.isStudy() && !wordInfo.isKnown())
-				_idexTranslatedWordInfo.put(wordInfo.getStem(), wordInfo);
+				_indexTranslatedWordInfo.put(wordInfo.getStem(), wordInfo);
 		}
 	}
 
+	/**
+	 * Initialize field _color
+	 *
+	 * @param wordInfos array of WordInfo
+	 * @param hardWords array of hard words
+	 * @param settings  settings of the program
+	 */
 	private void initializeColor(ArrayList<WordInfo> wordInfos,
 								 ArrayList<String> hardWords,
-	                             Settings settings) {
+								 Settings settings) {
 		for (WordInfo wordInfo : wordInfos) {
 			if (wordInfo.isKnown()) continue;
 
@@ -113,13 +122,5 @@ public class WordStyle {
 				_color.put(wordInfo.getStem(), settings.getColorUnknownWords());
 		}
 	}
-
-	/*private void initializeColorsTranslate(ArrayList<WordInfo> wordInfos, Settings settings) {
-		for (WordInfo wordInfo : wordInfos) {
-			if (!wordInfo.isName() && !wordInfo.isStudy() && !wordInfo.isKnown()) {
-				_translateColor.put(wordInfo.getStem(), settings.getColorTranslateWords());
-			}
-		}
-	}*/
 	//</editor-fold>
 }

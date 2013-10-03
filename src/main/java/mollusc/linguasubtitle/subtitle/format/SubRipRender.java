@@ -14,9 +14,20 @@ import java.util.*;
 /**
  * User: mollusc <MolluscLab@gmail.com>
  * Date: 06.09.13
+ * <p/>
+ * Class for generate an SubRip subtitle
  */
 public class SubRipRender extends Render {
 	//<editor-fold desc="Constructor">
+
+	/**
+	 * Constructor of the class SubRipRender
+	 *
+	 * @param subtitle  container for speeches
+	 * @param wordStyle style of words
+	 * @param indexer   index of the text subtitle
+	 * @param settings  settings of the program
+	 */
 	public SubRipRender(Subtitle subtitle,
 						WordStyle wordStyle,
 						Indexer indexer,
@@ -26,7 +37,6 @@ public class SubRipRender extends Render {
 	//</editor-fold>
 
 	//<editor-fold desc="Public Methods">
-
 	@Override
 	public void save(String pathToSave) {
 		String textSubtitle = "";
@@ -51,10 +61,8 @@ public class SubRipRender extends Render {
 						int start = CommonUtility.html2text(left).length();
 						if (wordStyle.getTranslatedWordInfo(stem) != null) {
 							String translate = wordStyle.getTranslatedWordInfo(stem).getTranslate();
-							if (translate != null && !translate.equals("")) {
-								//String translateColor = wordStyle.getTranslateColor(stem);
+							if (translate != null && !translate.equals(""))
 								InsertWordTranslation(textTranslate, translate, start, translateColor);
-							}
 						}
 						String middle = "<font color=\"" + wordStyle.getColor(stem) + "\">" + word + "</font>";
 						String right = textSpeech.substring(indexWord.end);
@@ -78,14 +86,23 @@ public class SubRipRender extends Render {
 
 	//</editor-fold>
 
+	//<editor-fold desc="Private Methods">
+
+	/**
+	 * Join all components of the speech
+	 *
+	 * @param textSpeech    text of the speech
+	 * @param textTranslate translated text
+	 * @param indexSpeech   speech id
+	 * @param timeStamp     time stamp of the speech
+	 * @return joined speech
+	 */
 	private String join(String textSpeech, String textTranslate, int indexSpeech, String timeStamp) {
 		String result = "";
 		result += (indexSpeech) + "\n";
 		result += timeStamp + "\n";
-
 		String[] linesTranslate = textTranslate.split("\n");
 		String[] linesSpeech = textSpeech.split("\n");
-
 
 		String content = "";
 		for (int j = 0; j < linesSpeech.length; j++) {
@@ -104,43 +121,59 @@ public class SubRipRender extends Render {
 
 
 	/**
-	 * Create string filling by nonbreaking space.
+	 * Create string filling by nonbreakable space.
 	 *
-	 * @return
+	 * @param pattern pattern for filling
+	 * @return string filled by nonbreakable space
 	 */
-	private String blankTranslate(String content) {
-		String strTranslate = "";
-		content = CommonUtility.html2text(content);
-		for (int i = 0; i < content.length(); i++) {
-			if (content.charAt(i) == '\n')
-				strTranslate += '\n';
+	private String blankTranslate(String pattern) {
+		String textTranslation = "";
+		pattern = CommonUtility.html2text(pattern);
+		for (int i = 0; i < pattern.length(); i++) {
+			if (pattern.charAt(i) == '\n')
+				textTranslation += '\n';
 			else
-				strTranslate += '\u00A0';
+				textTranslation += '\u00A0';
 		}
-		return strTranslate;
+		return textTranslation;
 	}
 
-	private void InsertWordTranslation(StringBuilder strTranslate, String wordTranslate, int start, String colorTranslate) {
+	/**
+	 * Insert translation in current position
+	 *
+	 * @param textTranslation text with translations
+	 * @param wordTranslate   translation
+	 * @param start           start position of the translation
+	 * @param colorTranslate  color of the translation
+	 */
+	private void InsertWordTranslation(StringBuilder textTranslation, String wordTranslate, int start, String colorTranslate) {
 		if (!wordTranslate.isEmpty()) {
 			int i = start;
-			while (i < strTranslate.length() &&
+			while (i < textTranslation.length() &&
 					wordTranslate.length() > i - start &&
-					strTranslate.charAt(i) == '\u00A0') {
+					textTranslation.charAt(i) == '\u00A0') {
 				char ch = wordTranslate.charAt(i - start);
-				strTranslate.setCharAt(i, ch);
+				textTranslation.setCharAt(i, ch);
 				i++;
 			}
 			if (wordTranslate.length() > i - start ||
-					(i < strTranslate.length() && wordTranslate.length() == i - start && strTranslate.charAt(i) != '\u00A0'))
+					(i < textTranslation.length() && wordTranslate.length() == i - start && textTranslation.charAt(i) != '\u00A0'))
 				// Horizontal ellipsis
-				strTranslate.setCharAt(i - 1, '\u2026');
+				textTranslation.setCharAt(i - 1, '\u2026');
 
 			// Add tag
-			strTranslate.insert(i, "</font>");
-			strTranslate.insert(start, "<font color=\"" + colorTranslate + "\">");
+			textTranslation.insert(i, "</font>");
+			textTranslation.insert(start, "<font color=\"" + colorTranslate + "\">");
 		}
 	}
 
+	/**
+	 * Get time stamp of the speech
+	 *
+	 * @param currentSpeech current speech
+	 * @param nextSpeech    next speech
+	 * @return string with time stamp
+	 */
 	private String getTimeStamp(Speech currentSpeech, Speech nextSpeech) {
 		if (automaticDuration) {
 			int currentDuration = currentSpeech.endTimeInMilliseconds - currentSpeech.startTimeInMilliseconds;

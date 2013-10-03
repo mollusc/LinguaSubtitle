@@ -8,15 +8,31 @@ import java.util.Map;
 /**
  * User: mollusc <MolluscLab@gmail.com>
  * Date: 30.09.13
+ *
+ * Class that keeps settings of the program
  */
 public class Settings {
-	Map<String, String> values;
 
+	//<editor-fold desc="Private Fields">
+	/**
+	 * Map of parameter - values
+	 */
+	Map<String, String> values;
+	//</editor-fold>
+
+	//<editor-fold desc="Constructor">
+
+	/**
+	 * Constructor of the class Settings
+	 * @param values settings of the program
+	 */
 	public Settings(Map<String, String> values)
 	{
 		this.values = values;
 	}
+	//</editor-fold>
 
+	//<editor-fold desc="Public Methods">
 	public String getFontName(){
 		return values.containsKey("fontName") ?
 				values.get("fontName"):
@@ -244,6 +260,10 @@ public class Settings {
 			values.put("playResY", value);
 	}
 
+	/**
+	 * Get settings in the map
+	 * @return map of parameter - values
+	 */
 	public Map<String, String> getMap(){
 		setAutomaticDurations(getAutomaticDurations());
 		setColorHardWord(getColorHardWord());
@@ -269,4 +289,5 @@ public class Settings {
 		setPlayResX(getPlayResX().toString());
 		return values;
 	}
+	//</editor-fold>
 }

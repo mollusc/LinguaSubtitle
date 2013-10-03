@@ -271,7 +271,7 @@
                             </constraints>
                             <properties/>
                           </component>
-                          <component id="4b178" class="javax.swing.JSlider" binding="transparenceSlider">
+                          <component id="4b178" class="javax.swing.JSlider" binding="transparencySlider">
                             <constraints>
                               <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                             </constraints>
