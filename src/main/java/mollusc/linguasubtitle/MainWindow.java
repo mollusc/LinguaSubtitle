@@ -12,6 +12,7 @@ import mollusc.linguasubtitle.subtitle.format.AdvancedSubStationAlphaRender;
 import mollusc.linguasubtitle.subtitle.format.Render;
 import mollusc.linguasubtitle.subtitle.format.SubRipRender;
 import mollusc.linguasubtitle.subtitle.format.WordStyle;
+import mollusc.linguasubtitle.subtitle.utility.CommonUtility;
 import mollusc.linguasubtitle.table.*;
 import mollusc.linguasubtitle.table.CellEditor;
 
@@ -300,13 +301,12 @@ public class MainWindow implements PropertyChangeListener {
 			if (path != null) {
 				pathToSubtitle = path;
 				subtitleViewer = null;
-				Filename fileName = new Filename(pathToSubtitle);
 				subtitle = new Subtitle(pathToSubtitle);
 				index = new Indexer(subtitle, language);
 				subtitleViewer = new SubtitleViewer(subtitle, index);
 				if (loadTextPane()) {
 					loadTable();
-					frameParent.setTitle("LinguaSubtitle 2 - " + fileName.filename());
+					frameParent.setTitle("LinguaSubtitle 2 - " + file.getName());
 				}
 			}
 			frameParent.setCursor(Cursor.getDefaultCursor());
@@ -326,13 +326,12 @@ public class MainWindow implements PropertyChangeListener {
 			File file = fileOpen.getSelectedFile();
 			String pathGeneratedSubtitle = file.getAbsolutePath();
 
-
 			WordStyle style = getWordStyle();
 			Render render = null;
-			Filename fileName = new Filename(pathGeneratedSubtitle);
-			if (fileName.extension().toLowerCase().equals("srt"))
+			String extension = CommonUtility.getExtension(file);
+			if (extension.toLowerCase().equals("srt"))
 				render = new SubRipRender(subtitle, style, index, settings);
-			else if (fileName.extension().toLowerCase().equals("ass")) {
+			else if (extension.toLowerCase().equals("ass")) {
 				render = new AdvancedSubStationAlphaRender(subtitle, style, index, settings);
 			}
 			if (render != null)

@@ -1,6 +1,7 @@
 package mollusc.linguasubtitle.subtitle.utility;
 
 import java.awt.*;
+import java.io.File;
 
 /**
  * User: mollusc <MolluscLab@gmail.com>
@@ -58,6 +59,21 @@ public class CommonUtility {
 		sb.append(Integer.toHexString(c.getBlue()));
 
 		return sb.toString();
+	}
+
+	/**
+	 * Get extension of file
+	 * @param file file with extension
+	 * @return extension of file
+	 */
+	public static String getExtension(File file)
+	{
+		String extension = "";
+		int i = file.getName().lastIndexOf('.');
+		if (i > 0) {
+			extension = file.getName().substring(i+1);
+		}
+		return extension;
 	}
 	//</editor-fold>
 }

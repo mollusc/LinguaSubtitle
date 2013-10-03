@@ -1,6 +1,6 @@
 package mollusc.linguasubtitle.subtitle;
 
-import mollusc.linguasubtitle.Filename;
+import mollusc.linguasubtitle.subtitle.utility.CommonUtility;
 import mollusc.linguasubtitle.subtitle.utility.SubRipUtility;
 
 import java.io.File;
@@ -71,14 +71,13 @@ public class Subtitle implements Iterable<Speech> {
 
 	/**
 	 * Initialise file from the file subtitles
-	 *
 	 * @param path path to the file subtitles
 	 */
 	private void initializeFromFile(String path) {
 		try {
-			Filename fileName = new Filename(path);
-			String extension = fileName.extension().toLowerCase();
-			FileInputStream stream = new FileInputStream(new File(path));
+			File file = new File(path);
+			String extension = CommonUtility.getExtension(file).toLowerCase();
+			FileInputStream stream = new FileInputStream(file);
 			try {
 				FileChannel fc = stream.getChannel();
 				MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
