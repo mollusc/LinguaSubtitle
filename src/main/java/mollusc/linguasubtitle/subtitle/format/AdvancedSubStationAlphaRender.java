@@ -189,26 +189,27 @@ public class AdvancedSubStationAlphaRender extends Render {
 		int marginV = lines.length * mainFontSize + (lines.length - 1) * mainFontSize / 2;
 		for (String line : lines) {
 			maxPos += line.length();
-			if (start > minPos && start < maxPos) {
+			if (start >= minPos && start < maxPos) {
 				double totalWidthPixel = getStringWidth(line, mainFontSize);
 				double startPixel = getStringWidth(line.substring(0, start - minPos), mainFontSize);
 				double from = startPixel - totalWidthPixel / 2;
-				double translateWidthPixel = getStringWidth(wordTranslate + " ", translateFontSize);
+				double translateWidthPixel = getStringWidth(wordTranslate /*+ " "*/, translateFontSize);
+				double spaceWidthPixel = getStringWidth(" ", translateFontSize);
 				int scaleX = 100;
-				if (marginV == translateMarginV && (from + translateWidthPixel) > translateMarginH) {
+				if (marginV == translateMarginV && (from + translateWidthPixel + spaceWidthPixel) > translateMarginH) {
 					// Try to fit the translation by scaling
 					double newTranslateWidthPixel = translateMarginH - from;
-					if (newTranslateWidthPixel / translateWidthPixel < 0.6)
+					if (newTranslateWidthPixel / (translateWidthPixel + spaceWidthPixel)  < 0.6)
 						scaleX = 60;
 					else
-						scaleX = (int) (newTranslateWidthPixel / translateWidthPixel * 100.0);
+						scaleX = (int) (newTranslateWidthPixel / (translateWidthPixel + spaceWidthPixel) * 100.0);
 					translateWidthPixel = translateWidthPixel * scaleX / 100.0;
 
 					// Try to fit the translation by cutting
-					while (marginV == translateMarginV && (from + translateWidthPixel) > translateMarginH) {
+					while (marginV == translateMarginV && (from + translateWidthPixel + spaceWidthPixel) > translateMarginH) {
 						wordTranslate = wordTranslate.substring(0, wordTranslate.length() - 2);
 						wordTranslate += '…';
-						translateWidthPixel = getStringWidth(wordTranslate + " ", translateFontSize) * scaleX / 100.0;
+						translateWidthPixel = getStringWidth(wordTranslate, translateFontSize) * scaleX / 100.0;
 					}
 				}
 				// Create a line in the script
@@ -314,9 +315,12 @@ public class AdvancedSubStationAlphaRender extends Render {
 	 * @return width in pixels
 	 */
 	private double getStringWidth(String text, int fontSize) {
-		Font font = new Font(fontName, Font.PLAIN, fontSize);
-		TextLayout textLayout = new TextLayout(text, font, new FontRenderContext(null, true, true));
-		return textLayout.getAdvance() * fontSize / (textLayout.getAscent() + textLayout.getDescent());
+		if(text.length()>0){
+			Font font = new Font(fontName, Font.PLAIN, fontSize);
+			TextLayout textLayout = new TextLayout(text, font, new FontRenderContext(null, true, true));
+			return textLayout.getAdvance() * fontSize / (textLayout.getAscent() + textLayout.getDescent());
+		}
+		return 0;
 	}
 	//</editor-fold>
 
