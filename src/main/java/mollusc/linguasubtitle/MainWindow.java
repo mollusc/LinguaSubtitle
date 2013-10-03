@@ -121,6 +121,7 @@ public class MainWindow implements PropertyChangeListener {
 
 	/**
 	 * Constructor of the class MainWindow
+	 *
 	 * @param frameParent parent frame
 	 */
 	private MainWindow(JFrame frameParent) {
@@ -302,6 +303,11 @@ public class MainWindow implements PropertyChangeListener {
 				pathToSubtitle = path;
 				subtitleViewer = null;
 				subtitle = new Subtitle(pathToSubtitle);
+				if (subtitle.size() == 0) {
+					JOptionPane.showMessageDialog(frameParent, "Could not read subtitle: File in wrong format", "Format error", JOptionPane.ERROR_MESSAGE);
+					frameParent.setCursor(Cursor.getDefaultCursor());
+					return;
+				}
 				index = new Indexer(subtitle, language);
 				subtitleViewer = new SubtitleViewer(subtitle, index);
 				if (loadTextPane()) {
