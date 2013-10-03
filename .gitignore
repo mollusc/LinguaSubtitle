@@ -16,7 +16,6 @@ Vocabulary.db
 
 # NetBeans specific #
 nbproject/private/
-resources/
 build/
 nbbuild/
 dist/
