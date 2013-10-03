@@ -267,7 +267,7 @@ public class AdvancedSubStationAlphaRender extends Render {
 	 */
 	private String getScriptInfo() {
 		return "[Script Info]\n" +
-				"Original Script: LinguaSubtitle 2.3 http://sourceforge.net/projects/linguasubtitle/\n" +
+				"Original Script: LinguaSubtitle 2.4 http://sourceforge.net/projects/linguasubtitle/\n" +
 				"ScriptType: v4.00+\n" +
 				"Collisions: Normal\n" +
 				"WrapStyle: 1\n" +
