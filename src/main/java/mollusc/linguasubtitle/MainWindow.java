@@ -59,7 +59,7 @@ public class MainWindow implements PropertyChangeListener {
 	private Indexer index;
 
 	private ArrayList<String> hardWords;
-	private final Map<String, String> settings;
+	private final Settings settings;
 	private Map<String, String> languages;
 	public ProgressMonitor progressMonitor;
 	private TaskUpdateDatabase task;
@@ -174,14 +174,14 @@ public class MainWindow implements PropertyChangeListener {
 		for (String language : languages.keySet())
 			languagesComboBox.addItem(language);
 
-		if (settings != null && settings.containsKey("language") && languages.containsValue(settings.get("language"))) {
+		if(languages.containsValue(settings.getLanguage()))
+		{
 			for (String key : languages.keySet()) {
 				String value = languages.get(key);
-				if (value.equals(settings.get("language")))
+				if (value.equals(settings.getLanguage()))
 					languagesComboBox.setSelectedItem(key);
 			}
-		} else
-			languagesComboBox.setSelectedItem("English");
+		}
 	}
 
 	private void initializeLinks() {
@@ -277,19 +277,16 @@ public class MainWindow implements PropertyChangeListener {
 			File file = fileOpen.getSelectedFile();
 			String pathGeneratedSubtitle = file.getAbsolutePath();
 
-			int millisecondsPerCharacter = 100;
-			if (settings.containsKey("millisecondsPerCharacter") && CommonUtility.tryParseInt(settings.get("millisecondsPerCharacter")))
-				millisecondsPerCharacter = Integer.parseInt(settings.get("millisecondsPerCharacter"));
+
 
 			WordStyle style = getWordStyle();
 			Render render = null;
 			Filename fileName = new Filename(pathGeneratedSubtitle);
 			if (fileName.extension().toLowerCase().equals("srt"))
-				render = new SubRipRender(subtitle, style, index, settings.get("colorKnownWords"),millisecondsPerCharacter,
-						settings.get("hideKnownDialog").equals("1"), settings.get("automaticDurations").equals("1"));
-			else if (fileName.extension().toLowerCase().equals("ass"))
-				render = new AdvancedSubStationAlphaRender(subtitle, style, index, settings.get("colorKnownWords"),millisecondsPerCharacter,
-						settings.get("hideKnownDialog").equals("1"), settings.get("automaticDurations").equals("1"));
+				render = new SubRipRender(subtitle, style, index, settings);
+			else if (fileName.extension().toLowerCase().equals("ass")){
+				render = new AdvancedSubStationAlphaRender(subtitle, style, index,settings);
+			}
 			if(render != null)
 				render.save(pathGeneratedSubtitle);
 			updateDatabase();
@@ -316,12 +313,7 @@ public class MainWindow implements PropertyChangeListener {
 	private void dumpDatabase() {
 		Vocabulary db = new Vocabulary();
 		db.createConnection();
-		int meeting;
-		if (settings.containsKey("exportMoreThan") &&  CommonUtility.tryParseInt(settings.get("exportMoreThan")))
-			meeting = Integer.parseInt(settings.get("exportMoreThan"));
-		else
-			return;
-
+		int meeting = settings.getExportMoreThan();
 		JFileChooser fileOpen = new JFileChooserWithCheck(false);
 		int returnValue = fileOpen.showSaveDialog(null);
 		String pathGeneratedSubtitle = null;
@@ -332,12 +324,12 @@ public class MainWindow implements PropertyChangeListener {
 		}
 		ArrayList<ItemVocabulary> result;
 		result = db.getDump(
-				settings.get("isExportUnknownWords").equals("1"),
-				settings.get("isExportKnownWords").equals("1"),
-				settings.get("isExportStudyWords").equals("1"),
-				settings.get("isNoBlankTranslation").equals("1"),
+				settings.getExportUnknownWords(),
+				settings.getExportKnownWords(),
+				settings.getExportStudyWords(),
+				settings.getNoBlankTranslation(),
 				meeting,
-				settings.get("exportLanguage"));
+				settings.getExportLanguage());
 		db.closeConnection();
 
 		saveDump(pathGeneratedSubtitle, result);
@@ -362,9 +354,9 @@ public class MainWindow implements PropertyChangeListener {
 	 */
 	private void updateSettings() {
 		Vocabulary db = new Vocabulary();
-		settings.put("language", language);
+		settings.setLanguage(language);
 		db.createConnection();
-		db.updateSettings(settings);
+		db.updateSettings(settings.getMap());
 		db.closeConnection();
 	}
 
@@ -401,13 +393,7 @@ public class MainWindow implements PropertyChangeListener {
 			String translate = (String) mainTable.getModel().getValueAt(i, 4);
 			wordInfos.add(new WordInfo(word, stemmator.getStem(), translate, isKnown, isStudy, isName));
 		}
-		return new WordStyle(wordInfos,
-				hardWords,
-				settings.get("colorStudiedWords"),
-				settings.get("colorNameWords"),
-				settings.get("colorHardWord"),
-				settings.get("colorUnknownWords"),
-				settings.get("colorTranslateWords"));
+		return new WordStyle(wordInfos, hardWords, settings);
 	}
 
 
@@ -417,16 +403,17 @@ public class MainWindow implements PropertyChangeListener {
 	 *
 	 * @return pairs a parameter name and value
 	 */
-	private Map<String, String> getSettings() {
+	private Settings getSettings() {
 		Vocabulary db = new Vocabulary();
 		db.createConnection();
-		Map<String, String> result = db.getSettings();
+		Map<String, String> mapSettings = db.getSettings();
 		db.closeConnection();
+		Settings s = new Settings(mapSettings);
 		// Set default value for settings if it isn't set
-		Preferences defaultSettings = new Preferences(result, this.languages);
+		Preferences defaultSettings = new Preferences(s, this.languages);
 		defaultSettings.updateSettings();
 
-		return result;
+		return s;
 	}
 
 	/**

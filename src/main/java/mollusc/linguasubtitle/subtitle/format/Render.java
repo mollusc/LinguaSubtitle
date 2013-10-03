@@ -1,5 +1,6 @@
 package mollusc.linguasubtitle.subtitle.format;
 
+import mollusc.linguasubtitle.Settings;
 import mollusc.linguasubtitle.index.IndexWord;
 import mollusc.linguasubtitle.index.Indexer;
 import mollusc.linguasubtitle.subtitle.Speech;
@@ -17,30 +18,77 @@ import java.util.Map;
  * Date: 07.09.13
  */
 public abstract class Render {
-
-    protected final Subtitle subtitle;
-	//<editor-fold desc="Private Fields">
+	//<editor-fold desc="Protected Fields">
+	/**
+	 * Container for speeches
+	 */
+	protected final Subtitle subtitle;
+	/**
+	 * Color of speeches
+	 */
 	protected String textColor;
+	/**
+	 * Color of translated words
+	 */
+	protected String translateColor;
+	/**
+	 * Are speeches hiding?
+	 */
 	protected boolean hideKnownDialog;
+	/**
+	 * Is automatic durations?
+	 */
 	protected boolean automaticDuration;
+	/**
+	 * Milliseconds per character
+	 */
 	protected int millisecondsPerCharacter;
+	/**
+	 * Style of words
+	 */
 	protected WordStyle wordStyle;
+	/**
+	 * Index of the text subtitle
+	 */
 	protected Indexer indexer;
+	//</editor-fold>
 
-	protected Render(Subtitle subtitle, WordStyle wordStyle, int millisecondsPerCharacter, boolean automaticDuration, Indexer indexer, String textColor, boolean hideKnownDialog) {
-		this.subtitle = subtitle;
-		this.wordStyle = wordStyle;
-		this.millisecondsPerCharacter = millisecondsPerCharacter;
-		this.automaticDuration = automaticDuration;
-		this.indexer = indexer;
-		this.textColor = textColor;
-		this.hideKnownDialog = hideKnownDialog;
-	}
+	//<editor-fold desc="Constructor">
 
 	/**
-	 * Save content
+	 * Constructor of the class Render
 	 *
-	 * @param path - path to save
+	 * @param subtitle  container for speeches
+	 * @param wordStyle style of words
+	 * @param indexer   index of the text subtitle
+	 * @param settings  settings of the program
+	 */
+	protected Render(Subtitle subtitle, WordStyle wordStyle, Indexer indexer, Settings settings) {
+		this.subtitle = subtitle;
+		this.wordStyle = wordStyle;
+		this.indexer = indexer;
+		this.millisecondsPerCharacter = settings.getMillisecondsPerCharacter();
+		this.automaticDuration = settings.getAutomaticDurations();
+		this.textColor = settings.getColorKnownWords();
+		this.hideKnownDialog = settings.getHideKnownDialog();
+		this.translateColor = settings.getColorTranslateWords();
+	}
+	//</editor-fold>
+
+	//<editor-fold desc="Public Methods">
+
+	/**
+	 * Generate and save the subtitle to the file
+	 * @param pathToSave path to save the file
+	 */
+	public abstract void save(String pathToSave);
+	//</editor-fold>
+
+	/**
+	 * Save content in the file
+	 *
+	 * @param path path to save a file
+	 * @param content content of a file
 	 */
 	protected static void saveSubtitle(String path, String content) {
 		try {
@@ -52,9 +100,11 @@ public abstract class Render {
 		}
 	}
 
-	public abstract void save(String pathToSave);
-
-	protected Map<Integer, ArrayList<IndexWord>> getAllIndexByIndexSpeech() {
+	/**
+	 *
+	 * @return
+	 */
+	protected Map<Integer, ArrayList<IndexWord>> getAllIndicesByIndexSpeech() {
 		Map<Integer, ArrayList<IndexWord>> indices = new HashMap<Integer, ArrayList<IndexWord>>();
 		for (String stem : indexer) {
 			for (IndexWord indexWord : indexer.get(stem)) {
@@ -67,10 +117,9 @@ public abstract class Render {
 		return indices;
 	}
 
-	//<editor-fold desc="Private Methods">
 	protected ArrayList<Integer> getEditedIndexSpeeches() {
 		ArrayList<Integer> result = new ArrayList<Integer>();
-		Map<Integer, ArrayList<IndexWord>> indices = getAllIndexByIndexSpeech();
+		Map<Integer, ArrayList<IndexWord>> indices = getAllIndicesByIndexSpeech();
 		int indexSpeech = 0;
 		for (Speech ignored : subtitle) {
 			ArrayList<IndexWord> indexWords = indices.get(indexSpeech);
@@ -86,4 +135,5 @@ public abstract class Render {
 		}
 		return result;
 	}
+	//</editor-fold>
 }

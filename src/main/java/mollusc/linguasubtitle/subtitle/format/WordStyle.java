@@ -1,5 +1,6 @@
 package mollusc.linguasubtitle.subtitle.format;
 
+import mollusc.linguasubtitle.Settings;
 import mollusc.linguasubtitle.WordInfo;
 
 import java.util.ArrayList;
@@ -16,38 +17,29 @@ public class WordStyle {
 	//<editor-fold desc="Private Fields">
 	private Map<String, WordInfo> _idexTranslatedWordInfo;
 	private Map<String, String> _color;
-	private Map<String, String> _translateColor;
+	//private Map<String, String> _translateColor;
 	//</editor-fold>
 
 	//<editor-fold desc="Constructor">
 	public WordStyle() {
 		_idexTranslatedWordInfo = new HashMap<String, WordInfo>();
 		_color = new HashMap<String, String>();
-		_translateColor = new HashMap<String, String>();
+		//_translateColor = new HashMap<String, String>();
 	}
 
 	/**
 	 * Initialize WordStyle
 	 * @param wordInfos array of WordInfo
 	 * @param hardWords array of hard words
-	 * @param colorStudiedWords color of a studied words
-	 * @param colorNameWords color of a name
-	 * @param colorHardWord color of a hard words
-	 * @param colorUnknownWords color of an unknown words
-	 * @param colorTranslateWords color of a translate
 	 */
 	public WordStyle(ArrayList<WordInfo> wordInfos,
 					 ArrayList<String> hardWords,
-					 String colorStudiedWords,
-					 String colorNameWords,
-					 String colorHardWord,
-					 String colorUnknownWords,
-					 String colorTranslateWords)
+					 Settings settings)
 	{
 		this();
 		initializeIdexTranslatedWordInfo(wordInfos);
-		initializeColor(wordInfos, hardWords,colorStudiedWords, colorNameWords, colorHardWord, colorUnknownWords);
-		initializeColorsTranslate(wordInfos,colorTranslateWords);
+		initializeColor(wordInfos, hardWords, settings);
+		//initializeColorsTranslate(wordInfos, settings);
 	}
 	//</editor-fold>
 
@@ -83,12 +75,12 @@ public class WordStyle {
 	 * @param stem stem of the word
 	 * @return
 	 */
-	public String getTranslateColor(String stem)
+	/*public String getTranslateColor(String stem)
 	{
 		if (_translateColor.containsKey(stem))
 			return _translateColor.get(stem);
 		return null;
-	}
+	}*/
 	//</editor-fold>
 
 	//<editor-fold desc="Private Methods">
@@ -101,36 +93,33 @@ public class WordStyle {
 
 	private void initializeColor(ArrayList<WordInfo> wordInfos,
 								 ArrayList<String> hardWords,
-	                             String colorStudiedWords,
-								 String colorNameWords,
-								 String colorHardWord,
-								 String colorUnknownWords) {
+	                             Settings settings) {
 		for (WordInfo wordInfo : wordInfos) {
 			if (wordInfo.isKnown()) continue;
 
 			if (wordInfo.isStudy()) {
-				_color.put(wordInfo.getStem(), colorStudiedWords);
+				_color.put(wordInfo.getStem(), settings.getColorStudiedWords());
 				continue;
 			}
 
 			if (wordInfo.isName()) {
-				_color.put(wordInfo.getStem(), colorNameWords);
+				_color.put(wordInfo.getStem(), settings.getColorNameWords());
 				continue;
 			}
 
 			if (hardWords != null && hardWords.contains(wordInfo.getStem()))
-				_color.put(wordInfo.getStem(), colorHardWord);
+				_color.put(wordInfo.getStem(), settings.getColorHardWord());
 			else
-				_color.put(wordInfo.getStem(), colorUnknownWords);
+				_color.put(wordInfo.getStem(), settings.getColorUnknownWords());
 		}
 	}
 
-	private void initializeColorsTranslate(ArrayList<WordInfo> wordInfos, String colorTranslateWords ) {
+	/*private void initializeColorsTranslate(ArrayList<WordInfo> wordInfos, Settings settings) {
 		for (WordInfo wordInfo : wordInfos) {
 			if (!wordInfo.isName() && !wordInfo.isStudy() && !wordInfo.isKnown()) {
-				_translateColor.put(wordInfo.getStem(), colorTranslateWords);
+				_translateColor.put(wordInfo.getStem(), settings.getColorTranslateWords());
 			}
 		}
-	}
+	}*/
 	//</editor-fold>
 }

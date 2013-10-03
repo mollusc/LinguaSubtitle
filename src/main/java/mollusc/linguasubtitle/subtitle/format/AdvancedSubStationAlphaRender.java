@@ -1,5 +1,7 @@
 package mollusc.linguasubtitle.subtitle.format;
 
+import mollusc.linguasubtitle.Settings;
+import mollusc.linguasubtitle.VideoConfiguration;
 import mollusc.linguasubtitle.index.IndexWord;
 import mollusc.linguasubtitle.index.IndexWordComparator;
 import mollusc.linguasubtitle.index.Indexer;
@@ -9,7 +11,8 @@ import mollusc.linguasubtitle.subtitle.utility.AdvancedSubStationAlphaUtility;
 import mollusc.linguasubtitle.subtitle.utility.CommonUtility;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
+import java.awt.font.FontRenderContext;
+import java.awt.font.TextLayout;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
@@ -21,22 +24,44 @@ import static mollusc.linguasubtitle.Preferences.toHexString;
  * Date: 20.09.13
  */
 public class AdvancedSubStationAlphaRender extends Render {
-	private final double playResX = 1280;
-	private final double playResY = 720;
-	private final String fontName = "Arial";
-	private final int fontSize = 48;
-	private final double translateFacotr = 0.75;
-	private int translateMariginV;
-	private int translateMariginH;
+	//<editor-fold desc="Private Fields">
+	private String transparencyKnownWords;
+	private int playResX;
+	private int playResY;
+	private String fontName;
+	private int mainFontSize;
+	private int translateFontSize;
+
+	private double translateMariginV;
+	private double translateMariginH;
+	//</editor-fold>
+
 	//<editor-fold desc="Constructor">
+
+	/**
+	 * Color of subtitle
+	 * @param subtitle
+	 * @param wordStyle
+	 * @param indexer
+	 * @param settings
+	 */
 	public AdvancedSubStationAlphaRender(Subtitle subtitle,
-						WordStyle wordStyle,
-						Indexer indexer,
-						String textColor,
-						int millisecondsPerCharacter,
-						boolean hideKnownDialog,
-						boolean automaticDuration) {
-		super(subtitle, wordStyle, millisecondsPerCharacter, automaticDuration, indexer, textColor, hideKnownDialog);
+										 WordStyle wordStyle,
+										 Indexer indexer,
+										 Settings settings) {
+		super(subtitle, wordStyle, indexer, settings);
+
+		this.fontName = settings.getFontName();
+		this.mainFontSize = settings.getMainFontSize();
+		this.translateFontSize = settings.getTranslateFontSize();
+		this.transparencyKnownWords = settings.getTransparencyKnownWords();
+
+		// Set playResX playResY
+		VideoConfiguration f = new VideoConfiguration(settings);
+		f.setVisible(true);
+		f.pack();
+		playResX = settings.getPlayResX();
+		playResY = settings.getPlayResY();
 	}
 	//</editor-fold>
 
@@ -46,8 +71,8 @@ public class AdvancedSubStationAlphaRender extends Render {
 		String textSubtitle = getScriptInfo();
 		textSubtitle += getStyles();
 		textSubtitle += "[Events]\n" +
-						"Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\n";
-		Map<Integer, ArrayList<IndexWord>> indices = getAllIndexByIndexSpeech();
+				"Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\n";
+		Map<Integer, ArrayList<IndexWord>> indices = getAllIndicesByIndexSpeech();
 		ArrayList<Integer> editedIndexSpeeches = getEditedIndexSpeeches();
 		int indexSpeech = -1;
 		for (Speech speech : subtitle) {
@@ -79,7 +104,6 @@ public class AdvancedSubStationAlphaRender extends Render {
 					}
 				}
 			}
-
 			textSpeech = clearSpeech(textSpeech);
 
 			// Get next speech index
@@ -87,18 +111,17 @@ public class AdvancedSubStationAlphaRender extends Render {
 			while (hideKnownDialog && !editedIndexSpeeches.contains(nextIndexSpeech) && nextIndexSpeech < subtitle.size())
 				nextIndexSpeech++;
 
+			// Create a speech with translates
 			String timeStamp = getTimeStamp(speech, subtitle.getSpeech(nextIndexSpeech));
 			textSubtitle += join(0, timeStamp, ",Default, NTP, 0, 0, 0,!Effect," + textSpeech);
 			int i = 1;
-			for( String t : translates)
-			{
+			for (String t : translates) {
 				textSubtitle += join(i, timeStamp, t);
 				i++;
 			}
 		}
 		saveSubtitle(pathToSave, textSubtitle);
 	}
-
 	//</editor-fold>
 
 	//<editor-fold desc="Private Methods">
@@ -122,35 +145,42 @@ public class AdvancedSubStationAlphaRender extends Render {
 		String[] lines = textSpeech.split("\\n");
 		int minPos = 0;
 		int maxPos = 0;
-		int marginV = lines.length * fontSize + (lines.length - 1) * fontSize/2;
-		for (String line : lines)
-		{
-			maxPos+= line.length();
-			if(start > minPos && start < maxPos)
-			{
-				double totalWidthPixel = getStringWidth(line,fontSize);
-				double startPixel = getStringWidth(line.substring(0, start - minPos), fontSize);
-				int margin = 0;
+		int marginV = lines.length * mainFontSize + (lines.length - 1) * mainFontSize / 2;
+		for (String line : lines) {
+			maxPos += line.length();
+			if (start > minPos && start < maxPos) {
+				double totalWidthPixel = getStringWidth(line, mainFontSize);
+				double startPixel = getStringWidth(line.substring(0, start - minPos), mainFontSize);
+				double from = startPixel - totalWidthPixel / 2;
+				double translateWidthPixel = getStringWidth(translate + " ", translateFontSize);
+				int scaleX = 100;
+				if (marginV == translateMariginV && (from + translateWidthPixel) > translateMariginH) {
+					// Try to fit the translation by scaling
+					double newTranslateWidthPixel = translateMariginH - from;
+					if (newTranslateWidthPixel / translateWidthPixel < 0.6)
+						scaleX = 60;
+					else
+						scaleX = (int) (newTranslateWidthPixel / translateWidthPixel * 100.0);
+					translateWidthPixel = translateWidthPixel * scaleX / 100.0;
 
-				int from = (int)startPixel - (int)(totalWidthPixel/2) ;
-				double translatePixel = getStringWidth(translate, (int)(fontSize * translateFacotr));
-
-				while (marginV == translateMariginV && (from + (int)translatePixel) > translateMariginH )
-				{
-					translate = translate.substring(0,translate.length()-2);
-					translate += '…';
-					translatePixel = getStringWidth(translate, (int)(fontSize * translateFacotr));
+					// Try to fit the translation by cutting
+					while (marginV == translateMariginV && (from + translateWidthPixel) > translateMariginH) {
+						translate = translate.substring(0, translate.length() - 2);
+						translate += '…';
+						translateWidthPixel = getStringWidth(translate + " ", translateFontSize) * scaleX / 100.0;
+					}
 				}
-				margin = from + (int)(translatePixel/2);
+				// Create a line in the script
+				double margin = from + translateWidthPixel / 2;
 				translateMariginH = from;
 				translateMariginV = marginV;
-				int marginL = margin > 0 ? margin : 0;
-				int marginR = margin <= 0 ? -margin : 0;
-				translates.add(",Translate, NTP, " + marginL*2 +", " + marginR*2 + ", " + marginV + ",!Effect," + translate);
+				int marginL = (int) margin > 0 ? (int) margin : 0;
+				int marginR = (int) margin <= 0 ? (int) -margin : 0;
+				translates.add(",Translate, NTP, " + marginL * 2 + ", " + marginR * 2 + ", " + marginV + ",!Effect,{\\fscx" + scaleX + "}" + translate);
 				break;
 			}
-			minPos = maxPos+1;
-			marginV = marginV - fontSize - fontSize/2;
+			minPos = maxPos + 1;
+			marginV = marginV - mainFontSize - mainFontSize / 2;
 		}
 	}
 
@@ -175,41 +205,41 @@ public class AdvancedSubStationAlphaRender extends Render {
 	}
 
 
-	private String getScriptInfo(){
+	private String getScriptInfo() {
 		return "[Script Info]\n" +
-				"Original Script: LinguaSubtitle 2.3 http://sourceforge.net/projects/linguasubtitle/\n"+
+				"Original Script: LinguaSubtitle 2.3 http://sourceforge.net/projects/linguasubtitle/\n" +
 				"ScriptType: v4.00+\n" +
 				"Collisions: Normal\n" +
 				"WrapStyle: 1\n" +
-				"PlayResX: " + String.format("%d", (int)playResX) + "\n" +
-				"PlayResY: " + String.format("%d", (int)playResY) + "\n" +
+				"PlayResX: " + String.format("%d", (int) playResX) + "\n" +
+				"PlayResY: " + String.format("%d", (int) playResY) + "\n" +
 				"Timer: 100.0000\n\n";
 	}
 
-	private String getStyles(){
-		return  "[V4+ Styles]\n" +
-				"Format:Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,Underline,StrikeOut,ScaleX,ScaleY,Spacing,Angle,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding\n"+
-				"Style:Default," + fontName +","+ fontSize +",&H99" + RGBtoBGR(textColor) + ",&H99FFFFFF,&H99000000,&HFF000000,0,0,0,0,100,100,0,0,1,2,2,2,5,5,10,1\n" +
-				"Style:Translate," + fontName +","+ fontSize*2/3 +",&H0000FF00,&H00FFFFFF,&H00000000,&HFF000000,0,0,0,0,100,100,0,0,1,2,2,2,0,0,10,204\n\n";
+	private String getStyles() {
+		int Outline = (int) Math.ceil(mainFontSize / 24.0);
+		int Shadow = Outline;
+		return "[V4+ Styles]\n" +
+				"Format:Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,Underline,StrikeOut,ScaleX,ScaleY,Spacing,Angle,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding\n" +
+				"Style:Default," + fontName + "," + mainFontSize + ",&H" + transparencyKnownWords + RGBtoBGR(textColor) + ",&H" + transparencyKnownWords + "FFFFFF,&H" + transparencyKnownWords + "000000, &HFF000000,0,0,0,0,100,100,0,0,1,2," + Outline + "," + Shadow + ",0,0,10,1\n" +
+				"Style:Translate," + fontName + "," + translateFontSize + ",&H00" + RGBtoBGR(translateColor) + ",&H00FFFFFF,&H00000000,&HFF000000,0,0,0,0,100,100,0,0,1,2," + Outline + "," + Shadow + ",0,0,10,1\n\n";
 	}
 
-	private String RGBtoBGR(String color)
-	{
+	private String RGBtoBGR(String color) {
 		int in = Integer.decode("#" + color);
 		int red = (in >> 16) & 0xFF;
 		int green = (in >> 8) & 0xFF;
 		int blue = (in >> 0) & 0xFF;
 		int out = (blue << 16) | (green << 8) | (red << 0);
 		Color c = new Color(out);
-		return  toHexString(c);
+		return toHexString(c);
 	}
 
-	private int getStringWidth(String text, int fontSize)
-	{
-		Font font = new Font(fontName, Font.PLAIN, (int)(fontSize));
-		BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
-		FontMetrics fontMetrics = img.getGraphics().getFontMetrics(font);
-		return fontMetrics.stringWidth(text);
+	private double getStringWidth(String text, int fontSize) {
+		Font font = new Font(fontName, Font.PLAIN, fontSize);
+		TextLayout textLayout = new TextLayout(text, font, new FontRenderContext(null, true, true));
+		double width = textLayout.getAdvance() * fontSize / (textLayout.getAscent() + textLayout.getDescent());
+		return width;
 	}
 	//</editor-fold>
 

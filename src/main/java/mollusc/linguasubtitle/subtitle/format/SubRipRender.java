@@ -1,5 +1,6 @@
 package mollusc.linguasubtitle.subtitle.format;
 
+import mollusc.linguasubtitle.Settings;
 import mollusc.linguasubtitle.index.IndexWord;
 import mollusc.linguasubtitle.index.IndexWordComparator;
 import mollusc.linguasubtitle.index.Indexer;
@@ -19,11 +20,8 @@ public class SubRipRender extends Render {
 	public SubRipRender(Subtitle subtitle,
 						WordStyle wordStyle,
 						Indexer indexer,
-						String textColor,
-						int millisecondsPerCharacter,
-						boolean hideKnownDialog,
-						boolean automaticDuration) {
-		super(subtitle, wordStyle, millisecondsPerCharacter, automaticDuration, indexer, textColor, hideKnownDialog);
+						Settings settings) {
+		super(subtitle, wordStyle, indexer, settings);
 	}
 	//</editor-fold>
 
@@ -32,7 +30,7 @@ public class SubRipRender extends Render {
 	@Override
 	public void save(String pathToSave) {
 		String textSubtitle = "";
-		Map<Integer, ArrayList<IndexWord>> indices = getAllIndexByIndexSpeech();
+		Map<Integer, ArrayList<IndexWord>> indices = getAllIndicesByIndexSpeech();
 		ArrayList<Integer> editedIndexSpeeches = getEditedIndexSpeeches();
 		int indexSpeech = -1;
 		int index = 1;
@@ -54,7 +52,7 @@ public class SubRipRender extends Render {
 						if (wordStyle.getTranslatedWordInfo(stem) != null) {
 							String translate = wordStyle.getTranslatedWordInfo(stem).getTranslate();
 							if (translate != null && !translate.equals("")) {
-								String translateColor = wordStyle.getTranslateColor(stem);
+								//String translateColor = wordStyle.getTranslateColor(stem);
 								InsertWordTranslation(textTranslate, translate, start, translateColor);
 							}
 						}
