@@ -48,6 +48,7 @@ public class VideoConfiguration extends JDialog {
 		this.settings = settings;
 		playResXTextField.setText(settings.getPlayResX().toString());
 		playResYTextField.setText(settings.getPlayResY().toString());
+		resolutionsComboBox.setSelectedIndex(settings.getIndexVideoResolution());
 
 		buttonOK.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -133,6 +134,7 @@ public class VideoConfiguration extends JDialog {
 	private void onOK() {
 		settings.setPlayResX(playResXTextField.getText());
 		settings.setPlayResY(playResYTextField.getText());
+		settings.setIndexVideoResolution(new Integer(resolutionsComboBox.getSelectedIndex()).toString());
 		isOk = true;
 		dispose();
 	}

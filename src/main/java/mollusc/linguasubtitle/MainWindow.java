@@ -17,6 +17,7 @@ import mollusc.linguasubtitle.table.*;
 import mollusc.linguasubtitle.table.CellEditor;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.Document;
 import java.awt.*;
@@ -294,7 +295,7 @@ public class MainWindow implements PropertyChangeListener {
 		fileOpen.setFileFilter(new SubRipSubtitleFilter());
 		if (subtitleViewer != null && new File(pathToSubtitle).exists())
 			fileOpen.setCurrentDirectory(new File(pathToSubtitle));
-		int returnValue = fileOpen.showDialog(null, "Open");
+		int returnValue = fileOpen.showDialog(frameParent, "Open");
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			frameParent.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			File file = fileOpen.getSelectedFile();
@@ -324,10 +325,17 @@ public class MainWindow implements PropertyChangeListener {
 	 */
 	private void exportToSubtitleButtonActionPerformed() {
 		JFileChooser fileOpen = new JFileChooserWithCheck(true);
-		fileOpen.setFileFilter(new AdvancedSubStationAlphaSubtitleFilter());
-		fileOpen.addChoosableFileFilter(new SubRipSubtitleFilter());
+		FileFilter srt = new SubRipSubtitleFilter();
+		FileFilter ass = new AdvancedSubStationAlphaSubtitleFilter();
+		fileOpen.addChoosableFileFilter(ass);
+		fileOpen.addChoosableFileFilter(srt);
+		if(settings.getDefaultFileFilter().equals("ass"))
+			fileOpen.setFileFilter(ass);
+		else if (settings.getDefaultFileFilter().equals("srt"))
+			fileOpen.setFileFilter(srt);
+
 		fileOpen.setCurrentDirectory(new File(pathToSubtitle));
-		int returnValue = fileOpen.showSaveDialog(null);
+		int returnValue = fileOpen.showSaveDialog(frameParent);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File file = fileOpen.getSelectedFile();
 			String pathGeneratedSubtitle = file.getAbsolutePath();
@@ -335,7 +343,8 @@ public class MainWindow implements PropertyChangeListener {
 			WordStyle style = getWordStyle();
 			Render render = null;
 			String extension = CommonUtility.getExtension(file);
-			if (extension.toLowerCase().equals("srt"))
+			settings.setDefaultFileFilter(extension.toLowerCase());
+			if (extension.equals("srt"))
 				render = new SubRipRender(subtitle, style, index, settings);
 			else if (extension.toLowerCase().equals("ass")) {
 				// Set playResX, playResY
@@ -377,7 +386,7 @@ public class MainWindow implements PropertyChangeListener {
 		db.createConnection();
 		int meeting = settings.getExportMoreThan();
 		JFileChooser fileOpen = new JFileChooserWithCheck(false);
-		int returnValue = fileOpen.showSaveDialog(null);
+		int returnValue = fileOpen.showSaveDialog(frameParent);
 		String pathGeneratedSubtitle = null;
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File file = fileOpen.getSelectedFile();

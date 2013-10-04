@@ -260,6 +260,27 @@ public class Settings {
 			values.put("playResY", value);
 	}
 
+	public Integer getIndexVideoResolution(){
+		return values.containsKey("indexVideoResolution") && CommonUtility.tryParseInt(values.get("indexVideoResolution")) ?
+				Integer.parseInt(values.get("indexVideoResolution")):
+				7;
+	}
+
+	public void setIndexVideoResolution(String value){
+		if (CommonUtility.tryParseInt(value))
+			values.put("indexVideoResolution", value);
+	}
+
+	public String getDefaultFileFilter(){
+		return values.containsKey("defaultFileFilter") ?
+				values.get("defaultFileFilter"):
+				"ass";
+	}
+
+	public void setDefaultFileFilter(String value){
+		values.put("defaultFileFilter",value);
+	}
+
 	/**
 	 * Get settings in the map
 	 * @return map of parameter - values
@@ -287,6 +308,8 @@ public class Settings {
 		setLanguage(getLanguage());
 		setPlayResY(getPlayResY().toString());
 		setPlayResX(getPlayResX().toString());
+		setIndexVideoResolution(getIndexVideoResolution().toString());
+		setDefaultFileFilter(getDefaultFileFilter());
 		return values;
 	}
 	//</editor-fold>
