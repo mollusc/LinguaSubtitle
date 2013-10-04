@@ -129,7 +129,7 @@ public class Settings {
 	public String getExportLanguage(){
 		return values.containsKey("exportLanguage") ?
 				values.get("exportLanguage"):
-				"English";
+				"english";
 	}
 
 	public void setExportLanguage(String value){
@@ -231,7 +231,7 @@ public class Settings {
 	public String getLanguage(){
 		return values.containsKey("language") ?
 				values.get("language"):
-				"English";
+				"english";
 	}
 
 	public void setLanguage(String value){
