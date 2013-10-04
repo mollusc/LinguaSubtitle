@@ -145,7 +145,7 @@ public class Preferences extends JDialog {
 		if (languages.containsValue(settings.getExportLanguage())){
 			for (String key : languages.keySet()) {
 				String value = languages.get(key);
-				if (value.equals(settings.getLanguage()))
+				if (value.equals(settings.getExportLanguage()))
 					exportLanguageComboBox.setSelectedItem(key);
 			}
 		}
