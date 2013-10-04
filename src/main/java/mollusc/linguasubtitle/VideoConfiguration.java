@@ -22,6 +22,10 @@ public class VideoConfiguration extends JDialog {
 	 * Settings of the program
 	 */
 	private final Settings settings;
+	/**
+	 * State variable
+	 */
+	private boolean isOk;
 	//</editor-fold>
 
 	//<editor-fold desc="Constructor">
@@ -31,7 +35,8 @@ public class VideoConfiguration extends JDialog {
 	 *
 	 * @param settings settings of the program
 	 */
-	public VideoConfiguration(Settings settings) {
+	public VideoConfiguration(JFrame parent, Settings settings) {
+		super(parent);
 		setContentPane(contentPane);
 		setModal(true);
 		getRootPane().setDefaultButton(buttonOK);
@@ -39,6 +44,7 @@ public class VideoConfiguration extends JDialog {
 		this.setTitle("Set video configuration");
 		this.setSize(350, 120);
 		this.setResizable(false);
+		super.setLocationRelativeTo(parent);
 		this.settings = settings;
 		playResXTextField.setText(settings.getPlayResX().toString());
 		playResYTextField.setText(settings.getPlayResY().toString());
@@ -48,7 +54,7 @@ public class VideoConfiguration extends JDialog {
 				onOK();
 			}
 		});
-
+		isOk = false;
 		buttonCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				onCancel();
@@ -127,12 +133,19 @@ public class VideoConfiguration extends JDialog {
 	private void onOK() {
 		settings.setPlayResX(playResXTextField.getText());
 		settings.setPlayResY(playResYTextField.getText());
+		isOk = true;
 		dispose();
 	}
 
 	private void onCancel() {
 // add your code here if necessary
 		dispose();
+	}
+	//</editor-fold>
+
+	//<editor-fold desc="Public method">
+	public boolean getState(){
+		return isOk;
 	}
 	//</editor-fold>
 }

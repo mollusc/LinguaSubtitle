@@ -266,7 +266,7 @@ public class MainWindow implements PropertyChangeListener {
 	 * @param index which table activate
 	 */
 	private void openPreference(int index) {
-		Preferences preferencesDialog = new Preferences(this.settings, this.languages);
+		Preferences preferencesDialog = new Preferences(frameParent,this.settings, this.languages);
 		preferencesDialog.activateTab(index);
 		preferencesDialog.setVisible(true);
 		preferencesDialog.pack();
@@ -338,11 +338,17 @@ public class MainWindow implements PropertyChangeListener {
 			if (extension.toLowerCase().equals("srt"))
 				render = new SubRipRender(subtitle, style, index, settings);
 			else if (extension.toLowerCase().equals("ass")) {
-				render = new AdvancedSubStationAlphaRender(subtitle, style, index, settings);
+				// Set playResX, playResY
+				VideoConfiguration f = new VideoConfiguration(frameParent, settings);
+				f.setVisible(true);
+				f.pack();
+				if(f.getState())
+					render = new AdvancedSubStationAlphaRender(subtitle, style, index, settings);
 			}
-			if (render != null)
+			if (render != null){
 				render.save(pathGeneratedSubtitle);
-			updateDatabase();
+				updateDatabase();
+			}
 		}
 	}
 	//</editor-fold>
@@ -454,7 +460,7 @@ public class MainWindow implements PropertyChangeListener {
 		db.closeConnection();
 		Settings s = new Settings(mapSettings);
 		// Set default value for settings if it isn't set
-		Preferences defaultSettings = new Preferences(s, this.languages);
+		Preferences defaultSettings = new Preferences(frameParent, s, this.languages);
 		defaultSettings.updateSettings();
 
 		return s;

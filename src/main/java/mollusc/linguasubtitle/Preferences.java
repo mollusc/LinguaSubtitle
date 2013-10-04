@@ -62,7 +62,8 @@ public class Preferences extends JDialog {
 	 * @param settings  settings of the program
 	 * @param languages available languages
 	 */
-	public Preferences(Settings settings, Map<String, String> languages) {
+	public Preferences(JFrame parent,Settings settings, Map<String, String> languages) {
+		super(parent);
 		setContentPane(contentPanel);
 		setModal(true);
 		getRootPane().setDefaultButton(OKButton);
@@ -80,6 +81,7 @@ public class Preferences extends JDialog {
 		this.setTitle("Preferences");
 		this.setSize(600, 400);
 		this.setResizable(false);
+		super.setLocationRelativeTo(parent);
 
 		OKButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

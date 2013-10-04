@@ -82,13 +82,8 @@ public class AdvancedSubStationAlphaRender extends Render {
 		this.mainFontSize = settings.getMainFontSize();
 		this.translateFontSize = settings.getTranslateFontSize();
 		this.transparencyKnownWords = settings.getTransparencyKnownWords();
-
-		// Set playResX, playResY
-		VideoConfiguration f = new VideoConfiguration(settings);
-		f.setVisible(true);
-		f.pack();
-		playResX = settings.getPlayResX();
-		playResY = settings.getPlayResY();
+		this.playResX = settings.getPlayResX();
+		this.playResY = settings.getPlayResY();
 	}
 	//</editor-fold>
 
