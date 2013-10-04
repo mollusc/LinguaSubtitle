@@ -142,8 +142,13 @@ public class Preferences extends JDialog {
 		exportKnownWordsCheckBox.setSelected(settings.getExportKnownWords());
 		noBlankTranslationCheckBox.setSelected(settings.getNoBlankTranslation());
 		exportMoreThanTextField.setText(settings.getExportMoreThan().toString());
-		if (languages.containsKey(settings.getExportLanguage()))
-			exportLanguageComboBox.setSelectedItem(settings.getExportLanguage());
+		if (languages.containsValue(settings.getExportLanguage())){
+			for (String key : languages.keySet()) {
+				String value = languages.get(key);
+				if (value.equals(settings.getLanguage()))
+					exportLanguageComboBox.setSelectedItem(key);
+			}
+		}
 	}
 
 	private void initializeExportToSubtitle() {

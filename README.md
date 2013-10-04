@@ -13,7 +13,7 @@ Creates subtitles for those who learn language
 2. Unpack and run **LinguaSubtitle.jar**.
 
 >#Notice
-* **Set a monospaced font (Consolas, Courier New etc.) for SubRip (srt) subtitles in your media player!**
+* Set a monospaced font (Consolas, Courier New etc.) for SubRip (srt) subtitles in your media player!
 
 ##Description
 Additional information: [http://sourceforge.net/p/linguasubtitle/wiki/Home/](http://sourceforge.net/p/linguasubtitle/wiki/Home/).
