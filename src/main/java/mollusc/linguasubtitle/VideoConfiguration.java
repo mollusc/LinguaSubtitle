@@ -134,7 +134,7 @@ public class VideoConfiguration extends JDialog {
 	private void onOK() {
 		settings.setPlayResX(playResXTextField.getText());
 		settings.setPlayResY(playResYTextField.getText());
-		settings.setIndexVideoResolution(new Integer(resolutionsComboBox.getSelectedIndex()).toString());
+		settings.setIndexVideoResolution(Integer.toString(resolutionsComboBox.getSelectedIndex()));
 		isOk = true;
 		dispose();
 	}

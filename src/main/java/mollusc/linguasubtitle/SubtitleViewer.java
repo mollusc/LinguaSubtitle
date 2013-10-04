@@ -16,7 +16,7 @@ import java.util.*;
 /**
  * @author mollusc <MolluscLab@gmail.com>
  */
-public class SubtitleViewer {
+class SubtitleViewer {
 
 	//<editor-fold desc="Private Field">
 	/**

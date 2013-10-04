@@ -32,7 +32,7 @@ public class WordStyle {
 	/**
 	 * Constructor of the class WordStyle
 	 */
-	public WordStyle() {
+	private WordStyle() {
 		_indexTranslatedWordInfo = new HashMap<String, WordInfo>();
 		_color = new HashMap<String, String>();
 	}

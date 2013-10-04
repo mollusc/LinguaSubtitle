@@ -51,11 +51,6 @@ public class AdvancedSubStationAlphaRender extends Render {
 	 * Font siz of translations
 	 */
 	private final int translateFontSize;
-
-	/**
-	 * Current vertical margin for translations
-	 */
-	private double translateMarginV;
 	/**
 	 * Current horizontal margin for translations
 	 */
@@ -106,8 +101,7 @@ public class AdvancedSubStationAlphaRender extends Render {
 			ArrayList<String> translates = new ArrayList<String>();
 			if (indexWords != null) {
 				Collections.sort(indexWords, new IndexWordComparator());
-				translateMarginV = 0;
-				translateMarginH = 0;
+				int prevStart = -1;
 				for (IndexWord indexWord : indexWords) {
 					String word = indexWord.word;
 					String stem = indexWord.stem;
@@ -116,8 +110,10 @@ public class AdvancedSubStationAlphaRender extends Render {
 						int start = CommonUtility.html2text(left).length();
 						if (wordStyle.getTranslatedWordInfo(stem) != null) {
 							String translate = wordStyle.getTranslatedWordInfo(stem).getTranslate();
-							if (translate != null && !translate.equals(""))
-								translates.add(InsertWordTranslation(translate, start, CommonUtility.html2text(speech.content)));
+							if (translate != null && !translate.equals("")) {
+								translates.add(InsertWordTranslation(translate, start, prevStart, CommonUtility.html2text(speech.content)));
+								prevStart = start;
+							}
 						}
 						String middle = "{\\alpha&H00&, \\c&H" + RGBtoBGR(wordStyle.getColor(stem)) + "&}" + word + "{\\alpha,\\c }";
 						String right = textSpeech.substring(indexWord.end);
@@ -171,11 +167,13 @@ public class AdvancedSubStationAlphaRender extends Render {
 	 *
 	 * @param wordTranslate translation
 	 * @param start         start position of the translation
+	 * @param prevStart previous position of a translation
 	 * @param textSpeech    speech
 	 * @return ass script line for translation
 	 */
 	private String InsertWordTranslation(String wordTranslate,
 										 int start,
+										 int prevStart,
 										 final String textSpeech) {
 		String scriptLine = "";
 		String[] lines = textSpeech.split("\\n");
@@ -185,23 +183,25 @@ public class AdvancedSubStationAlphaRender extends Render {
 		for (String line : lines) {
 			maxPos += line.length();
 			if (start >= minPos && start < maxPos) {
+				if (!(prevStart >= minPos && prevStart < maxPos))
+					translateMarginH = playResX / 2;
 				double totalWidthPixel = getStringWidth(line, mainFontSize);
 				double startPixel = getStringWidth(line.substring(0, start - minPos), mainFontSize);
 				double from = startPixel - totalWidthPixel / 2;
-				double translateWidthPixel = getStringWidth(wordTranslate /*+ " "*/, translateFontSize);
+				double translateWidthPixel = getStringWidth(wordTranslate, translateFontSize);
 				double spaceWidthPixel = getStringWidth(" ", translateFontSize);
 				int scaleX = 100;
-				if (marginV == translateMarginV && (from + translateWidthPixel + spaceWidthPixel) > translateMarginH) {
+				if ((from + translateWidthPixel + spaceWidthPixel) > translateMarginH) {
 					// Try to fit the translation by scaling
 					double newTranslateWidthPixel = translateMarginH - from;
-					if (newTranslateWidthPixel / (translateWidthPixel + spaceWidthPixel)  < 0.6)
+					if (newTranslateWidthPixel / (translateWidthPixel + spaceWidthPixel) < 0.6)
 						scaleX = 60;
 					else
 						scaleX = (int) (newTranslateWidthPixel / (translateWidthPixel + spaceWidthPixel) * 100.0);
 					translateWidthPixel = translateWidthPixel * scaleX / 100.0;
 
 					// Try to fit the translation by cutting
-					while (marginV == translateMarginV && (from + translateWidthPixel + spaceWidthPixel) > translateMarginH) {
+					while ((from + translateWidthPixel + spaceWidthPixel * scaleX / 100.0) > translateMarginH) {
 						wordTranslate = wordTranslate.substring(0, wordTranslate.length() - 2);
 						wordTranslate += '…';
 						translateWidthPixel = getStringWidth(wordTranslate, translateFontSize) * scaleX / 100.0;
@@ -210,7 +210,6 @@ public class AdvancedSubStationAlphaRender extends Render {
 				// Create a line in the script
 				double margin = from + translateWidthPixel / 2;
 				translateMarginH = from;
-				translateMarginV = marginV;
 				int marginL = (int) margin > 0 ? (int) margin : 0;
 				int marginR = (int) margin <= 0 ? (int) -margin : 0;
 				scriptLine = ",Translate, NTP, " + marginL * 2 + ", " + marginR * 2 + ", " + marginV + ",!Effect,{\\fscx" + scaleX + "}" + wordTranslate;
@@ -310,7 +309,7 @@ public class AdvancedSubStationAlphaRender extends Render {
 	 * @return width in pixels
 	 */
 	private double getStringWidth(String text, int fontSize) {
-		if(text.length()>0){
+		if (text.length() > 0) {
 			Font font = new Font(fontName, Font.PLAIN, fontSize);
 			TextLayout textLayout = new TextLayout(text, font, new FontRenderContext(null, true, true));
 			return textLayout.getAdvance() * fontSize / (textLayout.getAscent() + textLayout.getDescent());

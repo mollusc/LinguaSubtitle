@@ -17,7 +17,7 @@ public class Settings {
 	/**
 	 * Map of parameter - values
 	 */
-	Map<String, String> values;
+	private Map<String, String> values;
 	//</editor-fold>
 
 	//<editor-fold desc="Constructor">
