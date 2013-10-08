@@ -47,7 +47,7 @@ public class WordInfo {
 	public WordInfo(String word, String stem, String translate, boolean known, boolean study, boolean name) {
 		_word = word;
 		_stem = stem;
-		_translate = translate;
+		_translate = translate.trim();
 		_known = known;
 		_study = study;
 		_name = name;

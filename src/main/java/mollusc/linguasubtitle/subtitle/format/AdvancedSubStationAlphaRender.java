@@ -201,7 +201,7 @@ public class AdvancedSubStationAlphaRender extends Render {
 					translateWidthPixel = translateWidthPixel * scaleX / 100.0;
 
 					// Try to fit the translation by cutting
-					while ((from + translateWidthPixel + spaceWidthPixel * scaleX / 100.0) > translateMarginH) {
+					while (wordTranslate.length()>2 && (from + translateWidthPixel + spaceWidthPixel * scaleX / 100.0) > translateMarginH) {
 						wordTranslate = wordTranslate.substring(0, wordTranslate.length() - 2);
 						wordTranslate += '…';
 						translateWidthPixel = getStringWidth(wordTranslate, translateFontSize) * scaleX / 100.0;

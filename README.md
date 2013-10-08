@@ -1,8 +1,9 @@
 #LinguaSubtitle
 Creates subtitles for those who learn language
 
-![screenshot_small](https://dl.dropboxusercontent.com/u/78822592/LinguaSubtitle_2.1/screenshot-processing_tab_small.jpg)
-![vlc_screenshot_small](https://dl.dropboxusercontent.com/u/78822592/LinguaSubtitle_2.1/vlc-screenshot_small.jpg)
+![screenshot_small](https://dl.dropboxusercontent.com/u/78822592/LinguaSubtitle_2.4/screenshot-processing_tab_small.jpg)
+![vlc_screenshot_Charade_small](https://dl.dropboxusercontent.com/u/78822592/LinguaSubtitle_2.4/vlc-screenshot_Charade_small.jpg)
+![vlc_screenshot_small](https://dl.dropboxusercontent.com/u/78822592/LinguaSubtitle_2.4/vlc-screenshot_small.png.jpg)
 
 ##Requirements
 * Java 1.7 or later.
