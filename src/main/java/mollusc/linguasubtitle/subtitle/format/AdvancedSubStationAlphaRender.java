@@ -74,11 +74,11 @@ public class AdvancedSubStationAlphaRender extends Render {
 		super(subtitle, wordStyle, indexer, settings);
 
 		this.fontName = settings.getFontName();
-		this.mainFontSize = settings.getMainFontSize();
-		this.translateFontSize = settings.getTranslateFontSize();
 		this.transparencyKnownWords = settings.getTransparencyKnownWords();
 		this.playResX = settings.getPlayResX();
 		this.playResY = settings.getPlayResY();
+		this.mainFontSize =settings.getMainFontSize() * playResY / 720;            // Rescale for 720
+		this.translateFontSize = settings.getTranslateFontSize() * playResY / 720; // Rescale for 720
 	}
 	//</editor-fold>
 
@@ -179,7 +179,7 @@ public class AdvancedSubStationAlphaRender extends Render {
 		String[] lines = textSpeech.split("\\n");
 		int minPos = 0;
 		int maxPos = 0;
-		int marginV = lines.length * mainFontSize + (lines.length - 1) * mainFontSize / 2;
+		int marginV = lines.length * mainFontSize + 10 + (lines.length - 1) * mainFontSize / 2;
 		for (String line : lines) {
 			maxPos += line.length();
 			if (start >= minPos && start < maxPos) {
@@ -212,7 +212,7 @@ public class AdvancedSubStationAlphaRender extends Render {
 				translateMarginH = from;
 				int marginL = (int) margin > 0 ? (int) margin : 0;
 				int marginR = (int) margin <= 0 ? (int) -margin : 0;
-				scriptLine = ",Translate, NTP, " + marginL * 2 + ", " + marginR * 2 + ", " + marginV + ",!Effect,{\\fscx" + scaleX + "}" + wordTranslate;
+				scriptLine = ",Translate, NTP, " + marginL * 2 + ", " + marginR * 2 + ", " + (marginV - (int)getDescent(translateFontSize)) + ",!Effect,{\\fscx" + scaleX + "}" + wordTranslate;
 				break;
 			}
 			minPos = maxPos + 1;
@@ -281,8 +281,8 @@ public class AdvancedSubStationAlphaRender extends Render {
 		int Shadow = Outline;
 		return "[V4+ Styles]\n" +
 				"Format:Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,Underline,StrikeOut,ScaleX,ScaleY,Spacing,Angle,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding\n" +
-				"Style:Default," + fontName + "," + mainFontSize + ",&H" + transparencyKnownWords + RGBtoBGR(textColor) + ",&H" + transparencyKnownWords + "FFFFFF,&H" + transparencyKnownWords + "000000, &HFF000000,0,0,0,0,100,100,0,0,1,2," + Outline + "," + Shadow + ",0,0,10,1\n" +
-				"Style:Translate," + fontName + "," + translateFontSize + ",&H00" + RGBtoBGR(translateColor) + ",&H00FFFFFF,&H00000000,&HFF000000,0,0,0,0,100,100,0,0,1,2," + Outline + "," + Shadow + ",0,0,10,1\n\n";
+				"Style:Default," + fontName + "," + mainFontSize + ",&H" + transparencyKnownWords + RGBtoBGR(textColor) + ",&H" + transparencyKnownWords + "FFFFFF,&H" + transparencyKnownWords + "000000, &HFF000000,0,0,0,0,100,100,0,0,1," + Outline + "," + Shadow + ",2,0,0,10,1\n" +
+				"Style:Translate," + fontName + "," + translateFontSize + ",&H00" + RGBtoBGR(translateColor) + ",&H00FFFFFF,&H00000000,&HFF000000,0,0,0,0,100,100,0,0,1," + Outline + "," + Shadow + ",2,0,0,10,1\n\n";
 	}
 
 	/**
@@ -315,6 +315,18 @@ public class AdvancedSubStationAlphaRender extends Render {
 			return textLayout.getAdvance() * fontSize / (textLayout.getAscent() + textLayout.getDescent());
 		}
 		return 0;
+	}
+
+	/**
+	 * Returns the descent
+	 * @param fontSize
+	 * @return
+	 */
+	private double getDescent(int fontSize)
+	{
+		Font font = new Font(fontName, Font.PLAIN, fontSize);
+		TextLayout textLayout = new TextLayout("getDescent", font, new FontRenderContext(null, true, true));
+		return textLayout.getDescent()* fontSize / (textLayout.getAscent() + textLayout.getDescent());
 	}
 	//</editor-fold>
 
