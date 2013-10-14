@@ -81,7 +81,7 @@ public class Subtitle implements Iterable<Speech> {
 			try {
 				FileChannel fc = stream.getChannel();
 				MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
-				String content = Charset.defaultCharset().decode(bb).toString();
+				String content = new String(Charset.defaultCharset().decode(bb).toString().getBytes(), "UTF-8");
 				if (extension.toLowerCase().equals("srt"))
 					speeches = SubRipUtility.getSpeeches(content);
 			} finally {
