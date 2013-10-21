@@ -280,10 +280,17 @@ public class MainWindow implements PropertyChangeListener {
 		Point point = evt.getPoint();
 		int columnIndex = mainTable.columnAtPoint(point);
 		int rowIndex = mainTable.rowAtPoint(point);
-		if (SwingUtilities.isRightMouseButton(evt) && columnIndex == 3)
+		if ((SwingUtilities.isRightMouseButton(evt))  && columnIndex == 3)
 			highlightWord(rowIndex);
 		if (SwingUtilities.isLeftMouseButton(evt) && (columnIndex == 0 || columnIndex == 1 || columnIndex == 2))
 			updateStatistic();
+		if (SwingUtilities.isRightMouseButton(evt) && (columnIndex == 3 ||columnIndex == 4))
+		{
+			mainTable.changeSelection(rowIndex, columnIndex, false, false);
+			mainTable.editCellAt(rowIndex, columnIndex);
+			mainTable.requestFocus();
+			CellEditor c = (CellEditor) mainTable.getCellEditor(rowIndex,columnIndex);
+		}
 	}
 
 	/**
