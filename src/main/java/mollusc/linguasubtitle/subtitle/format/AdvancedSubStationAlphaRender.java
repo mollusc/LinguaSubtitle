@@ -75,8 +75,8 @@ public class AdvancedSubStationAlphaRender extends Render {
 
 		this.fontName = settings.getFontName();
 		this.transparencyKnownWords = settings.getTransparencyKnownWords();
-		this.playResX = settings.getPlayResX();
-		this.playResY = settings.getPlayResY();
+		this.playResX = 1280; //settings.getPlayResX();
+		this.playResY = 720; // settings.getPlayResY();
 		this.mainFontSize =settings.getMainFontSize() * playResY / 720;            // Rescale for 720
 		this.translateFontSize = settings.getTranslateFontSize() * playResY / 720; // Rescale for 720
 	}
@@ -210,9 +210,15 @@ public class AdvancedSubStationAlphaRender extends Render {
 				// Create a line in the script
 				double margin = from + translateWidthPixel / 2;
 				translateMarginH = from;
-				int marginL = (int) margin > 0 ? (int) margin : 0;
-				int marginR = (int) margin <= 0 ? (int) -margin : 0;
-				scriptLine = ",Translate, NTP, " + marginL * 2 + ", " + marginR * 2 + ", " + (marginV - (int)getDescent(translateFontSize)) + ",!Effect,{\\fscx" + scaleX + "}" + wordTranslate;
+				/*int marginL = (int) margin > 0 ? (int) margin : 0;
+				int marginR = (int) margin <= 0 ? (int) -margin : 0;*/
+				//scriptLine = ",Translate, NTP, " + marginL * 2 + ", " + marginR * 2 + ", " + (marginV - (int)getDescent(translateFontSize)) + ",!Effect,{\\fscx" + scaleX + "}" + wordTranslate;
+
+				double fillDotWidthPixel = getStringWidth(".", translateFontSize)/4;
+				int fillDotCount = Math.abs((int)(margin * 2.0/fillDotWidthPixel));
+				String fillDotLeft = margin > 0 ? new String(new char[fillDotCount]).replace("\0", "."): "";
+				String fillDotRight = margin <= 0 ?new String(new char[fillDotCount]).replace("\0", "."): "";
+				scriptLine = ",Translate, NTP, 0, 0, " + (marginV - (int)getDescent(translateFontSize)) + ",!Effect,{\\alpha&HFF&\\fscx25}" + fillDotLeft + "{\\alpha&H00&\\fscx" + scaleX + "}" + wordTranslate + "{\\alpha&HFF&\\fscx25}" + fillDotRight;
 				break;
 			}
 			minPos = maxPos + 1;

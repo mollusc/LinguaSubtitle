@@ -355,10 +355,10 @@ public class MainWindow implements PropertyChangeListener {
 				render = new SubRipRender(subtitle, style, index, settings);
 			else if (extension.toLowerCase().equals("ass")) {
 				// Set playResX, playResY
-				VideoConfiguration f = new VideoConfiguration(frameParent, settings);
+				/*VideoConfiguration f = new VideoConfiguration(frameParent, settings);
 				f.setVisible(true);
 				f.pack();
-				if(f.getState())
+				if(f.getState())*/
 					render = new AdvancedSubStationAlphaRender(subtitle, style, index, settings);
 			}
 			if (render != null){
