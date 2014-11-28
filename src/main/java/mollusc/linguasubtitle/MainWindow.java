@@ -341,7 +341,7 @@ public class MainWindow implements PropertyChangeListener {
 		else if (settings.getDefaultFileFilter().equals("srt"))
 			fileOpen.setFileFilter(srt);
 
-		fileOpen.setCurrentDirectory(new File(pathToSubtitle));
+		fileOpen.setSelectedFile(new File(pathToSubtitle));
 		int returnValue = fileOpen.showSaveDialog(frameParent);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File file = fileOpen.getSelectedFile();
