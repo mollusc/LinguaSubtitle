@@ -353,14 +353,8 @@ public class MainWindow implements PropertyChangeListener {
 			settings.setDefaultFileFilter(extension.toLowerCase());
 			if (extension.equals("srt"))
 				render = new SubRipRender(subtitle, style, index, settings);
-			else if (extension.toLowerCase().equals("ass")) {
-				// Set playResX, playResY
-				/*VideoConfiguration f = new VideoConfiguration(frameParent, settings);
-				f.setVisible(true);
-				f.pack();
-				if(f.getState())*/
-					render = new AdvancedSubStationAlphaRender(subtitle, style, index, settings);
-			}
+			else if (extension.toLowerCase().equals("ass"))
+				render = new AdvancedSubStationAlphaRender(subtitle, style, index, settings);
 			if (render != null){
 				render.save(pathGeneratedSubtitle);
 				updateDatabase();
