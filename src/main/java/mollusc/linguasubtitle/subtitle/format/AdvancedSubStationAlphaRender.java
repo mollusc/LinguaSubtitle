@@ -1,7 +1,7 @@
 package mollusc.linguasubtitle.subtitle.format;
 
 import mollusc.linguasubtitle.Settings;
-import mollusc.linguasubtitle.VideoConfiguration;
+//import mollusc.linguasubtitle.VideoConfiguration;
 import mollusc.linguasubtitle.index.IndexWord;
 import mollusc.linguasubtitle.index.IndexWordComparator;
 import mollusc.linguasubtitle.index.Indexer;
