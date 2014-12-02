@@ -209,6 +209,7 @@ public class AdvancedSubStationAlphaRender extends Render {
 				}
 				// Create a line in the script
 				double margin = from + translateWidthPixel / 2.0;
+				translateMarginH = from;
 
 				double fillDotWidthPixel = getStringWidth(".", translateFontSize)/4.0;
 				int fillDotCount = Math.abs((int)(margin * 2.0/fillDotWidthPixel));
