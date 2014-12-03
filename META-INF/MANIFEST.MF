@@ -1,4 +1,4 @@
 Manifest-Version: 1.0
-Class-Path: sqlite-jdbc-3.8.7.jar
+Class-Path: lib/sqlite-jdbc-3.8.7.jar lib/libstemmer.jar
 Main-Class: mollusc.linguasubtitle.MainWindow
 

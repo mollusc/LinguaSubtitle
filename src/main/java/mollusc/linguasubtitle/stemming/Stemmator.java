@@ -1,6 +1,6 @@
 package mollusc.linguasubtitle.stemming;
 
-import org.tartarus.snowball.SnowballStemmer;
+import org.tartarus.snowball.*;
 
 /**
  * Class for getting stem from a word
