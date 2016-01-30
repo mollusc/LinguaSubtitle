@@ -115,7 +115,7 @@ public class AdvancedSubStationAlphaRender extends Render {
 								prevStart = start;
 							}
 						}
-						String middle = "{\\alpha&H00&, \\c&H" + RGBtoBGR(wordStyle.getColor(stem)) + "&}" + word + "{\\alpha,\\c }";
+						String middle = "{\\alpha&H00&, \\c&H" + RGBtoBGR(wordStyle.getColor(stem)) + "&}" + word + "{\\r}";
 						String right = textSpeech.substring(indexWord.end);
 						textSpeech = left + middle + right;
 					}
