@@ -1,22 +1,23 @@
-#LinguaSubtitle
+# LinguaSubtitle
 Creates subtitles for those who learn language
 
-![screenshot_small](https://dl.dropboxusercontent.com/u/78822592/LinguaSubtitle_2.4/screenshot-processing_tab_small.jpg)
-![vlc_screenshot_Charade_small](https://dl.dropboxusercontent.com/u/78822592/LinguaSubtitle_2.4/vlc-screenshot_Charade_small.jpg)
-![vlc_screenshot_small](https://dl.dropboxusercontent.com/u/78822592/LinguaSubtitle_2.4/vlc-screenshot_small.png.jpg)
 
-##Requirements
+![screenshot_small](https://i.postimg.cc/HW2xMgtm/screenshot-processing-tab-small.jpg)
+![vlc_screenshot_Charade_small](https://i.postimg.cc/SKFq5TGV/vlc-screenshot-Charade-small.jpg)
+![vlc_screenshot_small](https://i.postimg.cc/jdwpb621/vlc-screenshot-small-png.jpg)
+
+## Requirements
 * Java 1.7 or later.
 * Media player supported **SubRip (srt)** or **Advanced Sub Station Alpha (ass)** subtitles ([VLC](http://sourceforge.net/projects/vlc/)).
 
-##Installetion
+## Installetion
 1. Download [archive](http://sourceforge.net/projects/linguasubtitle/files/).
 2. Unpack and run **LinguaSubtitle.jar**.
 
->#Notice
+># Notice
 * Set a monospaced font (Consolas, Courier New etc.) for SubRip (srt) subtitles in your media player!
 
-##Description
+## Description
 Additional information: [http://sourceforge.net/p/linguasubtitle/wiki/Home/](http://sourceforge.net/p/linguasubtitle/wiki/Home/).
 
 Link to the project : [http://sourceforge.net/projects/linguasubtitle/](http://sourceforge.net/projects/linguasubtitle/)
